@@ -21,8 +21,8 @@ Function and type bindings for the [MPFR] library.
 
 ```rust
 # #[cfg(all(maybe_uninit, not(nightly_maybe_uninit)))] {
+use core::mem::MaybeUninit;
 use gmp_mpfr_sys::mpfr;
-use std::mem::MaybeUninit;
 let one_third = 1.0_f64 / 3.0;
 unsafe {
     let mut f = MaybeUninit::uninit();
@@ -129,9 +129,8 @@ unsafe fn mpfr_to_string(
 
 use crate::gmp;
 use crate::misc;
-use libc::{intmax_t, uintmax_t, FILE};
-use std::mem;
-use std::os::raw::{c_char, c_int, c_long, c_uint, c_ulong, c_void};
+use core::mem;
+use libc::{c_char, c_int, c_long, c_uint, c_ulong, c_void, intmax_t, uintmax_t, FILE};
 
 /// See: [`mpfr_prec_t`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005fprec_005ft)
 pub type prec_t = c_long;
@@ -1114,7 +1113,7 @@ extern "C" {
 #[macro_export]
 macro_rules! mpfr_round_nearest_away {
     ($foo:expr, $rop:expr $(, $op:expr)*) => {{
-        use std::os::raw::c_int;
+        use libc::c_int;
         type mpfr_ptr = *mut $crate::mpfr::mpfr_t;
         let rop: mpfr_ptr = $rop;
         extern "C" {
@@ -1446,20 +1445,13 @@ mod tests {
     #[cfg(not(newer_cache))]
     #[test]
     fn check_version() {
-        use std::ffi::CStr;
-        let num_version = "4.0.2";
-        let from_constants = format!(
-            "{}.{}.{}",
-            mpfr::VERSION_MAJOR,
-            mpfr::VERSION_MINOR,
-            mpfr::VERSION_PATCHLEVEL
-        );
-        assert_eq!(from_constants, num_version);
+        use crate::tests;
+        assert_eq!(mpfr::VERSION_MAJOR, 4);
+        assert_eq!(mpfr::VERSION_MINOR, 0);
+        assert_eq!(mpfr::VERSION_PATCHLEVEL, 2);
         let version = "4.0.2-p1";
-        let from_fn = unsafe { CStr::from_ptr(mpfr::get_version()) };
-        assert_eq!(from_fn.to_str().unwrap(), version);
-        let from_const_string = unsafe { CStr::from_ptr(mpfr::VERSION_STRING) };
-        assert_eq!(from_const_string.to_str().unwrap(), version);
+        assert_eq!(unsafe { tests::str_from_cstr(mpfr::get_version()) }, version);
+        assert_eq!(unsafe { tests::str_from_cstr(mpfr::VERSION_STRING) }, version);
     }
 
     #[test]
@@ -1468,14 +1460,14 @@ mod tests {
             let mut f;
             #[cfg(maybe_uninit)]
             {
-                use std::mem::MaybeUninit;
+                use core::mem::MaybeUninit;
                 let mut maybe = MaybeUninit::uninit();
                 mpfr::init2(maybe.as_mut_ptr(), 4);
                 f = maybe.assume_init();
             }
             #[cfg(not(maybe_uninit))]
             {
-                use std::mem;
+                use core::mem;
                 f = mem::uninitialized();
                 mpfr::init2(&mut f, 4);
             }

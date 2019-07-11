@@ -497,9 +497,9 @@ fn process_gmp_header(header: &Path, out_file: &Path) {
     let long_long_limb = long_long_limb.expect("Cannot determine _LONG_LONG_LIMB from gmp.h");
     let long_long_limb = if long_long_limb {
         println!("cargo:rustc-cfg=long_long_limb");
-        "::std::os::raw::c_ulonglong"
+        "libc::c_ulonglong"
     } else {
-        "::std::os::raw::c_ulong"
+        "c_ulong"
     };
     let cc = cc.expect("Cannot determine __GMP_CC from gmp.h");
     let cflags = cflags.expect("Cannot determine __GMP_CFLAGS from gmp.h");
@@ -508,10 +508,8 @@ fn process_gmp_header(header: &Path, out_file: &Path) {
             "const GMP_LIMB_BITS: c_int = {};\n",
             "const GMP_NAIL_BITS: c_int = {};\n",
             "type GMP_LIMB_T = {};\n",
-            "const GMP_CC: *const c_char =\n",
-            "    b\"{}\\0\" as *const _ as _;\n",
-            "const GMP_CFLAGS: *const c_char =\n",
-            "    b\"{}\\0\" as *const _ as _;\n"
+            "const GMP_CC: *const c_char = b\"{}\\0\" as *const _ as _;\n",
+            "const GMP_CFLAGS: *const c_char = b\"{}\\0\" as *const _ as _;\n"
         ),
         limb_bits, nail_bits, long_long_limb, cc, cflags
     );

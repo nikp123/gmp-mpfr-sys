@@ -21,8 +21,8 @@ Function and type bindings for the [GMP] library.
 
 ```rust
 # #[cfg(all(maybe_uninit, not(nightly_maybe_uninit)))] {
+use core::mem::MaybeUninit;
 use gmp_mpfr_sys::gmp;
-use std::mem::MaybeUninit;
 unsafe {
     let mut z = MaybeUninit::uninit();
     gmp::mpz_init(z.as_mut_ptr());
@@ -40,8 +40,7 @@ unsafe {
 #![allow(non_camel_case_types)]
 
 use crate::misc;
-use libc::FILE;
-use std::os::raw::{c_char, c_int, c_long, c_uchar, c_uint, c_ulong, c_ushort, c_void};
+use libc::{c_char, c_int, c_long, c_uchar, c_uint, c_ulong, c_ushort, c_void, FILE};
 
 include!(concat!(env!("OUT_DIR"), "/gmp_h.rs"));
 
@@ -1712,7 +1711,7 @@ extern "C" {
 #[cfg(test)]
 mod tests {
     use crate::gmp;
-    use std::mem;
+    use core::mem;
 
     #[test]
     fn check_mpq_num_den_offsets() {
@@ -1749,16 +1748,11 @@ mod tests {
     #[cfg(not(newer_cache))]
     #[test]
     fn check_version() {
-        use std::ffi::CStr;
+        use crate::tests;
+        assert_eq!(gmp::VERSION, 6);
+        assert_eq!(gmp::VERSION_MINOR, 1);
+        assert_eq!(gmp::VERSION_PATCHLEVEL, 2);
         let version = "6.1.2";
-        let from_static = unsafe { CStr::from_ptr(gmp::version) };
-        let from_constants = format!(
-            "{}.{}.{}",
-            gmp::VERSION,
-            gmp::VERSION_MINOR,
-            gmp::VERSION_PATCHLEVEL
-        );
-        assert_eq!(from_static.to_str().unwrap(), version);
-        assert_eq!(from_constants, version);
+        assert_eq!(unsafe { tests::str_from_cstr(gmp::version) }, version);
     }
 }

@@ -238,6 +238,7 @@ To use a different directory, you can set the environment variable
 [rug crate]: https://crates.io/crates/rug
 [sys crate]: https://crates.io/crates/gmp-mpfr-sys
 */
+#![no_std]
 #![warn(missing_docs)]
 #![doc(html_root_url = "https://docs.rs/gmp-mpfr-sys/~1.2")]
 #![doc(html_logo_url = "https://tspiteri.gitlab.io/gmp-mpfr-sys/rug.svg")]
@@ -252,7 +253,7 @@ pub mod mpc;
 pub mod mpfr;
 
 mod misc {
-    use std::os::raw::{c_int, c_long};
+    use libc::{c_int, c_long};
 
     #[cfg(any(target_pointer_width = "32", windows))]
     #[inline]
@@ -264,5 +265,17 @@ mod misc {
     #[inline]
     pub fn int_to_long(i: c_int) -> c_long {
         i.into()
+    }
+}
+
+#[cfg(test)]
+#[cfg(not(newer_cache))]
+mod tests {
+    use core::{slice, str};
+    use libc::c_char;
+
+    pub unsafe fn str_from_cstr<'a>(cstr: *const c_char) -> &'a str {
+        let s = slice::from_raw_parts(cstr as *const u8, libc::strlen(cstr));
+        str::from_utf8(s).expect("version not utf8")
     }
 }

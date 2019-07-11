@@ -15,7 +15,7 @@ documentation = "https://docs.rs/gmp-mpfr-sys"
 repository = "https://gitlab.com/tspiteri/gmp-mpfr-sys"
 readme = "README.md"
 keywords = ["gmp", "bignum", "mathematics", "numerics"]
-categories = ["external-ffi-bindings", "science"]
+categories = ["external-ffi-bindings", "no-std", "science"]
 license = "LGPL-3.0+"
 build = "build.rs"
 links = "gmp"
@@ -44,7 +44,7 @@ cnotest = []
 cnodelete = []
 
 [dependencies]
-libc = "0.2"
+libc = "0.2.44"
 
 [build-dependencies]
 dirs = "2.0"

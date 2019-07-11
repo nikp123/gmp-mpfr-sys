@@ -21,10 +21,10 @@ Function and type bindings for the [MPC] library.
 
 ```rust
 # #[cfg(all(maybe_uninit, not(nightly_maybe_uninit)))] {
+use core::f64;
+use core::mem::MaybeUninit;
 use gmp_mpfr_sys::mpc;
 use gmp_mpfr_sys::mpfr;
-use std::f64;
-use std::mem::MaybeUninit;
 let one_third = 1.0_f64 / 3.0;
 let neg_inf = f64::NEG_INFINITY;
 unsafe {
@@ -50,8 +50,7 @@ unsafe {
 
 use crate::gmp;
 use crate::mpfr;
-use libc::{intmax_t, uintmax_t, FILE};
-use std::os::raw::{c_char, c_int, c_long, c_ulong};
+use libc::{c_char, c_int, c_long, c_ulong, intmax_t, uintmax_t, FILE};
 
 #[inline]
 extern "C" fn INEX_NEG(inex: c_int) -> c_int {
@@ -585,19 +584,12 @@ mod tests {
     #[cfg(not(newer_cache))]
     #[test]
     fn check_version() {
-        use std::ffi::CStr;
+        use crate::tests;
+        assert_eq!(mpc::VERSION_MAJOR, 1);
+        assert_eq!(mpc::VERSION_MINOR, 1);
+        assert_eq!(mpc::VERSION_PATCHLEVEL, 0);
         let version = "1.1.0";
-        let from_constants = format!(
-            "{}.{}.{}",
-            mpc::VERSION_MAJOR,
-            mpc::VERSION_MINOR,
-            mpc::VERSION_PATCHLEVEL
-        );
-        assert_eq!(from_constants, version);
-
-        let from_fn = unsafe { CStr::from_ptr(mpc::get_version()) };
-        assert_eq!(from_fn.to_str().unwrap(), version);
-        let from_const_string = unsafe { CStr::from_ptr(mpc::VERSION_STRING) };
-        assert_eq!(from_const_string.to_str().unwrap(), version);
+        assert_eq!(unsafe { tests::str_from_cstr(mpc::get_version()) }, version);
+        assert_eq!(unsafe { tests::str_from_cstr(mpc::VERSION_STRING) }, version);
     }
 }
