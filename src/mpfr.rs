@@ -58,9 +58,9 @@ using 200-bit precision. The program writes:
 #     };
 # }
 # cond! {
+use core::mem::MaybeUninit;
 use gmp_mpfr_sys::mpfr::{self, mpfr_t, rnd_t};
-use std::mem::MaybeUninit;
-use std::os::raw::c_int;
+use libc::c_int;
 
 fn main() {
     unsafe {
