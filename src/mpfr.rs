@@ -180,7 +180,7 @@ pub const PREC_MAX: prec_t = ((!(0 as uprec_t) >> 1) - 256) as prec_t;
 /// internals may change in new minor releases of this crate, though
 /// they will be kept unchanged for patch releases. Any code that
 /// makes use of these internals should list the dependency as
-/// `version = "~1.1"` inside [*Cargo.toml*], *not* `version = "1.1"`.
+/// `version = "~1.2"` inside [*Cargo.toml*], *not* `version = "1.2"`.
 ///
 /// [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 #[repr(C)]
