@@ -93,7 +93,7 @@ gmp-mpfr-sys in your crate, add it as a dependency inside
 
 ```toml
 [dependencies]
-gmp-mpfr-sys = "1.1"
+gmp-mpfr-sys = "1.2"
 ```
 
 If you are using the 2015 Rust edition, you also need to declare it by
@@ -114,7 +114,7 @@ Rust bindings but do not use the C libraries directly.
 If on the other hand a dependent crate makes use of internal
 implementation details, or includes a C library that directly uses the
 header (*.h*) and library (*.a*) files built using C, it can be a good
-idea to depend on version `"~1.1"` instead of version `"1.1"` in order
+idea to depend on version `"~1.2"` instead of version `"1.2"` in order
 to ensure backwards compatibility at the C level as well.
 
 ## Optional features
@@ -133,7 +133,7 @@ selectively, you can add the dependency like this to [*Cargo.toml*]:
 
 ```toml
 [dependencies.gmp-mpfr-sys]
-version = "1.1"
+version = "1.2"
 default-features = false
 features = ["mpfr"]
 ```
@@ -239,19 +239,19 @@ To use a different directory, you can set the environment variable
 [`MPFR_RNDN`]: https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#Rounding-Modes
 [`Rational`]: https://docs.rs/rug/*/rug/struct.Rational.html
 [`enum MPFR_RND_T`]: https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005frnd_005ft
-[`gmp::mpf_t`]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/gmp/struct.mpf_t.html
-[`gmp::mpq_t`]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/gmp/struct.mpq_t.html
-[`gmp::mpz_init`]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/gmp/fn.mpz_init.html
-[`gmp::mpz_t`]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/gmp/struct.mpz_t.html
-[`gmp::randstate_t`]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/gmp/struct.randstate_t.html
-[`gmp::set_memory_functions`]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/gmp/fn.set_memory_functions.html
-[`gmp`]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/gmp/index.html
+[`gmp::mpf_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.mpf_t.html
+[`gmp::mpq_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.mpq_t.html
+[`gmp::mpz_init`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/fn.mpz_init.html
+[`gmp::mpz_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.mpz_t.html
+[`gmp::randstate_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.randstate_t.html
+[`gmp::set_memory_functions`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/fn.set_memory_functions.html
+[`gmp`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/index.html
 [`mp_set_memory_functions`]: https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Custom-Allocation.html#index-mp_005fset_005fmemory_005ffunctions
-[`mpc::mpc_t`]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/mpc/struct.mpc_t.html
-[`mpc`]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/mpc/index.html
-[`mpfr::mpfr_t`]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/mpfr/struct.mpfr_t.html
-[`mpfr::rnd_t::RNDN`]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/mpfr/enum.rnd_t.html#variant.RNDN
-[`mpfr`]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/mpfr/index.html
+[`mpc::mpc_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpc/struct.mpc_t.html
+[`mpc`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpc/index.html
+[`mpfr::mpfr_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpfr/struct.mpfr_t.html
+[`mpfr::rnd_t::RNDN`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpfr/enum.rnd_t.html#variant.RNDN
+[`mpfr`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpfr/index.html
 [`mpz_init`]: https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Integer-Functions.html#index-mpz_005finit
 [msys]:     https://msys2.github.io/
 [rug crate]: https://crates.io/crates/rug

@@ -82,7 +82,7 @@ gmp-mpfr-sys in your crate, add it as a dependency inside
 
 ```toml
 [dependencies]
-gmp-mpfr-sys = "1.1"
+gmp-mpfr-sys = "1.2"
 ```
 
 If you are using the 2015 Rust edition, you also need to declare it by
@@ -104,7 +104,7 @@ Rust bindings but do not use the C libraries directly.
 If on the other hand a dependent crate makes use of internal
 implementation details, or includes a C library that directly uses the
 header (*.h*) and library (*.a*) files built using C, it can be a good
-idea to depend on version `"~1.1"` instead of version `"1.1"` in order
+idea to depend on version `"~1.2"` instead of version `"1.2"` in order
 to ensure backwards compatibility at the C level as well.
 
 ## Optional features
@@ -123,7 +123,7 @@ selectively, you can add the dependency like this to [*Cargo.toml*]:
 
 ```toml
 [dependencies.gmp-mpfr-sys]
-version = "1.1"
+version = "1.2"
 default-features = false
 features = ["mpfr"]
 ```
@@ -247,7 +247,7 @@ To use a different directory, you can set the environment variable
 [sys crate]: https://crates.io/crates/gmp-mpfr-sys
 */
 #![warn(missing_docs)]
-#![doc(html_root_url = "https://docs.rs/gmp-mpfr-sys/~1.1")]
+#![doc(html_root_url = "https://docs.rs/gmp-mpfr-sys/~1.2")]
 #![doc(html_logo_url = "https://tspiteri.gitlab.io/gmp-mpfr-sys/rug.svg")]
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
