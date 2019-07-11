@@ -1109,11 +1109,12 @@ extern "C" {
     #[link_name = "mpfr_print_rnd_mode"]
     pub fn print_rnd_mode(rnd: rnd_t) -> *const c_char;
 }
+
 /// See: [`mpfr_round_nearest_away`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005fround_005fnearest_005faway)
 #[macro_export]
 macro_rules! mpfr_round_nearest_away {
     ($foo:expr, $rop:expr $(, $op:expr)*) => {{
-        use libc::c_int;
+        use $crate::libc::c_int;
         type mpfr_ptr = *mut $crate::mpfr::mpfr_t;
         let rop: mpfr_ptr = $rop;
         extern "C" {

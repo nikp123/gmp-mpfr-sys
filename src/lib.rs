@@ -252,6 +252,10 @@ pub mod mpc;
 #[cfg(feature = "mpfr")]
 pub mod mpfr;
 
+// this is here for the mpfr_round_nearest_away macro only
+#[doc(hidden)]
+pub use libc;
+
 mod misc {
     use libc::{c_int, c_long};
 
