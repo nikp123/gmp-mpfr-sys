@@ -127,9 +127,9 @@ unsafe fn mpfr_to_string(
 */
 #![allow(non_camel_case_types, non_snake_case)]
 
-use gmp;
+use crate::gmp;
+use crate::misc;
 use libc::{intmax_t, uintmax_t, FILE};
-use misc;
 use std::mem;
 use std::os::raw::{c_char, c_int, c_long, c_uint, c_ulong, c_void};
 
@@ -1441,7 +1441,7 @@ pub unsafe extern "C" fn custom_move(x: mpfr_ptr, new_position: *mut c_void) {
 
 #[cfg(test)]
 mod tests {
-    use mpfr;
+    use crate::mpfr;
 
     #[cfg(not(newer_cache))]
     #[test]

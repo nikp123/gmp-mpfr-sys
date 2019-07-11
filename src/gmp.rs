@@ -39,8 +39,8 @@ unsafe {
 */
 #![allow(non_camel_case_types)]
 
+use crate::misc;
 use libc::FILE;
-use misc;
 use std::os::raw::{c_char, c_int, c_long, c_uchar, c_uint, c_ulong, c_ushort, c_void};
 
 include!(concat!(env!("OUT_DIR"), "/gmp_h.rs"));
@@ -1711,7 +1711,7 @@ extern "C" {
 
 #[cfg(test)]
 mod tests {
-    use gmp;
+    use crate::gmp;
     use std::mem;
 
     #[test]

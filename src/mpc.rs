@@ -48,9 +48,9 @@ unsafe {
 */
 #![allow(non_camel_case_types, non_snake_case)]
 
-use gmp;
+use crate::gmp;
+use crate::mpfr;
 use libc::{intmax_t, uintmax_t, FILE};
-use mpfr;
 use std::os::raw::{c_char, c_int, c_long, c_ulong};
 
 #[inline]
@@ -553,9 +553,9 @@ pub extern "C" fn VERSION_NUM(major: c_int, minor: c_int, patchlevel: c_int) -> 
 
 #[cfg(test)]
 mod tests {
-    use gmp;
-    use mpc;
-    use mpfr;
+    use crate::gmp;
+    use crate::mpc;
+    use crate::mpfr;
 
     #[test]
     fn check_real_imag_offsets() {

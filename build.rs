@@ -18,7 +18,7 @@
 //  4. Use relative paths for configure otherwise msys/mingw might be
 //     confused with drives and such.
 
-extern crate dirs;
+use dirs;
 
 use std::env;
 use std::ffi::{OsStr, OsString};

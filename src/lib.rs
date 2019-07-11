@@ -85,15 +85,7 @@ gmp-mpfr-sys in your crate, add it as a dependency inside
 gmp-mpfr-sys = "1.2"
 ```
 
-If you are using the 2015 Rust edition, you also need to declare it by
-adding this to your crate root (usually *lib.rs* or *main.rs*):
-
-```rust
-extern crate gmp_mpfr_sys;
-# fn main() {}
-```
-
-This crate required rustc version 1.13.0 or later.
+This crate required rustc version 1.31.0 or later.
 
 If the C libraries have a major version bump with some deprecated
 functions removed, but no features are removed in the Rust bindings,
@@ -252,8 +244,6 @@ To use a different directory, you can set the environment variable
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
 #![cfg_attr(nightly_maybe_uninit, feature(maybe_uninit))]
-
-extern crate libc;
 
 pub mod gmp;
 #[cfg(feature = "mpc")]
