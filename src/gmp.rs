@@ -40,6 +40,7 @@ unsafe {
 #![allow(non_camel_case_types)]
 
 use crate::misc;
+use core::fmt::{Debug, Formatter, Result as FmtResult};
 use libc::{c_char, c_int, c_long, c_uchar, c_uint, c_ulong, c_ushort, c_void, FILE};
 
 include!(concat!(env!("OUT_DIR"), "/gmp_h.rs"));
@@ -175,8 +176,37 @@ pub struct randstate_t {
     pub seed: mpz_t,
     /// Internal implementation detail: unused.
     pub alg: c_int,
-    /// Internal implementation detail: pointer to function pointers structure.
-    pub algdata: *mut c_void,
+    /// Internal implementation detail.
+    pub algdata: randstate_t_algdata,
+}
+
+/// The type for the [`algdata`] field in the [`randstate_t`] struct.
+///
+/// # Future compatibility
+///
+/// This type is considered internal details. These internals may
+/// change in new minor releases of this crate, though they will be
+/// kept unchanged for patch releases. Any code that makes use of
+/// these internals should list the dependency as `version = "~1.1"`
+/// inside [*Cargo.toml*], *not* `version = "1.1"`.
+///
+/// [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
+/// [`algdata`]: struct.randstate_t.html#structfield.algdata
+/// [`randstate_t`]: struct.randstate_t.html
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union randstate_t_algdata {
+    /// Internal implementation detail: pointer to function pointers
+    /// structure.
+    pub lc: *mut c_void,
+}
+
+impl Debug for randstate_t_algdata {
+    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
+        f.debug_struct("randstate_t_algdata")
+            .field("lc", &unsafe { self.lc })
+            .finish()
+    }
 }
 
 // Types for function declarations in this file.
