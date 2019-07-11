@@ -1451,8 +1451,14 @@ mod tests {
         assert_eq!(mpfr::VERSION_MINOR, 0);
         assert_eq!(mpfr::VERSION_PATCHLEVEL, 2);
         let version = "4.0.2-p1";
-        assert_eq!(unsafe { tests::str_from_cstr(mpfr::get_version()) }, version);
-        assert_eq!(unsafe { tests::str_from_cstr(mpfr::VERSION_STRING) }, version);
+        assert_eq!(
+            unsafe { tests::str_from_cstr(mpfr::get_version()) },
+            version
+        );
+        assert_eq!(
+            unsafe { tests::str_from_cstr(mpfr::VERSION_STRING) },
+            version
+        );
     }
 
     #[test]

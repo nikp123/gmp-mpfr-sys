@@ -590,6 +590,9 @@ mod tests {
         assert_eq!(mpc::VERSION_PATCHLEVEL, 0);
         let version = "1.1.0";
         assert_eq!(unsafe { tests::str_from_cstr(mpc::get_version()) }, version);
-        assert_eq!(unsafe { tests::str_from_cstr(mpc::VERSION_STRING) }, version);
+        assert_eq!(
+            unsafe { tests::str_from_cstr(mpc::VERSION_STRING) },
+            version
+        );
     }
 }
