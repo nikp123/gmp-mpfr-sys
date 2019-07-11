@@ -40,7 +40,7 @@ unsafe {
 The following example is a translation of the [MPFR sample] found on
 the [MPFR] website. The program computes a lower bound on
 1 + 1/1! + 1/2! + … + 1/100!
-using 200-bit precision. The program writes:
+using 200-bit precision. The program outputs:
 
 `Sum is 2.7182818284590452353602874713526624977572470936999595749669131`
 
@@ -59,8 +59,8 @@ using 200-bit precision. The program writes:
 # }
 # cond! {
 use core::mem::MaybeUninit;
-use gmp_mpfr_sys::mpfr::{self, mpfr_t, rnd_t};
-use libc::c_int;
+use gmp_mpfr_sys::mpfr::{self, rnd_t};
+use libc::{self, c_char, c_int, STDOUT_FILENO};
 
 fn main() {
     unsafe {
@@ -84,40 +84,27 @@ fn main() {
             mpfr::div(&mut u, &u, &t, rnd_t::RNDD);
             mpfr::add(&mut s, &s, &u, rnd_t::RNDD);
         }
-        let sr = mpfr_to_string(10, 0, &s, rnd_t::RNDD);
-        println!("Sum is {}", sr);
+
+        let stdout = libc::fdopen(STDOUT_FILENO, b"w\0".as_ptr() as *const c_char);
+#       libc::fclose(stdout);
+#       let stdout = libc::tmpfile();
+        libc::fputs(b"Sum is \0".as_ptr() as *const c_char, stdout);
+        mpfr::out_str(stdout, 10, 0, &s, rnd_t::RNDD);
+        libc::fputc(b'\n' as c_int, stdout);
+#       libc::rewind(stdout);
+#       let mut buf = [0u8; 71];
+#       libc::fread(buf.as_mut_ptr() as _, 1, 71, stdout);
+#       libc::fclose(stdout);
+#       assert_eq!(
+#           &buf[..],
+#           &b"Sum is 2.7182818284590452353602874713526624977572470936999595749669131\n"[..]
+#       );
+
         mpfr::clear(&mut s);
         mpfr::clear(&mut t);
         mpfr::clear(&mut u);
         mpfr::free_cache();
-        # assert_eq!(
-        #     sr,
-        #     "2.7182818284590452353602874713526624977572470936999595749669131"
-        # );
     }
-}
-
-unsafe fn mpfr_to_string(
-    base: c_int, n: usize, op: *const mpfr_t, rnd: rnd_t
-) -> String {
-    use std::ffi::CStr;
-    use std::fmt::Write;
-    use std::ptr;
-
-    let mut exp = MaybeUninit::uninit();
-    let str = mpfr::get_str(ptr::null_mut(), exp.as_mut_ptr(), base, n, op, rnd);
-    let exp = exp.assume_init();
-    let mut buf = CStr::from_ptr(str).to_string_lossy().into_owned();
-    mpfr::free_str(str);
-    if mpfr::regular_p(op) != 0 {
-        let idx = if buf.starts_with("-") { 2 } else { 1 };
-        buf.insert(idx, '.');
-        if exp != 1 {
-            buf.push(if base <= 10 { 'e' } else { '@' });
-            write!(buf, "{}", exp - 1).unwrap();
-        }
-    }
-    buf
 }
 # }
 ```
