@@ -39,7 +39,6 @@ unsafe {
 */
 #![allow(non_camel_case_types)]
 
-use crate::misc;
 use core::fmt::{Debug, Formatter, Result as FmtResult};
 use libc::{c_char, c_int, c_long, c_uchar, c_uint, c_ulong, c_ushort, c_void, FILE};
 
@@ -556,7 +555,7 @@ extern "C" {
 pub unsafe extern "C" fn mpz_perfect_square_p(op: mpz_srcptr) -> c_int {
     let op_size = (*op).size;
     if op_size > 0 {
-        mpn_perfect_square_p((*op).d, misc::int_to_long(op_size))
+        mpn_perfect_square_p((*op).d, op_size.into())
     } else if op_size >= 0 {
         1
     } else {
@@ -706,7 +705,7 @@ extern "C" {
 pub unsafe extern "C" fn mpz_popcount(op: mpz_srcptr) -> bitcnt_t {
     let size = (*op).size;
     if size > 0 {
-        mpn_popcount((*op).d, misc::int_to_long(size))
+        mpn_popcount((*op).d, size.into())
     } else if size < 0 {
         c_ulong::max_value()
     } else {
@@ -885,7 +884,7 @@ extern "C" {
 /// See: [`mpz_getlimbn`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Integer-Functions.html#index-mpz_005fgetlimbn)
 #[inline]
 pub unsafe extern "C" fn mpz_getlimbn(op: mpz_srcptr, n: size_t) -> limb_t {
-    if n >= 0 && n < misc::int_to_long((*op).size.abs()) {
+    if n >= 0 && n < size_t::from((*op).size.abs()) {
         *((*op).d.offset(n as isize))
     } else {
         0

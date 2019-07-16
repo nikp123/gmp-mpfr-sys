@@ -245,6 +245,7 @@ To use a different directory, you can set the environment variable
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
 #![cfg_attr(nightly_maybe_uninit, feature(maybe_uninit))]
+#![allow(clippy::identity_conversion)]
 
 pub mod gmp;
 #[cfg(feature = "mpc")]
@@ -255,22 +256,6 @@ pub mod mpfr;
 // this is here for the mpfr_round_nearest_away macro only
 #[doc(hidden)]
 pub use libc;
-
-mod misc {
-    use libc::{c_int, c_long};
-
-    #[cfg(any(target_pointer_width = "32", windows))]
-    #[inline]
-    pub fn int_to_long(i: c_int) -> c_long {
-        i
-    }
-
-    #[cfg(all(target_pointer_width = "64", not(windows)))]
-    #[inline]
-    pub fn int_to_long(i: c_int) -> c_long {
-        i.into()
-    }
-}
 
 #[cfg(test)]
 #[cfg(not(newer_cache))]
