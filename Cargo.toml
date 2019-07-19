@@ -43,8 +43,9 @@ cnotest = []
 
 cnodelete = []
 
-[dependencies]
-libc = "0.2.44"
+[dependencies.libc]
+version = "0.2.44"
+default-features = false
 
 [build-dependencies]
 dirs = "2.0"
