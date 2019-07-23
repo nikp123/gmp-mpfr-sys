@@ -24,6 +24,10 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.2.0 news (unreleased)
+
+  * The crate now requires rustc version 1.31.0 or later.
+
 ### Version 1.1.14 news (2019-07-04)
 
   * [MPFR] was updated from version 4.0.2 to 4.0.2-p1.
