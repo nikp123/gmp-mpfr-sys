@@ -27,6 +27,11 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 ### Version 1.2.0 news (unreleased)
 
   * The crate now requires rustc version 1.31.0 or later.
+  * The implementation details of [`gmp::randstate_t`] have been
+    changed to reflect that [GMP] can leave some fields unused and
+    uninitialized.
+
+[`gmp::randstate_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/struct.randstate_t.html
 
 ### Version 1.1.14 news (2019-07-04)
 

@@ -172,11 +172,63 @@ pub struct mpf_t {
 #[derive(Clone, Copy, Debug)]
 pub struct randstate_t {
     /// Internal implementation detail: state of the generator.
-    pub seed: mpz_t,
+    pub seed: randseed_t,
     /// Internal implementation detail: unused.
-    pub alg: c_int,
-    /// Internal implementation detail.
-    pub algdata: randstate_t_algdata,
+    pub alg: rand_unused_int,
+    /// Internal implementation detail: pointer to function pointers
+    /// structure.
+    pub algdata: *const randfnptr_t,
+}
+
+/// An unused [`c_int`] that can be uninitialized.
+///
+/// # Future compatibility
+///
+/// This type is considered internal details. These internals may
+/// change in new minor releases of this crate, though they will be
+/// kept unchanged for patch releases. Any code that makes use of
+/// these internals should list the dependency as `version = "~1.2"`
+/// inside [*Cargo.toml*], *not* `version = "1.2"`.
+///
+/// [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
+/// [`c_int`]: https://docs.rs/libc/0.2/libc/type.c_int.html
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union rand_unused_int {
+    /// Internal implementation detail: unused.
+    pub int: c_int,
+    /// Internal implementation detail: unused.
+    pub uninit: [c_int; 0],
+}
+
+impl Debug for rand_unused_int {
+    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
+        f.write_str("unused")
+    }
+}
+
+/// The type for the [`seed`] field in the [`randstate_t`] struct.
+///
+/// # Future compatibility
+///
+/// This type is considered internal details. These internals may
+/// change in new minor releases of this crate, though they will be
+/// kept unchanged for patch releases. Any code that makes use of
+/// these internals should list the dependency as `version = "~1.2"`
+/// inside [*Cargo.toml*], *not* `version = "1.2"`.
+///
+/// [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
+/// [`randstate_t`]: struct.randstate_t.html
+/// [`seed`]: struct.randstate_t.html#structfield.seed
+#[repr(C)]
+#[derive(Clone, Copy, Debug)]
+pub struct randseed_t {
+    /// Internal implementation detail: unused.
+    pub alloc: rand_unused_int,
+    /// Internal implementation detail: unused.
+    pub size: rand_unused_int,
+    /// Internal implementation detail: state of the generator.
+    pub d: *mut c_void,
 }
 
 /// The type for the [`algdata`] field in the [`randstate_t`] struct.
@@ -193,19 +245,17 @@ pub struct randstate_t {
 /// [`algdata`]: struct.randstate_t.html#structfield.algdata
 /// [`randstate_t`]: struct.randstate_t.html
 #[repr(C)]
-#[derive(Clone, Copy)]
-pub union randstate_t_algdata {
-    /// Internal implementation detail: pointer to function pointers
-    /// structure.
-    pub lc: *mut c_void,
-}
-
-impl Debug for randstate_t_algdata {
-    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
-        f.debug_struct("randstate_t_algdata")
-            .field("lc", &unsafe { self.lc })
-            .finish()
-    }
+#[derive(Clone, Copy, Debug)]
+pub struct randfnptr_t {
+    /// Internal implementation detail: pointer to function.
+    pub seed: Option<unsafe extern "C" fn(rstate: *mut randstate_t, seed: *const mpz_t)>,
+    /// Internal implementation detail: pointer to function.
+    pub get:
+        Option<unsafe extern "C" fn(rstate: *mut randstate_t, dest: *mut limb_t, nbits: c_ulong)>,
+    /// Internal implementation detail: pointer to function.
+    pub clear: Option<unsafe extern "C" fn(rstate: *mut randstate_t)>,
+    /// Internal implementation detail: pointer to function.
+    pub iset: Option<unsafe extern "C" fn(dst: *mut randstate_t, src: *const randstate_t)>,
 }
 
 // Types for function declarations in this file.
