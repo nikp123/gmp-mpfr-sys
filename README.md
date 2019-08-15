@@ -26,7 +26,7 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ### Version 1.2.0 news (unreleased)
 
-  * The crate now requires rustc version 1.31.0 or later.
+  * The crate now requires rustc version 1.37.0 or later.
   * The implementation details of [`gmp::randstate_t`] have been
     changed to reflect that [GMP] can leave some fields unused and
     uninitialized.
@@ -105,7 +105,7 @@ gmp-mpfr-sys in your crate, add it as a dependency inside
 gmp-mpfr-sys = "1.2"
 ```
 
-This crate required rustc version 1.31.0 or later.
+This crate required rustc version 1.37.0 or later.
 
 If the C libraries have a major version bump with some deprecated
 functions removed, but no features are removed in the Rust bindings,

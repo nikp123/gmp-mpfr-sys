@@ -8,7 +8,7 @@ as-is, without any warranty. -->
 Version 1.2.0 (unreleased)
 ==========================
 
-  * The crate now requires rustc version 1.31.0 or later.
+  * The crate now requires rustc version 1.37.0 or later.
   * The implementation details of `gmp::randstate_t` have been changed
     to reflect that GMP can leave some fields unused and
     uninitialized.

@@ -20,7 +20,6 @@ Function and type bindings for the [GMP] library.
 # Examples
 
 ```rust
-# #[cfg(all(maybe_uninit, not(nightly_maybe_uninit)))] {
 use core::mem::MaybeUninit;
 use gmp_mpfr_sys::gmp;
 unsafe {
@@ -32,7 +31,6 @@ unsafe {
     assert_eq!(u, 15);
     gmp::mpz_clear(&mut z);
 }
-# }
 ```
 
 [GMP]: https://gmplib.org/

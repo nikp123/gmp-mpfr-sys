@@ -20,7 +20,6 @@ Function and type bindings for the [MPFR] library.
 # Examples
 
 ```rust
-# #[cfg(all(maybe_uninit, not(nightly_maybe_uninit)))] {
 use core::mem::MaybeUninit;
 use gmp_mpfr_sys::mpfr;
 let one_third = 1.0_f64 / 3.0;
@@ -34,7 +33,6 @@ unsafe {
     assert_eq!(d, one_third);
     mpfr::clear(&mut f);
 }
-# }
 ```
 
 The following example is a translation of the [MPFR sample] found on
@@ -45,19 +43,6 @@ using 200-bit precision. The program outputs:
 `Sum is 2.7182818284590452353602874713526624977572470936999595749669131`
 
 ```rust
-# #[cfg(all(maybe_uninit, not(nightly_maybe_uninit)))]
-# macro_rules! cond {
-#     ($($t:tt)*) => {
-#         $($t)*
-#     };
-# }
-# #[cfg(any(not(maybe_uninit), nightly_maybe_uninit))]
-# macro_rules! cond {
-#     ($($t:tt)*) => {
-#         fn main() {}
-#     };
-# }
-# cond! {
 use core::mem::MaybeUninit;
 use gmp_mpfr_sys::mpfr::{self, rnd_t};
 use libc::{self, c_char, c_int, STDOUT_FILENO};
@@ -106,7 +91,6 @@ fn main() {
         mpfr::free_cache();
     }
 }
-# }
 ```
 
 [MPFR sample]: https://www.mpfr.org/sample.html
@@ -1428,6 +1412,7 @@ pub unsafe extern "C" fn custom_move(x: mpfr_ptr, new_position: *mut c_void) {
 #[cfg(test)]
 mod tests {
     use crate::mpfr;
+    use core::mem::MaybeUninit;
 
     #[cfg(not(newer_cache))]
     #[test]
@@ -1450,20 +1435,9 @@ mod tests {
     #[test]
     fn check_round_nearest_away() {
         unsafe {
-            let mut f;
-            #[cfg(maybe_uninit)]
-            {
-                use core::mem::MaybeUninit;
-                let mut maybe = MaybeUninit::uninit();
-                mpfr::init2(maybe.as_mut_ptr(), 4);
-                f = maybe.assume_init();
-            }
-            #[cfg(not(maybe_uninit))]
-            {
-                use core::mem;
-                f = mem::uninitialized();
-                mpfr::init2(&mut f, 4);
-            }
+            let mut f = MaybeUninit::uninit();
+            mpfr::init2(f.as_mut_ptr(), 4);
+            let mut f = f.assume_init();
 
             // mpfr_round_nearest_away needs emin > emin_min
             if mpfr::get_emin() == mpfr::get_emin_min() {

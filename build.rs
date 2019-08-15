@@ -112,7 +112,6 @@ fn main() {
         version_patch: version_patch,
         newer_cache: false,
     };
-    env.check_feature("maybe_uninit", TRY_MAYBE_UNINIT, Some("maybe_uninit"));
 
     // make sure we have target directories
     create_dir_or_panic(&env.lib_dir);
@@ -606,6 +605,7 @@ fn write_link_info(
 }
 
 impl Environment {
+    #[allow(dead_code)]
     fn check_feature(&self, name: &str, contents: &str, nightly_features: Option<&str>) {
         let try_dir = self.out_dir.join(format!("try_{}", name));
         let filename = format!("try_{}.rs", name);
@@ -891,17 +891,6 @@ fn flush(writer: &mut BufWriter<File>, name: &Path) {
         .flush()
         .unwrap_or_else(|_| panic!("Cannot write to: {:?}", name));
 }
-
-const TRY_MAYBE_UNINIT: &'static str = r#"// try_maybe_uninit.rs
-use std::mem::MaybeUninit;
-fn main() {
-    let mut x = MaybeUninit::<u8>::zeroed();
-    let _ = x.as_ptr();
-    let _ = x.as_mut_ptr();
-    let _ = unsafe { x.assume_init() };
-    let _ = MaybeUninit::<u8>::uninit();
-}
-"#;
 
 const BUG_47048_SAY_HI_C: &'static str = r#"/* say_hi.c */
 #include <stdio.h>

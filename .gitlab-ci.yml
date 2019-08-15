@@ -10,7 +10,7 @@ before_script:
   - apt-get -y update
   - apt-get -y install diffutils gcc make m4
   - rustup --version
-  - rustup install beta-$TARGET 1.31.1-$TARGET
+  - rustup install beta-$TARGET 1.37.0-$TARGET
   - rustup component add --toolchain beta-$TARGET rustfmt clippy
   - if [ -d cargo/registry/cache ]; then rm -rf $CARGO_HOME/registry/cache; mkdir -p $CARGO_HOME/registry; cp -R cargo/registry/cache $CARGO_HOME/registry/; echo Copied registry/cache; fi
   - if [ -d $CARGO_HOME/registry/cache ]; then (cd $CARGO_HOME/registry; find cache -name \*.crate) fi
@@ -34,8 +34,8 @@ x86_64-gnulinux:
   - cargo +beta-$TARGET test --release --features fail-on-warnings
   - cargo +beta-$TARGET fmt -- --check
   - cargo +beta-$TARGET clippy --all-targets --features fail-on-warnings
-  - cargo +1.31.1-$TARGET test --features fail-on-warnings
-  - cargo +1.31.1-$TARGET test --release --features fail-on-warnings
+  - cargo +1.37.0-$TARGET test --features fail-on-warnings
+  - cargo +1.37.0-$TARGET test --release --features fail-on-warnings
   except:
   - www
 
@@ -52,8 +52,8 @@ i686-gnulinux:
   - cargo +beta-$TARGET test --release --features fail-on-warnings
   - cargo +beta-$TARGET fmt -- --check
   - cargo +beta-$TARGET clippy --all-targets --features fail-on-warnings
-  - cargo +1.31.1-$TARGET test --features fail-on-warnings
-  - cargo +1.31.1-$TARGET test --release --features fail-on-warnings
+  - cargo +1.37.0-$TARGET test --features fail-on-warnings
+  - cargo +1.37.0-$TARGET test --release --features fail-on-warnings
   except:
   - www
 

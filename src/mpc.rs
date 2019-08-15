@@ -20,7 +20,6 @@ Function and type bindings for the [MPC] library.
 # Examples
 
 ```rust
-# #[cfg(all(maybe_uninit, not(nightly_maybe_uninit)))] {
 use core::f64;
 use core::mem::MaybeUninit;
 use gmp_mpfr_sys::mpc;
@@ -40,7 +39,6 @@ unsafe {
     let im = mpfr::get_d(im_ptr, mpfr::rnd_t::RNDN);
     assert_eq!(im, neg_inf);
     mpc::clear(&mut c);
-# }
 }
 ```
 
