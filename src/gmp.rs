@@ -37,7 +37,10 @@ unsafe {
 */
 #![allow(non_camel_case_types)]
 
-use core::fmt::{Debug, Formatter, Result as FmtResult};
+use core::{
+    fmt::{Debug, Formatter, Result as FmtResult},
+    mem::MaybeUninit,
+};
 use libc::{c_char, c_int, c_long, c_uchar, c_uint, c_ulong, c_ushort, c_void, FILE};
 
 include!(concat!(env!("OUT_DIR"), "/gmp_h.rs"));
@@ -167,41 +170,24 @@ pub struct mpf_t {
 ///
 /// [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy)]
 pub struct randstate_t {
     /// Internal implementation detail: state of the generator.
     pub seed: randseed_t,
     /// Internal implementation detail: unused.
-    pub alg: rand_unused_int,
+    pub alg: MaybeUninit<c_int>,
     /// Internal implementation detail: pointer to function pointers
     /// structure.
     pub algdata: *const randfnptr_t,
 }
 
-/// An unused [`c_int`] that can be uninitialized.
-///
-/// # Future compatibility
-///
-/// This type is considered internal details. These internals may
-/// change in new minor releases of this crate, though they will be
-/// kept unchanged for patch releases. Any code that makes use of
-/// these internals should list the dependency as `version = "~1.2"`
-/// inside [*Cargo.toml*], *not* `version = "1.2"`.
-///
-/// [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
-/// [`c_int`]: https://docs.rs/libc/0.2/libc/type.c_int.html
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub union rand_unused_int {
-    /// Internal implementation detail: unused.
-    pub int: c_int,
-    /// Internal implementation detail: unused.
-    pub uninit: [c_int; 0],
-}
-
-impl Debug for rand_unused_int {
+impl Debug for randstate_t {
     fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
-        f.write_str("unused")
+        f.debug_struct("randstate_t")
+            .field("seed", &self.seed)
+            .field("alg", &"unused")
+            .field("algdata", &self.algdata)
+            .finish()
     }
 }
 
@@ -219,14 +205,24 @@ impl Debug for rand_unused_int {
 /// [`randstate_t`]: struct.randstate_t.html
 /// [`seed`]: struct.randstate_t.html#structfield.seed
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy)]
 pub struct randseed_t {
     /// Internal implementation detail: unused.
-    pub alloc: rand_unused_int,
+    pub alloc: MaybeUninit<c_int>,
     /// Internal implementation detail: unused.
-    pub size: rand_unused_int,
+    pub size: MaybeUninit<c_int>,
     /// Internal implementation detail: state of the generator.
     pub d: *mut c_void,
+}
+
+impl Debug for randseed_t {
+    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
+        f.debug_struct("randseed_t")
+            .field("alloc", &"unused")
+            .field("size", &"unused")
+            .field("d", &self.d)
+            .finish()
+    }
 }
 
 /// The type for the [`algdata`] field in the [`randstate_t`] struct.
