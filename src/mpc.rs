@@ -20,10 +20,8 @@ Function and type bindings for the [MPC] library.
 # Examples
 
 ```rust
-use core::f64;
-use core::mem::MaybeUninit;
-use gmp_mpfr_sys::mpc;
-use gmp_mpfr_sys::mpfr;
+use core::{f64, mem::MaybeUninit};
+use gmp_mpfr_sys::{mpc, mpfr};
 let one_third = 1.0_f64 / 3.0;
 let neg_inf = f64::NEG_INFINITY;
 unsafe {
@@ -46,8 +44,7 @@ unsafe {
 */
 #![allow(non_camel_case_types, non_snake_case)]
 
-use crate::gmp;
-use crate::mpfr;
+use crate::{gmp, mpfr};
 use libc::{c_char, c_int, c_long, c_ulong, intmax_t, uintmax_t, FILE};
 
 #[inline]
@@ -550,9 +547,7 @@ pub extern "C" fn VERSION_NUM(major: c_int, minor: c_int, patchlevel: c_int) -> 
 
 #[cfg(test)]
 mod tests {
-    use crate::gmp;
-    use crate::mpc;
-    use crate::mpfr;
+    use crate::{gmp, mpc, mpfr};
 
     #[test]
     fn check_real_imag_offsets() {
