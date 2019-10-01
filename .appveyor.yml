@@ -49,7 +49,7 @@ before_test:
   - bash -c "if [ -d ""$USERPROFILE/.cargo/registry/cache"" ]; then cd ""$USERPROFILE/.cargo/registry""; find cache -name \*.crate; fi"
 
 test_script:
-  - cargo +beta-%TARGET% test --features "fail-on-warnings ctest"
+  - cargo +beta-%TARGET% test --features fail-on-warnings
   - cargo +beta-%TARGET% test --release --features fail-on-warnings
   - cargo +beta-%TARGET% fmt -- --check
   - cargo +beta-%TARGET% clippy --all-targets --features fail-on-warnings

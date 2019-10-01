@@ -27,18 +27,6 @@ mpfr = []
 mpc = ["mpfr"]
 fail-on-warnings = []
 
-# When building the C libraries, make is followed by make check
-# according to the following:
-# * If ctest is enabled:
-#       make check
-# * If ctest is disabled and cnotest is enabled:
-#       do not make check
-# * If ctest is disabled and cnottest is disabled (default):
-#       make check for release build only
-
-ctest = []
-cnotest = []
-
 # With the cnodelete feature, C build artefacts are not deleted.
 
 cnodelete = []

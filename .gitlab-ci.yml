@@ -30,7 +30,7 @@ x86_64-gnulinux:
     paths:
     - cargo/
   script:
-  - cargo +beta-$TARGET test --features "fail-on-warnings ctest"
+  - cargo +beta-$TARGET test --features fail-on-warnings
   - cargo +beta-$TARGET test --release --features fail-on-warnings
   - cargo +beta-$TARGET fmt -- --check
   - cargo +beta-$TARGET clippy --all-targets --features fail-on-warnings
@@ -48,7 +48,7 @@ i686-gnulinux:
     paths:
     - cargo/
   script:
-  - cargo +beta-$TARGET test --features "fail-on-warnings ctest"
+  - cargo +beta-$TARGET test --features fail-on-warnings
   - cargo +beta-$TARGET test --release --features fail-on-warnings
   - cargo +beta-$TARGET fmt -- --check
   - cargo +beta-$TARGET clippy --all-targets --features fail-on-warnings
