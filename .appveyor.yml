@@ -37,6 +37,8 @@ cache:
 
 install:
   - set PATH=C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%USERPROFILE%\.cargo\bin;%PATH%
+  - bash -c "pacman -Sq --noconfirm pacman-mirrors"
+  - bash -c "pacman -Sq --noconfirm ${MINGW_PACKAGE_PREFIX}-{gmp,mpfr,mpc}"
   - curl -sSf -o rustup-init.exe https://win.rustup.rs
   - rustup-init.exe -y --default-host %TARGET% --default-toolchain none --no-modify-path
   - rustup --version
@@ -49,10 +51,14 @@ before_test:
   - bash -c "if [ -d ""$USERPROFILE/.cargo/registry/cache"" ]; then cd ""$USERPROFILE/.cargo/registry""; find cache -name \*.crate; fi"
 
 test_script:
+  - cargo +beta-%TARGET% test --features "fail-on-warnings use-system-libs"
+  - cargo +beta-%TARGET% test --release --features "fail-on-warnings use-system-libs"
   - cargo +beta-%TARGET% test --features fail-on-warnings
   - cargo +beta-%TARGET% test --release --features fail-on-warnings
   - cargo +beta-%TARGET% fmt -- --check
   - cargo +beta-%TARGET% clippy --all-targets --features fail-on-warnings
+  - cargo +1.37.0-%TARGET% test --features "fail-on-warnings use-system-libs"
+  - cargo +1.37.0-%TARGET% test --release --features "fail-on-warnings use-system-libs"
   - cargo +1.37.0-%TARGET% test --features fail-on-warnings
   - cargo +1.37.0-%TARGET% test --release --features fail-on-warnings
 
