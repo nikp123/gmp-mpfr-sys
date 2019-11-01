@@ -258,7 +258,7 @@ pub mod mpfr;
 pub use libc;
 
 #[cfg(test)]
-#[cfg(not(newer_cache))]
+#[cfg(not(maybe_newer))]
 mod tests {
     use core::{slice, str};
     use libc::c_char;

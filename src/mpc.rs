@@ -574,7 +574,7 @@ mod tests {
         }
     }
 
-    #[cfg(not(newer_cache))]
+    #[cfg(not(maybe_newer))]
     #[test]
     fn check_version() {
         use crate::tests;

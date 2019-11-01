@@ -1818,7 +1818,7 @@ mod tests {
         assert_eq!(from_static, from_constant);
     }
 
-    #[cfg(not(newer_cache))]
+    #[cfg(not(maybe_newer))]
     #[test]
     fn check_version() {
         use crate::tests;

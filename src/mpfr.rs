@@ -1414,7 +1414,7 @@ mod tests {
     use crate::mpfr;
     use core::mem::MaybeUninit;
 
-    #[cfg(not(newer_cache))]
+    #[cfg(not(maybe_newer))]
     #[test]
     fn check_version() {
         use crate::tests;
