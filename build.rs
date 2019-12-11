@@ -96,6 +96,9 @@ fn main() {
     };
 
     let use_system_libs = there_is_env("CARGO_FEATURE_USE_SYSTEM_LIBS");
+    if use_system_libs && (target == Target::Msvc || target == Target::Mingw) {
+        panic!("the use-system-libs feature is not supported on this target");
+    }
     let mut env = Environment {
         rustc: rustc,
         src_dir: src_dir.clone(),

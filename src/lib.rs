@@ -40,6 +40,9 @@ This crate contains three modules:
   * [`mpfr`] provides external FFI bindings to [MPFR].
   * [`mpc`] provides external FFI bindings to [MPC].
 
+The versions provided by this crate release are [GMP] version 6.1.2,
+[MPFR] version 4.0.2-p1, and [MPC] version 1.1.0.
+
 If you want a high-level API, consider using [Rug][rug crate], a crate
 which provides integers and floating-point numbers with arbitrary
 precision and correct rounding:
@@ -121,6 +124,20 @@ features = ["mpfr"]
 ```
 
 Here only the `mpfr` feature is selected.
+
+## Experimental optional features
+
+It is not considered a breaking change if experimental features are
+removed. The removal of experimental features would however require a
+minor version bump.
+
+There is one experimental feature:
+
+ 1. `use-system-libs`, disabled by default. This is *not* supported on
+    Windows. Using this feature, the system libraries for [GMP], and
+    [MPFR] and [MPC] if enabled, will be used instead of building them
+    from source. The versions must be compatible with the versions
+    provided by the crate.
 
 ## Metadata
 
