@@ -97,6 +97,7 @@ fn main() {
 [MPFR]: https://www.mpfr.org/
 */
 #![allow(non_camel_case_types, non_snake_case)]
+#![allow(clippy::needless_doctest_main)]
 
 use crate::gmp;
 use core::mem;

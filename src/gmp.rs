@@ -38,6 +38,7 @@ unsafe {
 #![allow(non_camel_case_types)]
 
 use core::{
+    cmp::Ordering,
     fmt::{Debug, Formatter, Result as FmtResult},
     mem::MaybeUninit,
 };
@@ -722,12 +723,10 @@ extern "C" {
 /// See: [`mpz_sgn`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Integer-Functions.html#index-mpz_005fsgn)
 #[inline]
 pub unsafe extern "C" fn mpz_sgn(op: mpz_srcptr) -> c_int {
-    if (*op).size < 0 {
-        -1
-    } else if (*op).size > 0 {
-        1
-    } else {
-        0
+    match (*op).size.cmp(&0) {
+        Ordering::Less => -1,
+        Ordering::Equal => 0,
+        Ordering::Greater => 1,
     }
 }
 extern "C" {
@@ -748,12 +747,10 @@ extern "C" {
 #[inline]
 pub unsafe extern "C" fn mpz_popcount(op: mpz_srcptr) -> bitcnt_t {
     let size = (*op).size;
-    if size > 0 {
-        mpn_popcount((*op).d, size.into())
-    } else if size < 0 {
-        c_ulong::max_value()
-    } else {
-        0
+    match size.cmp(&0) {
+        Ordering::Less => c_ulong::max_value(),
+        Ordering::Equal => 0,
+        Ordering::Greater => mpn_popcount((*op).d, size.into()),
     }
 }
 extern "C" {
@@ -1072,12 +1069,10 @@ extern "C" {
 /// See: [`mpq_sgn`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Rational-Number-Functions.html#index-mpq_005fsgn)
 #[inline]
 pub unsafe extern "C" fn mpq_sgn(op: mpq_srcptr) -> c_int {
-    if (*op).num.size < 0 {
-        -1
-    } else if (*op).num.size > 0 {
-        1
-    } else {
-        0
+    match (*op).num.size.cmp(&0) {
+        Ordering::Less => -1,
+        Ordering::Equal => 0,
+        Ordering::Greater => 1,
     }
 }
 extern "C" {
@@ -1318,12 +1313,10 @@ extern "C" {
 /// See: [`mpf_sgn`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Floating_002dpoint-Functions.html#index-mpf_005fsgn)
 #[inline]
 pub unsafe extern "C" fn mpf_sgn(op: mpf_srcptr) -> c_int {
-    if (*op).size < 0 {
-        -1
-    } else if (*op).size > 0 {
-        1
-    } else {
-        0
+    match (*op).size.cmp(&0) {
+        Ordering::Less => -1,
+        Ordering::Equal => 0,
+        Ordering::Greater => 1,
     }
 }
 
