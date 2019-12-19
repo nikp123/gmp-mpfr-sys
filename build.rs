@@ -132,6 +132,7 @@ fn main() {
 }
 
 fn check_system_libs(env: &Environment) {
+    let build_dir_existed = env.build_dir.exists();
     let try_dir = env.build_dir.join("system_libs");
     remove_dir_or_panic(&try_dir);
     create_dir_or_panic(&try_dir);
@@ -204,6 +205,15 @@ fn check_system_libs(env: &Environment) {
             &env.out_dir.join("mpc_h.rs"),
         );
     }
+
+    if !there_is_env("CARGO_FEATURE_CNODELETE") {
+        if build_dir_existed {
+            remove_dir_or_panic(&try_dir);
+        } else {
+            remove_dir_or_panic(&env.build_dir);
+        }
+    }
+
     println!("cargo:rustc-cfg=maybe_newer");
     write_link_info(&env, feature_mpfr, feature_mpc);
 }
