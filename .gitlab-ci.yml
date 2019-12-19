@@ -32,6 +32,7 @@ x86_64-gnulinux:
   - cargo +beta-$TARGET test --release --features fail-on-warnings
   - cargo +beta-$TARGET fmt -- --check
   - cargo +beta-$TARGET clippy --all-targets --features fail-on-warnings
+  - rm Cargo.lock
   - cargo +1.37.0-$TARGET test --features fail-on-warnings
   - cargo +1.37.0-$TARGET test --release --features fail-on-warnings
   except:
@@ -50,6 +51,7 @@ i686-gnulinux:
   - cargo +beta-$TARGET test --release --features fail-on-warnings
   - cargo +beta-$TARGET fmt -- --check
   - cargo +beta-$TARGET clippy --all-targets --features fail-on-warnings
+  - rm Cargo.lock
   - cargo +1.37.0-$TARGET test --features fail-on-warnings
   - cargo +1.37.0-$TARGET test --release --features fail-on-warnings
   except:
@@ -70,6 +72,7 @@ x86_64-gnulinux-sys-libs:
   - cargo +beta-$TARGET test --release --features "fail-on-warnings use-system-libs"
   - cargo +beta-$TARGET fmt -- --check
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings use-system-libs"
+  - rm Cargo.lock
   - cargo +1.37.0-$TARGET test --features "fail-on-warnings use-system-libs"
   - cargo +1.37.0-$TARGET test --release --features "fail-on-warnings use-system-libs"
   except:
@@ -90,6 +93,7 @@ i686-gnulinux-sys-libs:
   - cargo +beta-$TARGET test --release --features "fail-on-warnings use-system-libs"
   - cargo +beta-$TARGET fmt -- --check
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings use-system-libs"
+  - rm Cargo.lock
   - cargo +1.37.0-$TARGET test --features "fail-on-warnings use-system-libs"
   - cargo +1.37.0-$TARGET test --release --features "fail-on-warnings use-system-libs"
   except:
