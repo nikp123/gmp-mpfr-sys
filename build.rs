@@ -31,9 +31,9 @@ use std::os::windows::fs as windows_fs;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 
-const GMP_DIR: &'static str = "gmp-6.1.2-c";
-const MPFR_DIR: &'static str = "mpfr-4.0.2-p1-c";
-const MPC_DIR: &'static str = "mpc-1.1.0-c";
+const GMP_DIR: &str = "gmp-6.1.2-c";
+const MPFR_DIR: &str = "mpfr-4.0.2-p1-c";
+const MPC_DIR: &str = "mpc-1.1.0-c";
 const GMP_VER: (i32, i32, i32) = (6, 1, 2);
 const MPFR_VER: (i32, i32, i32) = (4, 0, 2);
 const MPC_VER: (i32, i32, i32) = (1, 1, 0);
@@ -103,18 +103,18 @@ fn main() {
         panic!("the use-system-libs feature is not supported on this target");
     }
     let mut env = Environment {
-        rustc: rustc,
-        src_dir: src_dir.clone(),
+        rustc,
+        src_dir,
         out_dir: out_dir.clone(),
         lib_dir: out_dir.join("lib"),
         include_dir: out_dir.join("include"),
         build_dir: out_dir.join("build"),
-        cache_dir: cache_dir,
+        cache_dir,
         jobs: cargo_env("NUM_JOBS"),
-        target: target,
-        version_prefix: version_prefix,
-        version_patch: version_patch,
-        use_system_libs: use_system_libs,
+        target,
+        version_prefix,
+        version_patch,
+        use_system_libs,
         workaround_47048: Workaround47048::No,
     };
 
@@ -312,10 +312,10 @@ fn need_compile(
         None => true,
     };
     if gmp_fine && mpfr_fine && mpc_fine {
-        if should_save_cache(env, mpfr_ah.is_some(), mpc_ah.is_some()) {
-            if save_cache(env, gmp_ah, mpfr_ah, mpc_ah) {
-                clear_cache_redundancies(&env, mpfr_ah.is_some(), mpc_ah.is_some());
-            }
+        if should_save_cache(env, mpfr_ah.is_some(), mpc_ah.is_some())
+            && save_cache(env, gmp_ah, mpfr_ah, mpc_ah)
+        {
+            clear_cache_redundancies(&env, mpfr_ah.is_some(), mpc_ah.is_some());
         }
         return NeedCompile {
             gmp: false,
@@ -331,7 +331,7 @@ fn need_compile(
                 gmp: false,
                 mpfr: false,
                 mpc: false,
-                maybe_newer: maybe_newer,
+                maybe_newer,
             };
         }
     }
@@ -427,11 +427,11 @@ fn cache_directories(env: &Environment, base: &Path) -> Vec<(PathBuf, Option<u64
                 Some(p) => p,
                 None => continue,
             };
-            if path_str == &env.version_prefix {
+            if path_str == env.version_prefix {
                 None
-            } else if !path_str.starts_with(&env.version_prefix) {
-                continue;
-            } else if !path_str[env.version_prefix.len()..].starts_with('.') {
+            } else if !path_str.starts_with(&env.version_prefix)
+                || !path_str[env.version_prefix.len()..].starts_with('.')
+            {
                 continue;
             } else {
                 match path_str[env.version_prefix.len() + 1..].parse::<u64>() {
@@ -634,8 +634,7 @@ fn process_gmp_header(header: &Path, out_file: &Path) {
         major, minor, patchlevel, limb_bits, nail_bits, long_long_limb, cc, cflags
     );
     let mut rs = create(out_file);
-    write(&mut rs, &content, out_file);
-    flush(&mut rs, out_file);
+    write_flush(&mut rs, &content, out_file);
 }
 
 fn process_mpfr_header(header: &Path, out_file: &Path) {
@@ -694,8 +693,7 @@ fn process_mpfr_header(header: &Path, out_file: &Path) {
         major, minor, patchlevel, version
     );
     let mut rs = create(out_file);
-    write(&mut rs, &content, out_file);
-    flush(&mut rs, out_file);
+    write_flush(&mut rs, &content, out_file);
 }
 
 fn process_mpc_header(header: &Path, out_file: &Path) {
@@ -753,8 +751,7 @@ fn process_mpc_header(header: &Path, out_file: &Path) {
         major, minor, patchlevel, version
     );
     let mut rs = create(out_file);
-    write(&mut rs, &content, out_file);
-    flush(&mut rs, out_file);
+    write_flush(&mut rs, &content, out_file);
 }
 
 fn build_mpfr(env: &Environment, lib: &Path, header: &Path) {
@@ -1113,26 +1110,23 @@ fn read_line(reader: &mut BufReader<File>, buf: &mut String, name: &Path) -> usi
         .unwrap_or_else(|_| panic!("Cannot read from: {:?}", name))
 }
 
-fn write(writer: &mut BufWriter<File>, buf: &str, name: &Path) {
+fn write_flush(writer: &mut BufWriter<File>, buf: &str, name: &Path) {
     writer
-        .write(buf.as_bytes())
+        .write_all(buf.as_bytes())
         .unwrap_or_else(|_| panic!("Cannot write to: {:?}", name));
-}
-
-fn flush(writer: &mut BufWriter<File>, name: &Path) {
     writer
         .flush()
         .unwrap_or_else(|_| panic!("Cannot write to: {:?}", name));
 }
 
-const BUG_47048_SAY_HI_C: &'static str = r#"/* say_hi.c */
+const BUG_47048_SAY_HI_C: &str = r#"/* say_hi.c */
 #include <stdio.h>
 void say_hi(void) {
     fprintf(stdout, "hi!\n");
 }
 "#;
 
-const BUG_47048_C_MAIN_C: &'static str = r#"/* c_main.c */
+const BUG_47048_C_MAIN_C: &str = r#"/* c_main.c */
 void say_hi(void);
 int main(void) {
     say_hi();
@@ -1140,7 +1134,7 @@ int main(void) {
 }
 "#;
 
-const BUG_47048_R_MAIN_RS: &'static str = r#"// r_main.rs
+const BUG_47048_R_MAIN_RS: &str = r#"// r_main.rs
 extern "C" {
     fn say_hi();
 }
@@ -1151,7 +1145,7 @@ fn main() {
 }
 "#;
 
-const BUG_47048_WORKAROUND_C: &'static str = r#"/* workaround.c */
+const BUG_47048_WORKAROUND_C: &str = r#"/* workaround.c */
 #define _CRTBLD
 #include <stdio.h>
 
@@ -1165,7 +1159,7 @@ _f__acrt_iob_func __MINGW_IMP_SYMBOL(__acrt_iob_func) = __acrt_iob_func;
 "#;
 
 // prints part of the header
-const SYSTEM_GMP_C: &'static str = r##"/* system_gmp.c */
+const SYSTEM_GMP_C: &str = r##"/* system_gmp.c */
 #include <gmp.h>
 #include <stdio.h>
 
@@ -1196,7 +1190,7 @@ int main(void) {
 "##;
 
 // prints part of the header
-const SYSTEM_MPFR_C: &'static str = r##"/* system_mpfr.c */
+const SYSTEM_MPFR_C: &str = r##"/* system_mpfr.c */
 #include <mpfr.h>
 #include <stdio.h>
 
@@ -1218,7 +1212,7 @@ int main(void) {
 "##;
 
 // prints part of the header
-const SYSTEM_MPC_C: &'static str = r##"/* system_mpc.c */
+const SYSTEM_MPC_C: &str = r##"/* system_mpc.c */
 #include <mpc.h>
 #include <stdio.h>
 
