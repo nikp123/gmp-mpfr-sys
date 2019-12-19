@@ -34,6 +34,9 @@ use std::process::{Command, Stdio};
 const GMP_DIR: &'static str = "gmp-6.1.2-c";
 const MPFR_DIR: &'static str = "mpfr-4.0.2-p1-c";
 const MPC_DIR: &'static str = "mpc-1.1.0-c";
+const GMP_VER: (i32, i32, i32) = (6, 1, 2);
+const MPFR_VER: (i32, i32, i32) = (4, 0, 2);
+const MPC_VER: (i32, i32, i32) = (1, 1, 0);
 
 #[derive(Clone, Copy, PartialEq)]
 enum Target {
@@ -592,10 +595,10 @@ fn process_gmp_header(header: &Path, out_file: &Path) {
     let major = major.expect("Cannot determine __GNU_MP_VERSION");
     let minor = minor.expect("Cannot determine __GNU_MP_VERSION_MINOR");
     let patchlevel = patchlevel.expect("Cannot determine __GNU_MP_VERSION_PATCHLEVEL");
-    if major != 6 || minor < 1 || (minor == 1 && patchlevel < 2) {
+    if major != GMP_VER.0 || minor < GMP_VER.1 || (minor == GMP_VER.1 && patchlevel < GMP_VER.2) {
         panic!(
-            "This version of gmp-mpfr-sys supports GMP version 6.1.2, but {}.{}.{} was found",
-            major, minor, patchlevel
+            "This version of gmp-mpfr-sys supports GMP version {}.{}.{}, but {}.{}.{} was found",
+            GMP_VER.0, GMP_VER.1, GMP_VER.2, major, minor, patchlevel
         );
     }
 
@@ -671,10 +674,11 @@ fn process_mpfr_header(header: &Path, out_file: &Path) {
     let major = major.expect("Cannot determine MPFR_VERSION_MAJOR");
     let minor = minor.expect("Cannot determine MPFR_VERSION_MINOR");
     let patchlevel = patchlevel.expect("Cannot determine MPFR_VERSION_PATCHLEVEL");
-    if major != 4 || minor < 0 || (minor == 0 && patchlevel < 2) {
+    if major != MPFR_VER.0 || minor < MPFR_VER.1 || (minor == MPFR_VER.1 && patchlevel < MPFR_VER.2)
+    {
         panic!(
-            "This version of gmp-mpfr-sys supports MPFR version 4.0.2, but {}.{}.{} was found",
-            major, minor, patchlevel
+            "This version of gmp-mpfr-sys supports MPFR version {}.{}.{}, but {}.{}.{} was found",
+            MPFR_VER.0, MPFR_VER.1, MPFR_VER.2, major, minor, patchlevel
         );
     }
 
@@ -730,10 +734,10 @@ fn process_mpc_header(header: &Path, out_file: &Path) {
     let major = major.expect("Cannot determine MPC_VERSION_MAJOR");
     let minor = minor.expect("Cannot determine MPC_VERSION_MINOR");
     let patchlevel = patchlevel.expect("Cannot determine MPC_VERSION_PATCHLEVEL");
-    if major != 1 || minor < 1 || (minor == 1 && patchlevel < 0) {
+    if major != MPC_VER.0 || minor < MPC_VER.1 || (minor == MPC_VER.1 && patchlevel < MPC_VER.2) {
         panic!(
-            "This version of gmp-mpfr-sys supports MPC version 1.1.0, but {}.{}.{} was found",
-            major, minor, patchlevel
+            "This version of gmp-mpfr-sys supports MPC version {}.{}.{}, but {}.{}.{} was found",
+            MPC_VER.0, MPC_VER.1, MPC_VER.2, major, minor, patchlevel
         );
     }
 

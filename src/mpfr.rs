@@ -1417,22 +1417,29 @@ mod tests {
     use crate::mpfr;
     use core::mem::MaybeUninit;
 
-    #[cfg(not(maybe_newer))]
     #[test]
     fn check_version() {
         use crate::tests;
-        assert_eq!(mpfr::VERSION_MAJOR, 4);
-        assert_eq!(mpfr::VERSION_MINOR, 0);
-        assert_eq!(mpfr::VERSION_PATCHLEVEL, 2);
+
+        let (major, minor, patchlevel) = (4, 0, 2);
         let version = "4.0.2-p1";
-        assert_eq!(
-            unsafe { tests::str_from_cstr(mpfr::get_version()) },
-            version
-        );
-        assert_eq!(
-            unsafe { tests::str_from_cstr(mpfr::VERSION_STRING) },
-            version
-        );
+
+        assert_eq!(mpfr::VERSION_MAJOR, major);
+        if cfg!(maybe_newer) {
+            assert!(mpfr::VERSION_MINOR >= minor);
+            assert!(mpfr::VERSION_MINOR > minor || mpfr::VERSION_PATCHLEVEL >= patchlevel);
+        } else {
+            assert_eq!(mpfr::VERSION_MINOR, minor);
+            assert_eq!(mpfr::VERSION_PATCHLEVEL, patchlevel);
+            assert_eq!(
+                unsafe { tests::str_from_cstr(mpfr::get_version()) },
+                version
+            );
+            assert_eq!(
+                unsafe { tests::str_from_cstr(mpfr::VERSION_STRING) },
+                version
+            );
+        }
     }
 
     #[test]

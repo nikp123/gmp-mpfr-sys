@@ -1811,14 +1811,21 @@ mod tests {
         assert_eq!(from_static, from_constant);
     }
 
-    #[cfg(not(maybe_newer))]
     #[test]
     fn check_version() {
         use crate::tests;
-        assert_eq!(gmp::VERSION, 6);
-        assert_eq!(gmp::VERSION_MINOR, 1);
-        assert_eq!(gmp::VERSION_PATCHLEVEL, 2);
+
+        let (major, minor, patchlevel) = (6, 1, 2);
         let version = "6.1.2";
-        assert_eq!(unsafe { tests::str_from_cstr(gmp::version) }, version);
+
+        assert_eq!(gmp::VERSION, major);
+        if cfg!(maybe_newer) {
+            assert!(gmp::VERSION_MINOR >= minor);
+            assert!(gmp::VERSION_MINOR > minor || gmp::VERSION_PATCHLEVEL >= patchlevel);
+        } else {
+            assert_eq!(gmp::VERSION_MINOR, minor);
+            assert_eq!(gmp::VERSION_PATCHLEVEL, patchlevel);
+            assert_eq!(unsafe { tests::str_from_cstr(gmp::version) }, version);
+        }
     }
 }
