@@ -47,6 +47,8 @@ unsafe {
 use crate::{gmp, mpfr};
 use libc::{c_char, c_int, c_long, c_ulong, intmax_t, uintmax_t, FILE};
 
+include!(concat!(env!("OUT_DIR"), "/mpc_h.rs"));
+
 #[inline]
 extern "C" fn INEX_NEG(inex: c_int) -> c_int {
     match inex {
@@ -532,13 +534,13 @@ extern "C" {
 /// See: [`MPC_VERSION`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-MPC_005fVERSION)
 pub const VERSION: c_int = (VERSION_MAJOR << 16) | (VERSION_MINOR << 8) | VERSION_PATCHLEVEL;
 /// See: [`MPC_VERSION_MAJOR`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-MPC_005fVERSION_005fMAJOR)
-pub const VERSION_MAJOR: c_int = 1;
+pub const VERSION_MAJOR: c_int = MPC_VERSION_MAJOR;
 /// See: [`MPC_VERSION_MINOR`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-MPC_005fVERSION_005fMINOR)
-pub const VERSION_MINOR: c_int = 1;
+pub const VERSION_MINOR: c_int = MPC_VERSION_MINOR;
 /// See: [`MPC_VERSION_PATCHLEVEL`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-MPC_005fVERSION_005fPATCHLEVEL)
-pub const VERSION_PATCHLEVEL: c_int = 0;
+pub const VERSION_PATCHLEVEL: c_int = MPC_VERSION_PATCHLEVEL;
 /// See: [`MPC_VERSION_STRING`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-MPC_005fVERSION_005fSTRING)
-pub const VERSION_STRING: *const c_char = b"1.1.0\0" as *const u8 as *const c_char;
+pub const VERSION_STRING: *const c_char = MPC_VERSION_STRING;
 /// See: [`MPC_VERSION_NUM`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-MPC_005fVERSION_005fNUM)
 #[inline]
 pub extern "C" fn VERSION_NUM(major: c_int, minor: c_int, patchlevel: c_int) -> c_int {

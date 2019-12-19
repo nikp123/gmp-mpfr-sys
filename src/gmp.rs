@@ -52,11 +52,11 @@ extern "C" {
     pub static bits_per_limb: c_int;
 }
 /// See: [`__GNU_MP_VERSION`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/GMP-Basics.html#index-_005f_005fGNU_005fMP_005fVERSION)
-pub const VERSION: c_int = 6;
+pub const VERSION: c_int = GMP_VERSION;
 /// See: [`__GNU_MP_VERSION_MINOR`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/GMP-Basics.html#index-_005f_005fGNU_005fMP_005fVERSION_005fMINOR)
-pub const VERSION_MINOR: c_int = 1;
+pub const VERSION_MINOR: c_int = GMP_VERSION_MINOR;
 /// See: [`__GNU_MP_VERSION_PATCHLEVEL`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/GMP-Basics.html#index-_005f_005fGNU_005fMP_005fVERSION_005fPATCHLEVEL)
-pub const VERSION_PATCHLEVEL: c_int = 2;
+pub const VERSION_PATCHLEVEL: c_int = GMP_VERSION_PATCHLEVEL;
 extern "C" {
     /// See: [`gmp_version`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/GMP-Basics.html#index-gmp_005fversion)
     #[link_name = "__gmp_version"]

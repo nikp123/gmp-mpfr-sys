@@ -103,6 +103,8 @@ use crate::gmp;
 use core::mem;
 use libc::{c_char, c_int, c_long, c_uint, c_ulong, c_void, intmax_t, uintmax_t, FILE};
 
+include!(concat!(env!("OUT_DIR"), "/mpfr_h.rs"));
+
 /// See: [`mpfr_prec_t`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005fprec_005ft)
 pub type prec_t = c_long;
 
@@ -1176,13 +1178,13 @@ extern "C" {
 /// See: [`MPFR_VERSION`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-MPFR_005fVERSION)
 pub const VERSION: c_int = (VERSION_MAJOR << 16) | (VERSION_MINOR << 8) | VERSION_PATCHLEVEL;
 /// See: [`MPFR_VERSION_MAJOR`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-MPFR_005fVERSION_005fMAJOR)
-pub const VERSION_MAJOR: c_int = 4;
+pub const VERSION_MAJOR: c_int = MPFR_VERSION_MAJOR;
 /// See: [`MPFR_VERSION_MINOR`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-MPFR_005fVERSION_005fMINOR)
-pub const VERSION_MINOR: c_int = 0;
+pub const VERSION_MINOR: c_int = MPFR_VERSION_MINOR;
 /// See: [`MPFR_VERSION_PATCHLEVEL`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-MPFR_005fVERSION_005fPATCHLEVEL)
-pub const VERSION_PATCHLEVEL: c_int = 2;
+pub const VERSION_PATCHLEVEL: c_int = MPFR_VERSION_PATCHLEVEL;
 /// See: [`MPFR_VERSION_STRING`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-MPFR_005fVERSION_005fSTRING)
-pub const VERSION_STRING: *const c_char = b"4.0.2-p1\0" as *const u8 as *const c_char;
+pub const VERSION_STRING: *const c_char = MPFR_VERSION_STRING;
 /// See: [`MPFR_VERSION_NUM`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-MPFR_005fVERSION_005fNUM)
 #[inline]
 pub extern "C" fn VERSION_NUM(major: c_int, minor: c_int, patchlevel: c_int) -> c_int {
@@ -1397,7 +1399,7 @@ pub unsafe extern "C" fn custom_get_kind(x: mpfr_srcptr) -> c_int {
 /// See: [`mpfr_custom_get_significand`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005fcustom_005fget_005fsignificand)
 #[inline]
 pub unsafe extern "C" fn custom_get_significand(x: mpfr_srcptr) -> *mut c_void {
-    (*x).d as *mut _
+    (*x).d as *mut c_void
 }
 /// See: [`mpfr_custom_get_exp`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005fcustom_005fget_005fexp)
 #[inline]
