@@ -1425,12 +1425,9 @@ mod tests {
         let version = "4.0.2-p1";
 
         assert_eq!(mpfr::VERSION_MAJOR, major);
-        if cfg!(maybe_newer) {
-            assert!(mpfr::VERSION_MINOR >= minor);
-            assert!(mpfr::VERSION_MINOR > minor || mpfr::VERSION_PATCHLEVEL >= patchlevel);
-        } else {
-            assert_eq!(mpfr::VERSION_MINOR, minor);
-            assert_eq!(mpfr::VERSION_PATCHLEVEL, patchlevel);
+        assert!(mpfr::VERSION_MINOR >= minor);
+        assert!(mpfr::VERSION_MINOR > minor || mpfr::VERSION_PATCHLEVEL >= patchlevel);
+        if mpfr::VERSION_MINOR == minor && mpfr::VERSION_PATCHLEVEL == patchlevel {
             assert_eq!(
                 unsafe { tests::str_from_cstr(mpfr::get_version()) },
                 version

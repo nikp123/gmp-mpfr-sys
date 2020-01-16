@@ -584,12 +584,9 @@ mod tests {
         let version = "1.1.0";
 
         assert_eq!(mpc::VERSION_MAJOR, major);
-        if cfg!(maybe_newer) {
-            assert!(mpc::VERSION_MINOR >= minor);
-            assert!(mpc::VERSION_MINOR > minor || mpc::VERSION_PATCHLEVEL >= patchlevel);
-        } else {
-            assert_eq!(mpc::VERSION_MINOR, minor);
-            assert_eq!(mpc::VERSION_PATCHLEVEL, patchlevel);
+        assert!(mpc::VERSION_MINOR >= minor);
+        assert!(mpc::VERSION_MINOR > minor || mpc::VERSION_PATCHLEVEL >= patchlevel);
+        if mpc::VERSION_MINOR == minor && mpc::VERSION_PATCHLEVEL == patchlevel {
             assert_eq!(unsafe { tests::str_from_cstr(mpc::get_version()) }, version);
             assert_eq!(
                 unsafe { tests::str_from_cstr(mpc::VERSION_STRING) },

@@ -152,8 +152,9 @@ fn check_system_libs(env: &Environment) {
     execute(cmd);
     process_gmp_header(
         &try_dir.join("system_gmp.out"),
-        &env.out_dir.join("gmp_h.rs"),
-    );
+        Some(&env.out_dir.join("gmp_h.rs")),
+    )
+    .unwrap_or_else(|e| panic!("{}", e));
 
     let feature_mpfr = there_is_env("CARGO_FEATURE_MPFR");
     let feature_mpc = there_is_env("CARGO_FEATURE_MPC");
@@ -178,8 +179,9 @@ fn check_system_libs(env: &Environment) {
         execute(cmd);
         process_mpfr_header(
             &try_dir.join("system_mpfr.out"),
-            &env.out_dir.join("mpfr_h.rs"),
-        );
+            Some(&env.out_dir.join("mpfr_h.rs")),
+        )
+        .unwrap_or_else(|e| panic!("{}", e));
     }
 
     if feature_mpc {
@@ -202,8 +204,9 @@ fn check_system_libs(env: &Environment) {
         execute(cmd);
         process_mpc_header(
             &try_dir.join("system_mpc.out"),
-            &env.out_dir.join("mpc_h.rs"),
-        );
+            Some(&env.out_dir.join("mpc_h.rs")),
+        )
+        .unwrap_or_else(|e| panic!("{}", e));
     }
 
     if !there_is_env("CARGO_FEATURE_CNODELETE") {
@@ -214,7 +217,6 @@ fn check_system_libs(env: &Environment) {
         }
     }
 
-    println!("cargo:rustc-cfg=maybe_newer");
     write_link_info(&env, feature_mpfr, feature_mpc);
 }
 
@@ -238,7 +240,6 @@ fn compile_libs(env: &Environment) {
         gmp: compile_gmp,
         mpfr: compile_mpfr,
         mpc: compile_mpc,
-        maybe_newer,
     } = need_compile(env, &gmp_ah, &mpfr_ah, &mpc_ah);
     if compile_gmp {
         check_for_msvc(&env);
@@ -266,15 +267,15 @@ fn compile_libs(env: &Environment) {
             clear_cache_redundancies(&env, mpfr_ah.is_some(), mpc_ah.is_some());
         }
     }
-    if maybe_newer {
-        println!("cargo:rustc-cfg=maybe_newer");
-    }
-    process_gmp_header(&gmp_ah.1, &env.out_dir.join("gmp_h.rs"));
+    process_gmp_header(&gmp_ah.1, Some(&env.out_dir.join("gmp_h.rs")))
+        .unwrap_or_else(|e| panic!("{}", e));
     if let Some(ref mpfr_ah) = mpfr_ah {
-        process_mpfr_header(&mpfr_ah.1, &env.out_dir.join("mpfr_h.rs"));
+        process_mpfr_header(&mpfr_ah.1, Some(&env.out_dir.join("mpfr_h.rs")))
+            .unwrap_or_else(|e| panic!("{}", e));
     }
     if let Some(ref mpc_ah) = mpc_ah {
-        process_mpc_header(&mpc_ah.1, &env.out_dir.join("mpc_h.rs"));
+        process_mpc_header(&mpc_ah.1, Some(&env.out_dir.join("mpc_h.rs")))
+            .unwrap_or_else(|e| panic!("{}", e));
     }
     write_link_info(&env, mpfr_ah.is_some(), mpc_ah.is_some());
 }
@@ -303,7 +304,6 @@ struct NeedCompile {
     gmp: bool,
     mpfr: bool,
     mpc: bool,
-    maybe_newer: bool,
 }
 
 fn need_compile(
@@ -331,19 +331,14 @@ fn need_compile(
             gmp: false,
             mpfr: false,
             mpc: false,
-            maybe_newer: false,
         };
-    } else {
-        let mut maybe_newer = false;
-        if load_cache(env, gmp_ah, mpfr_ah, mpc_ah, &mut maybe_newer) {
-            // if loading cache works, we're done
-            return NeedCompile {
-                gmp: false,
-                mpfr: false,
-                mpc: false,
-                maybe_newer,
-            };
-        }
+    } else if load_cache(env, gmp_ah, mpfr_ah, mpc_ah) {
+        // if loading cache works, we're done
+        return NeedCompile {
+            gmp: false,
+            mpfr: false,
+            mpc: false,
+        };
     }
     let need_mpc = !mpc_fine;
     let need_mpfr = need_mpc || !mpfr_fine;
@@ -352,7 +347,6 @@ fn need_compile(
         gmp: need_gmp,
         mpfr: need_mpfr,
         mpc: need_mpc,
-        maybe_newer: false,
     }
 }
 
@@ -461,7 +455,6 @@ fn load_cache(
     gmp_ah: &(PathBuf, PathBuf),
     mpfr_ah: &Option<(PathBuf, PathBuf)>,
     mpc_ah: &Option<(PathBuf, PathBuf)>,
-    maybe_newer: &mut bool,
 ) -> bool {
     let cache_dir = match env.cache_dir {
         Some(ref s) => s,
@@ -475,23 +468,27 @@ fn load_cache(
             None => x.1.is_none(),
             Some(patch) => x.1.map(|p| p >= patch).unwrap_or(false),
         });
-    for (version_dir, version_patch) in cache_dirs {
+    for (version_dir, _) in cache_dirs {
         let mut ok = true;
         if let Some((ref a, ref h)) = *mpc_ah {
             ok = ok && copy_file(&version_dir.join("libmpc.a"), a).is_ok();
-            ok = ok && copy_file(&version_dir.join("mpc.h"), h).is_ok();
+            let header = version_dir.join("mpc.h");
+            ok = ok && process_mpc_header(&header, None).is_ok();
+            ok = ok && copy_file(&header, h).is_ok();
         }
         if let Some((ref a, ref h)) = *mpfr_ah {
             ok = ok && copy_file(&version_dir.join("libmpfr.a"), a).is_ok();
-            ok = ok && copy_file(&version_dir.join("mpfr.h"), h).is_ok();
+            let header = version_dir.join("mpfr.h");
+            ok = ok && process_mpfr_header(&header, None).is_ok();
+            ok = ok && copy_file(&header, h).is_ok();
         }
         let (ref a, ref h) = *gmp_ah;
         ok = ok && copy_file(&version_dir.join("libgmp.a"), a).is_ok();
-        ok = ok && copy_file(&version_dir.join("gmp.h"), h).is_ok();
+        let header = version_dir.join("gmp.h");
+        ok = ok && process_gmp_header(&header, None).is_ok();
+        ok = ok && copy_file(&header, h).is_ok();
+
         if ok {
-            if version_patch != env_version_patch {
-                *maybe_newer = true;
-            }
             return true;
         }
     }
@@ -542,7 +539,11 @@ fn build_gmp(env: &Environment, lib: &Path, header: &Path) {
     copy_file_or_panic(&build_header, &header);
 }
 
-fn process_gmp_header(header: &Path, out_file: &Path) {
+fn compatible_version(major: i32, minor: i32, patchlevel: i32, expected: (i32, i32, i32)) -> bool {
+    major == expected.0 && (minor > expected.1 || (minor == expected.1 && patchlevel >= expected.2))
+}
+
+fn process_gmp_header(header: &Path, out_file: Option<&Path>) -> Result<(), String> {
     let mut major = None;
     let mut minor = None;
     let mut patchlevel = None;
@@ -605,11 +606,11 @@ fn process_gmp_header(header: &Path, out_file: &Path) {
     let major = major.expect("Cannot determine __GNU_MP_VERSION");
     let minor = minor.expect("Cannot determine __GNU_MP_VERSION_MINOR");
     let patchlevel = patchlevel.expect("Cannot determine __GNU_MP_VERSION_PATCHLEVEL");
-    if major != GMP_VER.0 || minor < GMP_VER.1 || (minor == GMP_VER.1 && patchlevel < GMP_VER.2) {
-        panic!(
-            "This version of gmp-mpfr-sys supports GMP version {}.{}.{}, but {}.{}.{} was found",
+    if !compatible_version(major, minor, patchlevel, GMP_VER) {
+        return Err(format!(
+            "This version of gmp-mpfr-sys supports GMP {}.{}.{}, but {}.{}.{} was found",
             GMP_VER.0, GMP_VER.1, GMP_VER.2, major, minor, patchlevel
-        );
+        ));
     }
 
     let limb_bits = limb_bits.expect("Cannot determine GMP_LIMB_BITS");
@@ -643,11 +644,14 @@ fn process_gmp_header(header: &Path, out_file: &Path) {
         ),
         major, minor, patchlevel, limb_bits, nail_bits, long_long_limb, cc, cflags
     );
-    let mut rs = create(out_file);
-    write_flush(&mut rs, &content, out_file);
+    if let Some(out_file) = out_file {
+        let mut rs = create(out_file);
+        write_flush(&mut rs, &content, out_file);
+    }
+    Ok(())
 }
 
-fn process_mpfr_header(header: &Path, out_file: &Path) {
+fn process_mpfr_header(header: &Path, out_file: Option<&Path>) -> Result<(), String> {
     let mut major = None;
     let mut minor = None;
     let mut patchlevel = None;
@@ -683,12 +687,11 @@ fn process_mpfr_header(header: &Path, out_file: &Path) {
     let major = major.expect("Cannot determine MPFR_VERSION_MAJOR");
     let minor = minor.expect("Cannot determine MPFR_VERSION_MINOR");
     let patchlevel = patchlevel.expect("Cannot determine MPFR_VERSION_PATCHLEVEL");
-    if major != MPFR_VER.0 || minor < MPFR_VER.1 || (minor == MPFR_VER.1 && patchlevel < MPFR_VER.2)
-    {
-        panic!(
-            "This version of gmp-mpfr-sys supports MPFR version {}.{}.{}, but {}.{}.{} was found",
+    if !compatible_version(major, minor, patchlevel, MPFR_VER) {
+        return Err(format!(
+            "This version of gmp-mpfr-sys supports MPFR {}.{}.{}, but {}.{}.{} was found",
             MPFR_VER.0, MPFR_VER.1, MPFR_VER.2, major, minor, patchlevel
-        );
+        ));
     }
 
     let version = version.expect("Cannot determine MPFR_VERSION_STRING");
@@ -702,11 +705,14 @@ fn process_mpfr_header(header: &Path, out_file: &Path) {
         ),
         major, minor, patchlevel, version
     );
-    let mut rs = create(out_file);
-    write_flush(&mut rs, &content, out_file);
+    if let Some(out_file) = out_file {
+        let mut rs = create(out_file);
+        write_flush(&mut rs, &content, out_file);
+    }
+    Ok(())
 }
 
-fn process_mpc_header(header: &Path, out_file: &Path) {
+fn process_mpc_header(header: &Path, out_file: Option<&Path>) -> Result<(), String> {
     let mut major = None;
     let mut minor = None;
     let mut patchlevel = None;
@@ -742,11 +748,11 @@ fn process_mpc_header(header: &Path, out_file: &Path) {
     let major = major.expect("Cannot determine MPC_VERSION_MAJOR");
     let minor = minor.expect("Cannot determine MPC_VERSION_MINOR");
     let patchlevel = patchlevel.expect("Cannot determine MPC_VERSION_PATCHLEVEL");
-    if major != MPC_VER.0 || minor < MPC_VER.1 || (minor == MPC_VER.1 && patchlevel < MPC_VER.2) {
-        panic!(
-            "This version of gmp-mpfr-sys supports MPC version {}.{}.{}, but {}.{}.{} was found",
+    if !compatible_version(major, minor, patchlevel, MPC_VER) {
+        return Err(format!(
+            "This version of gmp-mpfr-sys supports MPC {}.{}.{}, but {}.{}.{} was found",
             MPC_VER.0, MPC_VER.1, MPC_VER.2, major, minor, patchlevel
-        );
+        ));
     }
 
     let version = version.expect("Cannot determine MPC_VERSION_STRING");
@@ -760,8 +766,11 @@ fn process_mpc_header(header: &Path, out_file: &Path) {
         ),
         major, minor, patchlevel, version
     );
-    let mut rs = create(out_file);
-    write_flush(&mut rs, &content, out_file);
+    if let Some(out_file) = out_file {
+        let mut rs = create(out_file);
+        write_flush(&mut rs, &content, out_file);
+    }
+    Ok(())
 }
 
 fn build_mpfr(env: &Environment, lib: &Path, header: &Path) {

@@ -1819,12 +1819,9 @@ mod tests {
         let version = "6.1.2";
 
         assert_eq!(gmp::VERSION, major);
-        if cfg!(maybe_newer) {
-            assert!(gmp::VERSION_MINOR >= minor);
-            assert!(gmp::VERSION_MINOR > minor || gmp::VERSION_PATCHLEVEL >= patchlevel);
-        } else {
-            assert_eq!(gmp::VERSION_MINOR, minor);
-            assert_eq!(gmp::VERSION_PATCHLEVEL, patchlevel);
+        assert!(gmp::VERSION_MINOR >= minor);
+        assert!(gmp::VERSION_MINOR > minor || gmp::VERSION_PATCHLEVEL >= patchlevel);
+        if gmp::VERSION_MINOR == minor && gmp::VERSION_PATCHLEVEL == patchlevel {
             assert_eq!(unsafe { tests::str_from_cstr(gmp::version) }, version);
         }
     }
