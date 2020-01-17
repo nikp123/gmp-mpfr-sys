@@ -31,10 +31,10 @@ use std::os::windows::fs as windows_fs;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 
-const GMP_DIR: &str = "gmp-6.1.2-c";
+const GMP_DIR: &str = "gmp-6.2.0-c";
 const MPFR_DIR: &str = "mpfr-4.0.2-p1-c";
 const MPC_DIR: &str = "mpc-1.1.0-c";
-const GMP_VER: (i32, i32, i32) = (6, 1, 2);
+const GMP_VER: (i32, i32, i32) = (6, 2, 0);
 const MPFR_VER: (i32, i32, i32) = (4, 0, 2);
 const MPC_VER: (i32, i32, i32) = (1, 1, 0);
 

@@ -16,7 +16,7 @@ set -e
 # library versions and tar locations
 TARDIR="$HOME/Downloads"
 
-GMPVER=6.1.2
+GMPVER=6.2.0
 GMPVERP="$GMPVER"
 GMPTAR="$TARDIR/gmp-$GMPVER.tar.lz"
 GMPPATCH="$TARDIR/gmp-$GMPVERP-allpatches"

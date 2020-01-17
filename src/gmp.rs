@@ -1815,8 +1815,8 @@ mod tests {
     fn check_version() {
         use crate::tests;
 
-        let (major, minor, patchlevel) = (6, 1, 2);
-        let version = "6.1.2";
+        let (major, minor, patchlevel) = (6, 2, 0);
+        let version = "6.2.0";
 
         assert_eq!(gmp::VERSION, major);
         assert!(gmp::VERSION_MINOR >= minor);

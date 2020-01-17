@@ -9,6 +9,7 @@ Version 1.2.0 (unreleased)
 ==========================
 
   * The crate now requires rustc version 1.37.0 or later.
+  * GMP was updated from version 6.1.2 to 6.2.0.
   * The implementation details of `gmp::randstate_t` have been changed
     to reflect that GMP can leave some fields unused and
     uninitialized.
