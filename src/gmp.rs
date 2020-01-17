@@ -748,7 +748,7 @@ extern "C" {
 pub unsafe extern "C" fn mpz_popcount(op: mpz_srcptr) -> bitcnt_t {
     let size = (*op).size;
     match size.cmp(&0) {
-        Ordering::Less => c_ulong::max_value(),
+        Ordering::Less => !0,
         Ordering::Equal => 0,
         Ordering::Greater => mpn_popcount((*op).d, size.into()),
     }
