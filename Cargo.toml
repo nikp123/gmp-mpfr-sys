@@ -1,4 +1,4 @@
-# Copyright © 2017–2019 University of Malta
+# Copyright © 2017–2020 University of Malta
 
 # Copying and distribution of this file, with or without modification,
 # are permitted in any medium without royalty provided the copyright
@@ -19,7 +19,6 @@ categories = ["external-ffi-bindings", "no-std", "science"]
 license = "LGPL-3.0+"
 build = "build.rs"
 links = "gmp"
-publish = false
 
 [features]
 default = ["mpfr", "mpc"]

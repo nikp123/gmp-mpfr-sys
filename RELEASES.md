@@ -1,18 +1,20 @@
-<!-- Copyright © 2017–2019 University of Malta -->
+<!-- Copyright © 2017–2020 University of Malta -->
 
 <!-- Copying and distribution of this file, with or without
 modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.2.0 (unreleased)
+Version 1.2.0 (2020-01-18)
 ==========================
 
   * The crate now requires rustc version 1.37.0 or later.
+  * The crate is now `no_std`.
   * GMP was updated from version 6.1.2 to 6.2.0.
   * The implementation details of `gmp::randstate_t` have been changed
     to reflect that GMP can leave some fields unused and
     uninitialized.
+  * The experimental feature `use-system-libs` was added.
 
 Version 1.1.14 (2019-07-04)
 ===========================

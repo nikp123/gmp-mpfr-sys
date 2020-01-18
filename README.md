@@ -1,4 +1,4 @@
-<!-- Copyright © 2017–2019 University of Malta -->
+<!-- Copyright © 2017–2020 University of Malta -->
 
 <!-- Copying and distribution of this file, with or without
 modification, are permitted in any medium without royalty provided the
@@ -24,30 +24,17 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
-### Version 1.2.0 news (unreleased)
+### Version 1.2.0 news (2020-01-18)
 
   * The crate now requires rustc version 1.37.0 or later.
+  * The crate is now `no_std`.
   * [GMP] was updated from version 6.1.2 to 6.2.0.
   * The implementation details of [`gmp::randstate_t`] have been
     changed to reflect that [GMP] can leave some fields unused and
     uninitialized.
+  * The experimental feature `use-system-libs` was added.
 
 [`gmp::randstate_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/struct.randstate_t.html
-
-### Version 1.1.14 news (2019-07-04)
-
-  * [MPFR] was updated from version 4.0.2 to 4.0.2-p1.
-  * The documentation examples now use [`MaybeUninit`] instead of
-    [`mem::uninitialized`].
-
-[`MaybeUninit`]: https://doc.rust-lang.org/nightly/std/mem/union.MaybeUninit.html
-[`mem::uninitialized`]: https://doc.rust-lang.org/nightly/std/mem/fn.uninitialized.html
-
-### Version 1.1.13 news (2019-05-17)
-
-  * Expose the internal fields of [`gmp::mpq_t`], [`gmp::randstate_t`]
-    and [`mpc::mpc_t`], and add some notes about compatibility in the
-    documentation.
 
 ### Other releases
 
@@ -61,7 +48,7 @@ This crate contains three modules:
   * [`mpfr`] provides external FFI bindings to [MPFR].
   * [`mpc`] provides external FFI bindings to [MPC].
 
-The versions provided by this crate release are [GMP] version 6.1.2,
+The versions provided by this crate release are [GMP] version 6.2.0,
 [MPFR] version 4.0.2-p1, and [MPC] version 1.1.0.
 
 If you want a high-level API, consider using [Rug][rug crate], a crate
