@@ -34,7 +34,7 @@ text of the [GNU LGPL] and [GNU GPL] for details.
     uninitialized.
   * The experimental feature `use-system-libs` was added.
 
-[`gmp::randstate_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/struct.randstate_t.html
+[`gmp::randstate_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.randstate_t.html
 
 ### Other releases
 
