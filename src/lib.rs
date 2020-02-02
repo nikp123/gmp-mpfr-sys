@@ -209,6 +209,12 @@ Then, to build a crate with a dependency on this crate:
 
  3. Build the crate using `cargo`.
 
+## Cross compilation
+
+While some cross compilation is possible, it is not built or tested
+automatically, and may not work. Merge requests that improve cross
+compilation will be accepted.
+
 ## Caching the built C libraries
 
 Building the C libraries can take some time. In order to save
