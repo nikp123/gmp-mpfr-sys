@@ -47,6 +47,8 @@ enum Target {
 
 struct Environment {
     rustc: OsString,
+    target: Target,
+    cross_target: Option<String>,
     src_dir: PathBuf,
     out_dir: PathBuf,
     lib_dir: PathBuf,
@@ -54,7 +56,6 @@ struct Environment {
     build_dir: PathBuf,
     cache_dir: Option<PathBuf>,
     jobs: OsString,
-    target: Target,
     version_prefix: String,
     version_patch: Option<u64>,
     use_system_libs: bool,
@@ -70,11 +71,27 @@ enum Workaround47048 {
 fn main() {
     let rustc = cargo_env("RUSTC");
 
+    let host = cargo_env("HOST")
+        .into_string()
+        .expect("env var HOST having sensible characters");
+    let raw_target = cargo_env("TARGET")
+        .into_string()
+        .expect("env var TARGET having sensible characters");
+    let target = if raw_target.contains("-windows-msvc") {
+        Target::Msvc
+    } else if raw_target.contains("-windows-gnu") {
+        Target::Mingw
+    } else {
+        Target::Other
+    };
+    let cross_target = if host == raw_target {
+        None
+    } else {
+        Some(raw_target)
+    };
+
     let src_dir = PathBuf::from(cargo_env("CARGO_MANIFEST_DIR"));
     let out_dir = PathBuf::from(cargo_env("OUT_DIR"));
-
-    let host = cargo_env("HOST");
-    let target = cargo_env("TARGET");
 
     let (version_prefix, version_patch) = get_version();
 
@@ -86,23 +103,14 @@ fn main() {
     };
     let cache_dir = cache_dir.map(|cache| cache.join(&version_prefix).join(host));
 
-    let target = target
-        .into_string()
-        .expect("cannot convert environment variable TARGET into a `String`");
-    let target = if target.contains("-windows-msvc") {
-        Target::Msvc
-    } else if target.contains("-windows-gnu") {
-        Target::Mingw
-    } else {
-        Target::Other
-    };
-
     let use_system_libs = there_is_env("CARGO_FEATURE_USE_SYSTEM_LIBS");
     if use_system_libs && (target == Target::Msvc || target == Target::Mingw) {
         panic!("the use-system-libs feature is not supported on this target");
     }
     let mut env = Environment {
         rustc,
+        target,
+        cross_target,
         src_dir,
         out_dir: out_dir.clone(),
         lib_dir: out_dir.join("lib"),
@@ -110,7 +118,6 @@ fn main() {
         build_dir: out_dir.join("build"),
         cache_dir,
         jobs: cargo_env("NUM_JOBS"),
-        target,
         version_prefix,
         version_patch,
         use_system_libs,
@@ -529,10 +536,11 @@ fn build_gmp(env: &Environment, lib: &Path, header: &Path) {
     let build_dir = env.build_dir.join("gmp-build");
     create_dir_or_panic(&build_dir);
     println!("$ cd {:?}", build_dir);
-    let conf = format!(
-        "../gmp-src/configure --enable-fat --disable-shared --with-pic --host {}",
-        cargo_env("TARGET").into_string().expect("env var TARGET having sensible characters")
-    );
+    let mut conf = String::from("../gmp-src/configure --enable-fat --disable-shared --with-pic");
+    if let Some(cross_target) = env.cross_target.as_ref() {
+        conf.push(" --host ");
+        conf.push(cross_target);
+    }
     configure(&build_dir, &OsString::from(conf));
     make_and_check(env, &build_dir);
     let build_lib = build_dir.join(".libs").join("libgmp.a");
@@ -783,11 +791,14 @@ fn build_mpfr(env: &Environment, lib: &Path, header: &Path) {
         &env.build_dir.join("gmp-build"),
         &build_dir.join("gmp-build"),
     );
-    let conf = format!(
+    let mut conf = String::from(
         "../mpfr-src/configure --enable-thread-safe --disable-shared \
-         --with-gmp-build=../gmp-build --with-pic --host {}",
-        cargo_env("TARGET").into_string().expect("env var TARGET having sensible characters")
+         --with-gmp-build=../gmp-build --with-pic",
     );
+    if let Some(cross_target) = env.cross_target.as_ref() {
+        conf.push(" --host ");
+        conf.push(cross_target);
+    }
     configure(&build_dir, &OsString::from(conf));
     make_and_check(env, &build_dir);
     let build_lib = build_dir.join("src").join(".libs").join("libmpfr.a");
@@ -808,14 +819,17 @@ fn build_mpc(env: &Environment, lib: &Path, header: &Path) {
         &env.build_dir.join("mpfr-build"),
         &build_dir.join("mpfr-build"),
     );
-    let conf = format!(
+    let mut conf = String::from(
         "../mpc-src/configure --disable-shared \
          --with-mpfr-include=../mpfr-src/src \
          --with-mpfr-lib=../mpfr-build/src/.libs \
          --with-gmp-include=../gmp-build \
-         --with-gmp-lib=../gmp-build/.libs --with-pic --host {}",
-        cargo_env("TARGET").into_string().expect("env var TARGET having sensible characters")
+         --with-gmp-lib=../gmp-build/.libs --with-pic",
     );
+    if let Some(cross_target) = env.cross_target.as_ref() {
+        conf.push(" --host ");
+        conf.push(cross_target);
+    }
     configure(&build_dir, &OsString::from(conf));
     make_and_check(env, &build_dir);
     let build_lib = build_dir.join("src").join(".libs").join("libmpc.a");
@@ -1072,9 +1086,7 @@ fn make_and_check(env: &Environment, build_dir: &Path) {
     let mut make = Command::new("make");
     make.current_dir(build_dir).arg("-j").arg(&env.jobs);
     execute(make);
-    let host = cargo_env("HOST");
-    let target = cargo_env("TARGET");
-    if host == target {
+    if env.cross_target.is_none() {
         let mut make_check = Command::new("make");
         make_check
             .current_dir(build_dir)
