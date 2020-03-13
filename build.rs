@@ -18,8 +18,6 @@
 //  4. Use relative paths for configure otherwise msys/mingw might be
 //     confused with drives and such.
 
-use dirs;
-
 use std::env;
 use std::ffi::{OsStr, OsString};
 use std::fs::{self, File};

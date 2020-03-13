@@ -211,9 +211,9 @@ Then, to build a crate with a dependency on this crate:
 
 ## Cross compilation
 
-While some cross compilation is possible, it is not built or tested
+While some cross compilation is possible, it is not tested
 automatically, and may not work. Merge requests that improve cross
-compilation will be accepted.
+compilation are accepted.
 
 ## Caching the built C libraries
 

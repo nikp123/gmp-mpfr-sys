@@ -24,17 +24,28 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.2.1 news (2020-03-13)
+
+  * Some improvements were made to enable compilation or cross
+    compilation on more platforms. While such platforms are not tested
+    automatically and may not work, merge requests that improve the
+    situation are accepted.
+
 ### Version 1.2.0 news (2020-01-18)
 
   * The crate now requires rustc version 1.37.0 or later.
-  * The crate is now `no_std`.
+  * The crate now supports [`no_std`].
   * [GMP] was updated from version 6.1.2 to 6.2.0.
-  * The implementation details of [`gmp::randstate_t`] have been
+  * The implementation details of
+    <code>[gmp][gmp-1-2]::[randstate\_t][gmp-rs-1-2]</code> have been
     changed to reflect that [GMP] can leave some fields unused and
     uninitialized.
   * The experimental feature `use-system-libs` was added.
 
-[`gmp::randstate_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.randstate_t.html
+[gmp-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/index.html
+[gmp-rs-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.randstate_t.html
+
+[`no_std`]: https://doc.rust-lang.org/nightly/embedded-book/intro/no-std.html
 
 ### Other releases
 
@@ -219,9 +230,9 @@ Then, to build a crate with a dependency on this crate:
 
 ## Cross compilation
 
-While some cross compilation is possible, it is not built or tested
+While some cross compilation is possible, it is not tested
 automatically, and may not work. Merge requests that improve cross
-compilation will be accepted.
+compilation are accepted.
 
 ## Caching the built C libraries
 
