@@ -52,6 +52,7 @@ function truncate {
 # 3a. Remove demos section in configure
 # 3b. Remove doc/Makefile, demos/{,*/}Makefile from ac_config_files in configure
 # 4. Remove doc and demos from SUBDIRS in Makefile.in
+# 5. In tests/misc/t-locale.c, add " && ! defined __ANDROID__" to "#if HAVE_NL_LANGINFO".
 tar xf "$GMPTAR"
 mv gmp-$GMPVER gmp-$GMPVERP-c
 cd gmp-$GMPVERP-c
@@ -80,6 +81,7 @@ sed -i.rm~ -e '
         t repeat
 }
 ' Makefile.in
+sed -i.rm~ -e 's/#if HAVE_NL_LANGINFO/& \&\& ! defined __ANDROID__/' tests/misc/t-locale.c
 cd ..
 
 # MPFR

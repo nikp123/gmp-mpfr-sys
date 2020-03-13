@@ -57,7 +57,7 @@ localeconv (void)
 #endif
 
 /* Replace the libc nl_langinfo with one we can manipulate. */
-#if HAVE_NL_LANGINFO
+#if HAVE_NL_LANGINFO && ! defined __ANDROID__
 char *
 nl_langinfo (nl_item n)
 #if defined __cplusplus && defined __GLIBC__
