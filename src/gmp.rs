@@ -1751,14 +1751,55 @@ extern "C" {
 // Custom Allocation
 
 /// See: [`allocate_function`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Custom-Allocation.html#index-allocate_005ffunction)
+///
+/// # Planned change
+///
+/// In the next major version of the crate (version 2), this will be
+/// changed to
+/// `unsafe extern "C" fn(alloc_size: usize) -> *mut c_void`, that is
+/// it will no longer be an [`Option`], and the function can also be
+/// unsafe.
+///
+/// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
 pub type allocate_function = Option<extern "C" fn(alloc_size: usize) -> *mut c_void>;
 /// See: [`reallocate_function`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Custom-Allocation.html#index-reallocate_005ffunction)
+///
+/// # Planned change
+///
+/// In the next major version of the crate (version 2), this will be
+/// changed to
+/// `unsafe extern "C" fn(ptr: *mut c_void, old_size: usize, new_size: usize) -> *mut c_void`,
+/// that is it will no longer be an [`Option`].
+///
+/// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
 pub type reallocate_function =
     Option<unsafe extern "C" fn(ptr: *mut c_void, old_size: usize, new_size: usize) -> *mut c_void>;
 /// See: [`free_function`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Custom-Allocation.html#index-free_005ffunction)
+///
+/// # Planned change
+///
+/// In the next major version of the crate (version 2), this will be
+/// changed to `unsafe extern "C" fn(ptr: *mut c_void, size: usize)`,
+/// that is it will no longer be an [`Option`].
+///
+/// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
 pub type free_function = Option<unsafe extern "C" fn(ptr: *mut c_void, size: usize)>;
 extern "C" {
     /// See: [`mp_set_memory_functions`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Custom-Allocation.html#index-mp_005fset_005fmemory_005ffunctions)
+    ///
+    /// # Planned change
+    ///
+    /// In the next major version of the crate (version 2), the arguments will be of types
+    /// <code>[Option][`Option`]&lt;[allocate\_function][`allocate_function`]&gt;</code>,
+    /// <code>[Option][`Option`]&lt;[reallocate\_function][`reallocate_function`]&gt;</code>
+    /// and
+    /// <code>[Option][`Option`]&lt;[free\_function][`free_function`]&gt;</code>,
+    /// since the function types themselves will no longer be [`Option`].
+    ///
+    /// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
+    /// [`allocate_function`]: type.allocate_function.html
+    /// [`free_function`]: type.free_function.html
+    /// [`reallocate_function`]: type.reallocate_function.html
     #[link_name = "__gmp_set_memory_functions"]
     pub fn set_memory_functions(
         alloc_func_ptr: allocate_function,

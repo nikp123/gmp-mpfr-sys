@@ -108,23 +108,79 @@ include!(concat!(env!("OUT_DIR"), "/mpfr_h.rs"));
 /// See: [`mpfr_prec_t`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005fprec_005ft)
 pub type prec_t = c_long;
 
-// TODO: breaking change: do not use enum
 /// See: [`mpfr_rnd_t`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005frnd_005ft)
+///
+/// # Planned change
+///
+/// In the next major version of the crate (version 2), this enum will
+/// be replaced by a type alias to [`c_int`]. The variants will be
+/// replaced by constants, for example `rnd_t::RNDN` will be replaced
+/// by a constant `RNDN` of type [`c_int`].
+///
+/// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 #[allow(deprecated)]
 pub enum rnd_t {
-    /// See: [`mpfr_rnd_t`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005frnd_005ft)
+    /// See: [Rounding Modes](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#Rounding-Modes)
+    ///
+    /// # Planned change
+    ///
+    /// In the next major version of the crate (version 2), the enum
+    /// will be removed. This variant will be replaced by a constant
+    /// `RNDN` of type [`c_int`].
+    ///
+    /// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
     RNDN = 0,
-    /// See: [`mpfr_rnd_t`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005frnd_005ft)
+    /// See: [Rounding Modes](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#Rounding-Modes)
+    ///
+    /// # Planned change
+    ///
+    /// In the next major version of the crate (version 2), the enum
+    /// will be removed. This variant will be replaced by a constant
+    /// `RNDZ` of type [`c_int`].
+    ///
+    /// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
     RNDZ = 1,
-    /// See: [`mpfr_rnd_t`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005frnd_005ft)
+    /// See: [Rounding Modes](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#Rounding-Modes)
+    ///
+    /// # Planned change
+    ///
+    /// In the next major version of the crate (version 2), the enum
+    /// will be removed. This variant will be replaced by a constant
+    /// `RNDU` of type [`c_int`].
+    ///
+    /// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
     RNDU = 2,
-    /// See: [`mpfr_rnd_t`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005frnd_005ft)
+    /// See: [Rounding Modes](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#Rounding-Modes)
+    ///
+    /// # Planned change
+    ///
+    /// In the next major version of the crate (version 2), the enum
+    /// will be removed. This variant will be replaced by a constant
+    /// `RNDD` of type [`c_int`].
+    ///
+    /// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
     RNDD = 3,
-    /// See: [`mpfr_rnd_t`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005frnd_005ft)
+    /// See: [Rounding Modes](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#Rounding-Modes)
+    ///
+    /// # Planned change
+    ///
+    /// In the next major version of the crate (version 2), the enum
+    /// will be removed. This variant will be replaced by a constant
+    /// `RNDA` of type [`c_int`].
+    ///
+    /// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
     RNDA = 4,
-    /// See: [`mpfr_rnd_t`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005frnd_005ft)
+    /// See: [Rounding Modes](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#Rounding-Modes)
+    ///
+    /// # Planned change
+    ///
+    /// In the next major version of the crate (version 2), the enum
+    /// will be removed. This variant will be replaced by a constant
+    /// `RNDF` of type [`c_int`].
+    ///
+    /// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
     RNDF = 5,
     #[doc(hidden)]
     #[deprecated(since = "1.1.0", note = "do not use!")]
