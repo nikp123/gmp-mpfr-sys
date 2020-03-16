@@ -244,50 +244,13 @@ impl Debug for randseed_t {
 #[derive(Clone, Copy, Debug)]
 pub struct randfnptr_t {
     /// Internal implementation detail: pointer to function.
-    ///
-    /// # Planned change
-    ///
-    /// In the next minor version of the crate (version 1.3), the type
-    /// of this field will be changed to
-    /// `unsafe extern "C" fn(rstate: *mut randstate_t, seed: *const mpz_t)`,
-    /// that is it will no longer be an [`Option`].
-    ///
-    /// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
-    pub seed: Option<unsafe extern "C" fn(rstate: *mut randstate_t, seed: *const mpz_t)>,
+    pub seed: unsafe extern "C" fn(rstate: *mut randstate_t, seed: *const mpz_t),
     /// Internal implementation detail: pointer to function.
-    ///
-    /// # Planned change
-    ///
-    /// In the next minor version of the crate (version 1.3), the type
-    /// of this field will be changed to
-    /// `unsafe extern "C" fn(rstate: *mut randstate_t, dest: *mut limb_t, nbits: c_ulong)`,
-    /// that is it will no longer be an [`Option`].
-    ///
-    /// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
-    pub get:
-        Option<unsafe extern "C" fn(rstate: *mut randstate_t, dest: *mut limb_t, nbits: c_ulong)>,
+    pub get: unsafe extern "C" fn(rstate: *mut randstate_t, dest: *mut limb_t, nbits: c_ulong),
     /// Internal implementation detail: pointer to function.
-    ///
-    /// # Planned change
-    ///
-    /// In the next minor version of the crate (version 1.3), the type
-    /// of this field will be changed to
-    /// `unsafe extern "C" fn(rstate: *mut randstate_t)`, that is it
-    /// will no longer be an [`Option`].
-    ///
-    /// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
-    pub clear: Option<unsafe extern "C" fn(rstate: *mut randstate_t)>,
+    pub clear: unsafe extern "C" fn(rstate: *mut randstate_t),
     /// Internal implementation detail: pointer to function.
-    ///
-    /// # Planned change
-    ///
-    /// In the next minor version of the crate (version 1.3), the type
-    /// of this field will be changed to
-    /// `unsafe extern "C" fn(dst: *mut randstate_t, src: *const randstate_t)`,
-    /// that is it will no longer be an [`Option`].
-    ///
-    /// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
-    pub iset: Option<unsafe extern "C" fn(dst: *mut randstate_t, src: *const randstate_t)>,
+    pub iset: unsafe extern "C" fn(dst: *mut randstate_t, src: *const randstate_t),
 }
 
 // Types for function declarations in this file.

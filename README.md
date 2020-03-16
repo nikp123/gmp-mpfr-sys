@@ -26,16 +26,20 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ### Version 1.3.0 news (unreleased)
 
-  * The implementation details of
+  * The internal details of
     <code>[gmp][gmp-1-3]::[mpz\_t][gmp-mpz-1-3]</code>,
     <code>[gmp][gmp-1-3]::[mpf\_t][gmp-mpf-1-3]</code>,
     <code>[gmp][gmp-1-3]::[randseed\_t][gmp-randseed-1-3]</code> and
     <code>[mpfr][mpfr-1-3]::[mpfr\_t][mpfr-mpfr-1-3]</code> have been
     changed to use [`NonNull`] instead of [mutable pointers][pointer].
+  * The internal details of
+    <code>[gmp][gmp-1-3]::[randfnptr\_t][gmp-randfnptr-1-3]</code>
+    have been changed to reflect that its functions are not nullable.
 
 [gmp-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/index.html
 [gmp-mpf-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.mpf_t.html
 [gmp-mpz-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.mpz_t.html
+[gmp-randfnptr-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.randfnptr_t.html
 [gmp-randseed-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.randseed_t.html
 [mpfr-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/mpfr/index.html
 [mpfr-mpfr-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/mpfr/struct.mpfr_t.html
