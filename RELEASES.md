@@ -134,19 +134,19 @@ Version 1.1.0 (2018-01-12)
     enumerated type inside 
 	<code>[#\[repr(C)\]][repr-C] [struct] [randstate_t][gmp-rs-1-1]</code>.
 
-[gmp-1-1]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/index.html
-[gmp-mpq-1-1]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.mpq_t.html
-[gmp-rs-1-1]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.randstate_t.html
+[gmp-1-1]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/gmp/index.html
+[gmp-mpq-1-1]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/gmp/struct.mpq_t.html
+[gmp-rs-1-1]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/gmp/struct.randstate_t.html
 [libc-FILE-0-2]: https://docs.rs/libc/~0.2/libc/enum.FILE.html
 [libc-intmax-0-2]: https://docs.rs/libc/~0.2/libc/type.intmax_t.html
 [libc-uintmax-0-2]: https://docs.rs/libc/~0.2/libc/type.uintmax_t.html
-[mpc-1-1]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpc/index.html
-[mpc-mpc-1-1]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpc/struct.mpc_t.html
-[mpfr-1-1]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpfr/index.html
-[mpfr-dump-1-1]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpfr/fn.dump.html
-[mpfr-mpfr-1-1]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpfr/struct.mpfr_t.html
-[mpfr-rnd-1-1]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpfr/enum.rnd_t.html
-[mpfr-sum-1-1]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpfr/fn.sum.html
+[mpc-1-1]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/mpc/index.html
+[mpc-mpc-1-1]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/mpc/struct.mpc_t.html
+[mpfr-1-1]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/mpfr/index.html
+[mpfr-dump-1-1]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/mpfr/fn.dump.html
+[mpfr-mpfr-1-1]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/mpfr/struct.mpfr_t.html
+[mpfr-rnd-1-1]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/mpfr/enum.rnd_t.html
+[mpfr-sum-1-1]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/mpfr/fn.sum.html
 
 Version 1.0.8 (2017-11-08)
 ==========================
@@ -201,12 +201,12 @@ Version 1.0.0 (2017-04-24)
   * [GMP] 6.1.2, [MPFR] 3.1.5, [MPC] 1.0.3
 
 [gmp-1-0]: https://docs.rs/gmp-mpfr-sys/~1.0/gmp_mpfr_sys/gmp/index.html
-[gmp-mdc-1-0]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/fn.mpq_denref_const.html
+[gmp-mdc-1-0]: https://docs.rs/gmp-mpfr-sys/~1.0/gmp_mpfr_sys/gmp/fn.mpq_denref_const.html
 [gmp-mep-1-0]: https://docs.rs/gmp-mpfr-sys/~1.0/gmp_mpfr_sys/gmp/fn.mpz_even_p.html
-[gmp-mnc-1-0]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/fn.mpq_numref_const.html
-[mpc-1-0]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpc/index.html
-[mpc-ic-1-0]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpc/fn.imagref_const.html
-[mpc-rc-1-0]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpc/fn.realref_const.html
+[gmp-mnc-1-0]: https://docs.rs/gmp-mpfr-sys/~1.0/gmp_mpfr_sys/gmp/fn.mpq_numref_const.html
+[mpc-1-0]: https://docs.rs/gmp-mpfr-sys/~1.0/gmp_mpfr_sys/mpc/index.html
+[mpc-ic-1-0]: https://docs.rs/gmp-mpfr-sys/~1.0/gmp_mpfr_sys/mpc/fn.imagref_const.html
+[mpc-rc-1-0]: https://docs.rs/gmp-mpfr-sys/~1.0/gmp_mpfr_sys/mpc/fn.realref_const.html
 
 [GMP]: https://gmplib.org/
 [MPC]: http://www.multiprecision.org/mpc/
