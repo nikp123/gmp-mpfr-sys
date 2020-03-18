@@ -222,6 +222,15 @@ pub struct mpfr_t {
     /// See: [Internals](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#Internals)
     pub exp: exp_t,
     /// See: [Internals](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#Internals)
+    ///
+    /// # Planned change
+    ///
+    /// In the next minor version of the crate (version 1.3), the type
+    /// of this field will be changed to
+    /// <code>[NonNull][`NonNull`]&lt;[limb\_t][`limb_t`]&gt;</code>.
+    ///
+    /// [`NonNull`]: https://doc.rust-lang.org/nightly/core/ptr/struct.NonNull.html
+    /// [`limb_t`]: ../gmp/type.limb_t.html
     pub d: *mut gmp::limb_t,
 }
 

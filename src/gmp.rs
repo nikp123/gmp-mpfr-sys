@@ -109,6 +109,15 @@ pub struct mpz_t {
     /// See: [Integer Internals](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Internals.html#Integer-Internals)
     pub size: c_int,
     /// See: [Integer Internals](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Internals.html#Integer-Internals)
+    ///
+    /// # Planned change
+    ///
+    /// In the next minor version of the crate (version 1.3), the type
+    /// of this field will be changed to
+    /// <code>[NonNull][`NonNull`]&lt;[limb\_t][`limb_t`]&gt;</code>.
+    ///
+    /// [`NonNull`]: https://doc.rust-lang.org/nightly/core/ptr/struct.NonNull.html
+    /// [`limb_t`]: type.limb_t.html
     pub d: *mut limb_t,
 }
 
@@ -156,6 +165,15 @@ pub struct mpf_t {
     /// See: [Float Internals](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Internals.html#Float-Internals)
     pub exp: exp_t,
     /// See: [Float Internals](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Internals.html#Float-Internals)
+    ///
+    /// # Planned change
+    ///
+    /// In the next minor version of the crate (version 1.3), the type
+    /// of this field will be changed to
+    /// <code>[NonNull][`NonNull`]&lt;[limb\_t][`limb_t`]&gt;</code>.
+    ///
+    /// [`NonNull`]: https://doc.rust-lang.org/nightly/core/ptr/struct.NonNull.html
+    /// [`limb_t`]: type.limb_t.html
     pub d: *mut limb_t,
 }
 
@@ -243,13 +261,49 @@ impl Debug for randseed_t {
 #[derive(Clone, Copy, Debug)]
 pub struct randfnptr_t {
     /// Internal implementation detail: pointer to function.
+    ///
+    /// # Planned change
+    ///
+    /// In the next minor version of the crate (version 1.3), the type
+    /// of this field will be changed to
+    /// `unsafe extern "C" fn(rstate: *mut randstate_t, seed: *const mpz_t)`,
+    /// that is it will no longer be an [`Option`].
+    ///
+    /// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
     pub seed: Option<unsafe extern "C" fn(rstate: *mut randstate_t, seed: *const mpz_t)>,
     /// Internal implementation detail: pointer to function.
+    ///
+    /// # Planned change
+    ///
+    /// In the next minor version of the crate (version 1.3), the type
+    /// of this field will be changed to
+    /// `unsafe extern "C" fn(rstate: *mut randstate_t, dest: *mut limb_t, nbits: c_ulong)`,
+    /// that is it will no longer be an [`Option`].
+    ///
+    /// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
     pub get:
         Option<unsafe extern "C" fn(rstate: *mut randstate_t, dest: *mut limb_t, nbits: c_ulong)>,
     /// Internal implementation detail: pointer to function.
+    ///
+    /// # Planned change
+    ///
+    /// In the next minor version of the crate (version 1.3), the type
+    /// of this field will be changed to
+    /// `unsafe extern "C" fn(rstate: *mut randstate_t)`, that is it
+    /// will no longer be an [`Option`].
+    ///
+    /// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
     pub clear: Option<unsafe extern "C" fn(rstate: *mut randstate_t)>,
     /// Internal implementation detail: pointer to function.
+    ///
+    /// # Planned change
+    ///
+    /// In the next minor version of the crate (version 1.3), the type
+    /// of this field will be changed to
+    /// `unsafe extern "C" fn(dst: *mut randstate_t, src: *const randstate_t)`,
+    /// that is it will no longer be an [`Option`].
+    ///
+    /// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
     pub iset: Option<unsafe extern "C" fn(dst: *mut randstate_t, src: *const randstate_t)>,
 }
 
