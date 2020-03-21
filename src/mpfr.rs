@@ -71,19 +71,24 @@ fn main() {
         }
 
         let stdout = libc::fdopen(STDOUT_FILENO, b"w\0".as_ptr() as *const c_char);
-#       libc::fclose(stdout);
-#       let stdout = libc::tmpfile();
+#       let real_stdout = stdout;
+#       let tmp_file = libc::tmpfile();
+#       let stdout = if tmp_file.is_null() { real_stdout } else { tmp_file };
         libc::fputs(b"Sum is \0".as_ptr() as *const c_char, stdout);
         mpfr::out_str(stdout, 10, 0, &s, rnd_t::RNDD);
         libc::fputc(b'\n' as c_int, stdout);
 #       libc::rewind(stdout);
 #       let mut buf = [0u8; 71];
 #       libc::fread(buf.as_mut_ptr() as _, 1, 71, stdout);
-#       libc::fclose(stdout);
-#       assert_eq!(
-#           &buf[..],
-#           &b"Sum is 2.7182818284590452353602874713526624977572470936999595749669131\n"[..]
-#       );
+#       let stdout = real_stdout;
+        libc::fclose(stdout);
+#       if !tmp_file.is_null() {
+#           libc::fclose(tmp_file);
+#           assert_eq!(
+#               &buf[..],
+#               &b"Sum is 2.7182818284590452353602874713526624977572470936999595749669131\n"[..]
+#           );
+#       }
 
         mpfr::clear(&mut s);
         mpfr::clear(&mut t);
