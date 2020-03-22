@@ -131,13 +131,14 @@ It is not considered a breaking change if experimental features are
 removed. The removal of experimental features would however require a
 minor version bump.
 
+Experimental features may also not work on all platforms.
+
 There is one experimental feature:
 
- 1. `use-system-libs`, disabled by default. This is *not* supported on
-    Windows. Using this feature, the system libraries for [GMP], and
-    [MPFR] and [MPC] if enabled, will be used instead of building them
-    from source. The versions must be compatible with the versions
-    provided by the crate.
+ 1. `use-system-libs`, disabled by default. Using this feature, the
+    system libraries for [GMP], and [MPFR] and [MPC] if enabled, will
+    be used instead of building them from source. The versions must be
+    compatible with the versions provided by the crate.
 
 ## Metadata
 

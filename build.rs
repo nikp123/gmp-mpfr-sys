@@ -28,6 +28,7 @@ use std::os::unix::fs as unix_fs;
 use std::os::windows::fs as windows_fs;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
+use std::str;
 
 const GMP_DIR: &str = "gmp-6.2.0-c";
 const MPFR_DIR: &str = "mpfr-4.0.2-p1-c";
@@ -102,8 +103,12 @@ fn main() {
     let cache_dir = cache_dir.map(|cache| cache.join(&version_prefix).join(host));
 
     let use_system_libs = there_is_env("CARGO_FEATURE_USE_SYSTEM_LIBS");
-    if use_system_libs && (target == Target::Msvc || target == Target::Mingw) {
-        panic!("the use-system-libs feature is not supported on this target");
+    if use_system_libs {
+        match target {
+            Target::Msvc => panic!("the use-system-libs feature is not supported on this target"),
+            Target::Mingw => mingw_pkg_config_libdir_or_panic(),
+            _ => {}
+        }
     }
     let mut env = Environment {
         rustc,
@@ -215,7 +220,7 @@ fn check_system_libs(env: &Environment) {
 
     if !there_is_env("CARGO_FEATURE_CNODELETE") {
         if build_dir_existed {
-            remove_dir_or_panic(&try_dir);
+            let _ = remove_dir(&try_dir);
         } else {
             remove_dir_or_panic(&env.build_dir);
         }
@@ -1033,6 +1038,17 @@ fn add_mingw_libs(feature_mpfr: bool, _feature_mpc: bool) {
     println!("cargo:rustc-link-lib=static=pthread");
 }
 
+fn mingw_pkg_config_libdir_or_panic() {
+    let mut cmd = Command::new("pkg-config");
+    cmd.args(&["--libs-only-L", "gmp"]);
+    let output = execute_stdout(cmd);
+    if output.len() < 2 || &output[0..2] != b"-L" {
+        panic!("expected pkg-config output to begin with \"-L\"");
+    }
+    let libdir = str::from_utf8(&output[2..]).expect("output from pkg-config not utf-8");
+    println!("cargo:rustc-link-search=native={}", libdir);
+}
+
 fn remove_dir(dir: &Path) -> IoResult<()> {
     if !dir.exists() {
         return Ok(());
@@ -1133,6 +1149,21 @@ fn execute(mut command: Command) {
             panic!("Program failed: {:?}", command);
         }
     }
+}
+
+fn execute_stdout(mut command: Command) -> Vec<u8> {
+    println!("$ {:?}", command);
+    let output = command
+        .output()
+        .unwrap_or_else(|_| panic!("Unable to execute: {:?}", command));
+    if !output.status.success() {
+        if let Some(code) = output.status.code() {
+            panic!("Program failed with code {}: {:?}", code, command);
+        } else {
+            panic!("Program failed: {:?}", command);
+        }
+    }
+    output.stdout
 }
 
 fn open(name: &Path) -> BufReader<File> {
