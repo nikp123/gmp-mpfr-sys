@@ -1487,25 +1487,37 @@ mod tests {
     use crate::mpfr;
     use core::mem::MaybeUninit;
 
+    fn version_matches_with_optional_p_suffix(to_test: &str, check: &str) -> bool {
+        if to_test == check {
+            true
+        } else if !to_test.starts_with(check) {
+            false
+        } else {
+            to_test[check.len()..].starts_with("-p")
+        }
+    }
+
     #[test]
     fn check_version() {
         use crate::tests;
 
         let (major, minor, patchlevel) = (4, 0, 2);
-        let version = "4.0.2-p1";
+        // do not include "-p*" suffix
+        let version = "4.0.2";
 
         assert_eq!(mpfr::VERSION_MAJOR, major);
         assert!(mpfr::VERSION_MINOR >= minor);
         assert!(mpfr::VERSION_MINOR > minor || mpfr::VERSION_PATCHLEVEL >= patchlevel);
         if mpfr::VERSION_MINOR == minor && mpfr::VERSION_PATCHLEVEL == patchlevel {
-            assert_eq!(
+            // tested string can have "-p*" suffix
+            assert!(version_matches_with_optional_p_suffix(
                 unsafe { tests::str_from_cstr(mpfr::get_version()) },
                 version
-            );
-            assert_eq!(
+            ));
+            assert!(version_matches_with_optional_p_suffix(
                 unsafe { tests::str_from_cstr(mpfr::VERSION_STRING) },
                 version
-            );
+            ));
         }
     }
 
