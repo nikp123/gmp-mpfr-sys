@@ -49,6 +49,7 @@ text of the [GNU LGPL] and [GNU GPL] for details.
   * The experimental feature `use-system-libs` was added.
 
 [gmp-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/index.html
+[gmp-mrn-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/fn.MPZ_ROINIT_N.html
 [gmp-rs-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.randstate_t.html
 
 [`no_std`]: https://doc.rust-lang.org/nightly/embedded-book/intro/no-std.html

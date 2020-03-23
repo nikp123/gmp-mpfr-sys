@@ -33,8 +33,8 @@ Version 1.2.0 (2020-01-18)
   * The experimental feature `use-system-libs` was added.
 
 [gmp-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/index.html
-[gmp-rs-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.randstate_t.html
 [gmp-mrn-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/fn.MPZ_ROINIT_N.html
+[gmp-rs-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.randstate_t.html
 
 Version 1.1.14 (2019-07-04)
 ===========================
