@@ -35,7 +35,7 @@ unsafe {
 
 [GMP]: https://gmplib.org/
 */
-#![allow(non_camel_case_types)]
+#![allow(non_camel_case_types, non_snake_case)]
 
 use core::{
     cmp::Ordering,
@@ -1006,6 +1006,20 @@ extern "C" {
     /// See: [`mpz_roinit_n`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Integer-Functions.html#index-mpz_005froinit_005fn)
     #[link_name = "__gmpz_roinit_n"]
     pub fn mpz_roinit_n(x: mpz_ptr, xp: mp_srcptr, xs: size_t) -> mpz_srcptr;
+}
+/// See: [`MPZ_ROINIT_N`](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Integer-Functions.html#index-MPZ_005fROINIT_005fN)
+///
+/// Note that this function is not currently `extern "C"` because such
+/// functions cannot be const functions, and this function is intended
+/// primarily for constant values. The function will be changed to
+/// `extern "C"` once such functions can be const functions.
+#[inline]
+pub const unsafe fn MPZ_ROINIT_N(xp: mp_ptr, xs: size_t) -> mpz_t {
+    mpz_t {
+        alloc: 0,
+        size: xs as c_int,
+        d: xp,
+    }
 }
 
 // Rational numbers

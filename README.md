@@ -24,6 +24,12 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.2.2 news (unreleased)
+
+  * The missing function
+    <code>[gmp][gmp-1-2]::[MPZ\_ROINIT\_N][gmp-mrn-1-2]</code> was
+    added.
+
 ### Version 1.2.1 news (2020-03-13)
 
   * Some improvements were made to enable compilation or cross

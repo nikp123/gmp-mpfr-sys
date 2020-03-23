@@ -5,6 +5,13 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.2.2 (unreleased)
+==========================
+
+  * The missing function
+    <code>[gmp][gmp-1-2]::[MPZ\_ROINIT\_N][gmp-mrn-1-2]</code> was
+    added.
+
 Version 1.2.1 (2020-03-13)
 ==========================
 
@@ -27,6 +34,7 @@ Version 1.2.0 (2020-01-18)
 
 [gmp-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/index.html
 [gmp-rs-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.randstate_t.html
+[gmp-mrn-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/fn.MPZ_ROINIT_N.html
 
 Version 1.1.14 (2019-07-04)
 ===========================
