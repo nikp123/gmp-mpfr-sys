@@ -41,6 +41,7 @@ use core::{
     cmp::Ordering,
     fmt::{Debug, Formatter, Result as FmtResult},
     mem::MaybeUninit,
+    ptr::NonNull,
 };
 use libc::{c_char, c_int, c_long, c_uchar, c_uint, c_ulong, c_ushort, c_void, FILE};
 
@@ -109,16 +110,7 @@ pub struct mpz_t {
     /// See: [Integer Internals](../C/GMP/constant.Internals.html#Integer-Internals)
     pub size: c_int,
     /// See: [Integer Internals](../C/GMP/constant.Internals.html#Integer-Internals)
-    ///
-    /// # Planned change
-    ///
-    /// In the next minor version of the crate (version 1.3), the type
-    /// of this field will be changed to
-    /// <code>[NonNull][`NonNull`]&lt;[limb\_t][`limb_t`]&gt;</code>.
-    ///
-    /// [`NonNull`]: https://doc.rust-lang.org/nightly/core/ptr/struct.NonNull.html
-    /// [`limb_t`]: type.limb_t.html
-    pub d: *mut limb_t,
+    pub d: NonNull<limb_t>,
 }
 
 /// See: [`mpq_t`](../C/GMP/constant.GMP_Basics.html#index-mpq_005ft)
@@ -165,16 +157,7 @@ pub struct mpf_t {
     /// See: [Float Internals](../C/GMP/constant.Internals.html#Float-Internals)
     pub exp: exp_t,
     /// See: [Float Internals](../C/GMP/constant.Internals.html#Float-Internals)
-    ///
-    /// # Planned change
-    ///
-    /// In the next minor version of the crate (version 1.3), the type
-    /// of this field will be changed to
-    /// <code>[NonNull][`NonNull`]&lt;[limb\_t][`limb_t`]&gt;</code>.
-    ///
-    /// [`NonNull`]: https://doc.rust-lang.org/nightly/core/ptr/struct.NonNull.html
-    /// [`limb_t`]: type.limb_t.html
-    pub d: *mut limb_t,
+    pub d: NonNull<limb_t>,
 }
 
 /// See: [`gmp_randstate_t`](../C/GMP/constant.GMP_Basics.html#index-gmp_005frandstate_005ft)
@@ -231,7 +214,7 @@ pub struct randseed_t {
     /// Internal implementation detail: unused.
     pub size: MaybeUninit<c_int>,
     /// Internal implementation detail: state of the generator.
-    pub d: *mut c_void,
+    pub d: NonNull<c_void>,
 }
 
 impl Debug for randseed_t {
@@ -401,7 +384,7 @@ extern "C" {
 #[cfg(any(not(nails), long_long_limb))]
 pub unsafe extern "C" fn mpz_get_ui(op: mpz_srcptr) -> c_ulong {
     if (*op).size != 0 {
-        let p = (*op).d;
+        let p = (*op).d.as_ptr();
         (*p) as c_ulong
     } else {
         0
@@ -654,7 +637,7 @@ extern "C" {
 pub unsafe extern "C" fn mpz_perfect_square_p(op: mpz_srcptr) -> c_int {
     let op_size = (*op).size;
     if op_size > 0 {
-        mpn_perfect_square_p((*op).d, op_size.into())
+        mpn_perfect_square_p((*op).d.as_ptr(), op_size.into())
     } else if op_size >= 0 {
         1
     } else {
@@ -804,7 +787,7 @@ pub unsafe extern "C" fn mpz_popcount(op: mpz_srcptr) -> bitcnt_t {
     match size.cmp(&0) {
         Ordering::Less => !0,
         Ordering::Equal => 0,
-        Ordering::Greater => mpn_popcount((*op).d, size.into()),
+        Ordering::Greater => mpn_popcount((*op).d.as_ptr(), size.into()),
     }
 }
 extern "C" {
@@ -895,7 +878,7 @@ macro_rules! mpz_fits {
         #[inline]
         pub unsafe extern "C" fn $name(op: mpz_srcptr) -> c_int {
             let n = (*op).size;
-            let p = (*op).d;
+            let p = (*op).d.as_ptr();
             let fits = n == 0 || (n == 1 && (*p) <= limb_t::from($max));
             if fits {
                 1
@@ -953,7 +936,7 @@ pub unsafe extern "C" fn mpz_odd_p(op: mpz_srcptr) -> c_int {
     if (*op).size == 0 {
         0
     } else {
-        1 & (*(*op).d) as c_int
+        1 & (*(*op).d.as_ptr()) as c_int
     }
 }
 /// See: [`mpz_even_p`](../C/GMP/constant.Integer_Functions.html#index-mpz_005feven_005fp)
@@ -980,7 +963,7 @@ extern "C" {
 #[inline]
 pub unsafe extern "C" fn mpz_getlimbn(op: mpz_srcptr, n: size_t) -> limb_t {
     if n >= 0 && n < size_t::from((*op).size.abs()) {
-        *((*op).d.offset(n as isize))
+        *((*op).d.as_ptr().offset(n as isize))
     } else {
         0
     }
@@ -1018,7 +1001,7 @@ pub const unsafe fn MPZ_ROINIT_N(xp: mp_ptr, xs: size_t) -> mpz_t {
     mpz_t {
         alloc: 0,
         size: xs as c_int,
-        d: xp,
+        d: NonNull::new_unchecked(xp),
     }
 }
 
@@ -1886,7 +1869,7 @@ extern "C" {
 #[cfg(test)]
 mod tests {
     use crate::gmp;
-    use core::mem;
+    use core::{mem, ptr::NonNull};
 
     #[test]
     fn check_mpq_num_den_offsets() {
@@ -1895,12 +1878,12 @@ mod tests {
             num: gmp::mpz_t {
                 alloc: 1,
                 size: 1,
-                d: &mut limbs[0],
+                d: NonNull::from(&mut limbs[0]),
             },
             den: gmp::mpz_t {
                 alloc: 1,
                 size: 1,
-                d: &mut limbs[1],
+                d: NonNull::from(&mut limbs[1]),
             },
         };
         unsafe {

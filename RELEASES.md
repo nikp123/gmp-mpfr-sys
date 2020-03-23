@@ -5,6 +5,21 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.3.0 (unreleased)
+==========================
+
+  * The implementation details of
+    <code>[gmp][gmp-1-3]::[mpz\_t][gmp-mpz-1-3]</code>,
+    <code>[gmp][gmp-1-3]::[mpf\_t][gmp-mpf-1-3]</code> and
+    <code>[gmp][gmp-1-3]::[randseed\_t][gmp-randseed-1-3]</code>
+	have been
+    changed to use [`NonNull`] instead of [mutable pointers][pointer].
+
+[gmp-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/index.html
+[gmp-mpf-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.mpf_t.html
+[gmp-mpz-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.mpz_t.html
+[gmp-randseed-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.randseed_t.html
+
 Version 1.2.4 (2020-06-14)
 ==========================
 
@@ -239,6 +254,7 @@ Version 1.0.0 (2017-04-24)
 [MPC]: http://www.multiprecision.org/mpc/
 [MPFR]: https://www.mpfr.org/
 [`MaybeUninit`]: https://doc.rust-lang.org/nightly/core/mem/union.MaybeUninit.html
+[`NonNull`]: https://doc.rust-lang.org/nightly/std/ptr/struct.NonNull.html
 [`c_int`]: https://doc.rust-lang.org/std/os/raw/type.c_int.html
 [`c_longlong`]: https://doc.rust-lang.org/std/os/raw/type.c_longlong.html
 [`c_ulonglong`]: https://doc.rust-lang.org/std/os/raw/type.c_ulonglong.html
