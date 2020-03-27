@@ -277,10 +277,6 @@ pub mod mpc;
 #[cfg(feature = "mpfr")]
 pub mod mpfr;
 
-// this is here for the mpfr_round_nearest_away macro only
-#[doc(hidden)]
-pub use libc;
-
 #[cfg(test)]
 mod tests {
     use core::{slice, str};

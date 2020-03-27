@@ -106,7 +106,10 @@ fn main() {
 
 use crate::gmp;
 use core::mem;
-use libc::{c_char, c_int, c_long, c_uint, c_ulong, c_void, intmax_t, uintmax_t, FILE};
+#[doc(hidden)]
+// libc::c_int is public for the mpfr_round_nearest_away macro
+pub use libc::c_int;
+use libc::{c_char, c_long, c_uint, c_ulong, c_void, intmax_t, uintmax_t, FILE};
 
 include!(concat!(env!("OUT_DIR"), "/mpfr_h.rs"));
 
@@ -1152,12 +1155,11 @@ extern "C" {
     #[link_name = "mpfr_print_rnd_mode"]
     pub fn print_rnd_mode(rnd: rnd_t) -> *const c_char;
 }
-
 /// See: [`mpfr_round_nearest_away`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005fround_005fnearest_005faway)
 #[macro_export]
 macro_rules! mpfr_round_nearest_away {
     ($foo:expr, $rop:expr $(, $op:expr)*) => {{
-        use $crate::libc::c_int;
+        use $crate::mpfr::c_int;
         type mpfr_ptr = *mut $crate::mpfr::mpfr_t;
         let rop: mpfr_ptr = $rop;
         extern "C" {
@@ -1171,6 +1173,7 @@ macro_rules! mpfr_round_nearest_away {
         )
     }};
 }
+
 extern "C" {
     // Miscellaneous Functions
 
