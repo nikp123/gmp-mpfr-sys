@@ -29,6 +29,7 @@ text of the [GNU LGPL] and [GNU GPL] for details.
   * The missing function
     <code>[gmp][gmp-1-2]::[MPZ\_ROINIT\_N][gmp-mrn-1-2]</code> was
     added.
+  * The missing macro [`MPFR_DECL_INIT`][mpfr-di-1-2] was added.
 
 ### Version 1.2.1 news (2020-03-13)
 
@@ -51,6 +52,7 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 [gmp-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/index.html
 [gmp-mrn-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/fn.MPZ_ROINIT_N.html
 [gmp-rs-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.randstate_t.html
+[mpfr-di-1-2]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/macro.MPFR_DECL_INIT.html
 
 [`no_std`]: https://doc.rust-lang.org/nightly/embedded-book/intro/no-std.html
 

@@ -294,6 +294,24 @@ extern "C" {
     /// See: [`mpfr_inits`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005finits)
     #[link_name = "mpfr_inits"]
     pub fn inits(x: mpfr_ptr, ...);
+}
+/// See: [`MPFR_DECL_INIT`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-MPFR_005fDECL_005fINIT)
+#[macro_export]
+macro_rules! MPFR_DECL_INIT {
+    ($name:ident, $prec:expr) => {
+        // limbs is visible only in one macro instance thanks to macro hygiene
+        let mut limbs: [core::mem::MaybeUninit<$crate::gmp::limb_t>;
+            ($prec as usize - 1) / $crate::gmp::NUMB_BITS as usize + 1] =
+            unsafe { core::mem::MaybeUninit::uninit().assume_init() };
+        let mut $name = $crate::mpfr::mpfr_t {
+            prec: $prec as $crate::mpfr::prec_t,
+            sign: 1,
+            exp: 1 - $crate::mpfr::exp_t::max_value(),
+            d: limbs[..].as_mut_ptr() as *mut $crate::gmp::limb_t,
+        };
+    };
+}
+extern "C" {
     /// See: [`mpfr_set_default_prec`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005fset_005fdefault_005fprec)
     #[link_name = "mpfr_set_default_prec"]
     pub fn set_default_prec(prec: prec_t);
@@ -1552,6 +1570,18 @@ mod tests {
             assert_eq!(tie_away2, 40);
 
             mpfr::clear(&mut f);
+        }
+    }
+
+    #[test]
+    fn check_decl_init() {
+        MPFR_DECL_INIT!(f, 5);
+        unsafe {
+            assert_eq!(mpfr::get_prec(&f), 5);
+            assert_ne!(mpfr::nan_p(&f), 0);
+            assert!(mpfr::set_ui(&mut f, 0xff, mpfr::rnd_t::RNDD) < 0);
+            assert_eq!(mpfr::nan_p(&f), 0);
+            assert_eq!(mpfr::get_ui(&f, mpfr::rnd_t::RNDN), 0xf8);
         }
     }
 }
