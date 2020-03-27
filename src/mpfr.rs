@@ -105,7 +105,7 @@ fn main() {
 #![allow(clippy::needless_doctest_main)]
 
 use crate::gmp::{limb_t, mpf_t, mpq_t, mpz_t, randstate_t, NUMB_BITS};
-use core::mem;
+use core::{mem, ptr::NonNull};
 #[doc(hidden)]
 // libc::c_int is public for the mpfr_round_nearest_away macro
 pub use libc::c_int;
@@ -228,16 +228,7 @@ pub struct mpfr_t {
     /// See: [Internals](../C/MPFR/constant.MPFR_Interface.html#Internals)
     pub exp: exp_t,
     /// See: [Internals](../C/MPFR/constant.MPFR_Interface.html#Internals)
-    ///
-    /// # Planned change
-    ///
-    /// In the next minor version of the crate (version 1.3), the type
-    /// of this field will be changed to
-    /// <code>[NonNull][`NonNull`]&lt;[limb\_t][`limb_t`]&gt;</code>.
-    ///
-    /// [`NonNull`]: https://doc.rust-lang.org/nightly/core/ptr/struct.NonNull.html
-    /// [`limb_t`]: ../gmp/type.limb_t.html
-    pub d: *mut limb_t,
+    pub d: NonNull<limb_t>,
 }
 
 /// See: [`mpfr_custom_init_set`](../C/MPFR/constant.MPFR_Interface.html#index-mpfr_005fcustom_005finit_005fset)
@@ -307,7 +298,10 @@ macro_rules! MPFR_DECL_INIT {
             prec: $prec as $crate::mpfr::prec_t,
             sign: 1,
             exp: 1 - $crate::mpfr::exp_t::max_value(),
-            d: limbs[..].as_mut_ptr() as *mut $crate::gmp::limb_t,
+            d: unsafe {
+                core::ptr::NonNull::new_unchecked(limbs[..].as_mut_ptr())
+                    .cast::<$crate::gmp::limb_t>()
+            },
         };
     };
 }
@@ -1471,7 +1465,7 @@ pub unsafe extern "C" fn custom_init_set(
     (*x).prec = prec;
     (*x).sign = s;
     (*x).exp = e;
-    (*x).d = significand as *mut limb_t;
+    (*x).d = NonNull::new_unchecked(significand as *mut limb_t);
 }
 /// See: [`mpfr_custom_get_kind`](../C/MPFR/constant.MPFR_Interface.html#index-mpfr_005fcustom_005fget_005fkind)
 #[inline]
@@ -1489,7 +1483,7 @@ pub unsafe extern "C" fn custom_get_kind(x: mpfr_srcptr) -> c_int {
 /// See: [`mpfr_custom_get_significand`](../C/MPFR/constant.MPFR_Interface.html#index-mpfr_005fcustom_005fget_005fsignificand)
 #[inline]
 pub unsafe extern "C" fn custom_get_significand(x: mpfr_srcptr) -> *mut c_void {
-    (*x).d as *mut c_void
+    (*x).d.as_ptr() as *mut c_void
 }
 /// See: [`mpfr_custom_get_exp`](../C/MPFR/constant.MPFR_Interface.html#index-mpfr_005fcustom_005fget_005fexp)
 #[inline]
@@ -1499,7 +1493,7 @@ pub unsafe extern "C" fn custom_get_exp(x: mpfr_srcptr) -> exp_t {
 /// See: [`mpfr_custom_move`](../C/MPFR/constant.MPFR_Interface.html#index-mpfr_005fcustom_005fmove)
 #[inline]
 pub unsafe extern "C" fn custom_move(x: mpfr_ptr, new_position: *mut c_void) {
-    (*x).d = new_position as *mut limb_t
+    (*x).d = NonNull::new_unchecked(new_position as *mut limb_t)
 }
 
 #[cfg(test)]

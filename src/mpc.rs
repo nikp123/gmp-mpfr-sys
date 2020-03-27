@@ -553,6 +553,7 @@ pub extern "C" fn VERSION_NUM(major: c_int, minor: c_int, patchlevel: c_int) -> 
 #[cfg(test)]
 mod tests {
     use crate::{gmp, mpc, mpfr};
+    use core::ptr::NonNull;
 
     #[test]
     fn check_real_imag_offsets() {
@@ -562,13 +563,13 @@ mod tests {
                 prec: 1,
                 sign: 1,
                 exp: 0,
-                d: &mut limbs[0],
+                d: NonNull::from(&mut limbs[0]),
             },
             im: mpfr::mpfr_t {
                 prec: 1,
                 sign: 1,
                 exp: 0,
-                d: &mut limbs[1],
+                d: NonNull::from(&mut limbs[1]),
             },
         };
         unsafe {
