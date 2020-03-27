@@ -44,7 +44,10 @@ unsafe {
 */
 #![allow(non_camel_case_types, non_snake_case)]
 
-use crate::{gmp, mpfr};
+use crate::{
+    gmp::{mpf_t, mpq_t, mpz_t, randstate_t},
+    mpfr::{mpfr_t, prec_t, rnd_t as mpfr_rnd_t},
+};
 use libc::{c_char, c_int, c_long, c_ulong, intmax_t, uintmax_t, FILE};
 
 include!(concat!(env!("OUT_DIR"), "/mpc_h.rs"));
@@ -81,10 +84,10 @@ pub extern "C" fn INEX2(inex: c_int) -> c_int {
 /// See: [`mpc_rnd_t`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/GNU-MPC-Basics.html#index-mpc_005frnd_005ft)
 pub type rnd_t = c_int;
 
-const RNDN: c_int = mpfr::rnd_t::RNDN as c_int;
-const RNDZ: c_int = mpfr::rnd_t::RNDZ as c_int;
-const RNDU: c_int = mpfr::rnd_t::RNDU as c_int;
-const RNDD: c_int = mpfr::rnd_t::RNDD as c_int;
+const RNDN: c_int = mpfr_rnd_t::RNDN as c_int;
+const RNDZ: c_int = mpfr_rnd_t::RNDZ as c_int;
+const RNDU: c_int = mpfr_rnd_t::RNDU as c_int;
+const RNDD: c_int = mpfr_rnd_t::RNDD as c_int;
 
 /// See: [Rounding Modes](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/GNU-MPC-Basics.html#Rounding-Modes)
 pub const RNDNN: c_int = RNDN + (RNDN << 4);
@@ -134,19 +137,19 @@ pub const RNDDD: c_int = RNDD + (RNDD << 4);
 #[derive(Clone, Copy, Debug)]
 pub struct mpc_t {
     /// Internal implementation detail: real part.
-    pub re: mpfr::mpfr_t,
+    pub re: mpfr_t,
     /// Internal implementation detail: imaginary part.
-    pub im: mpfr::mpfr_t,
+    pub im: mpfr_t,
 }
 
 // Types for function declarations in this file.
 
-type mpz_srcptr = *const gmp::mpz_t;
-type mpq_srcptr = *const gmp::mpq_t;
-type mpf_srcptr = *const gmp::mpf_t;
-type randstate_ptr = *mut gmp::randstate_t;
-type mpfr_srcptr = *const mpfr::mpfr_t;
-type mpfr_ptr = *mut mpfr::mpfr_t;
+type mpz_srcptr = *const mpz_t;
+type mpq_srcptr = *const mpq_t;
+type mpf_srcptr = *const mpf_t;
+type randstate_ptr = *mut randstate_t;
+type mpfr_srcptr = *const mpfr_t;
+type mpfr_ptr = *mut mpfr_t;
 type mpc_ptr = *mut mpc_t;
 type mpc_srcptr = *const mpc_t;
 
@@ -155,22 +158,22 @@ extern "C" {
 
     /// See: [`mpc_init2`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005finit2)
     #[link_name = "mpc_init2"]
-    pub fn init2(z: mpc_ptr, prec: mpfr::prec_t);
+    pub fn init2(z: mpc_ptr, prec: prec_t);
     /// See: [`mpc_init3`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005finit3)
     #[link_name = "mpc_init3"]
-    pub fn init3(z: mpc_ptr, prec_r: mpfr::prec_t, prec_i: mpfr::prec_t);
+    pub fn init3(z: mpc_ptr, prec_r: prec_t, prec_i: prec_t);
     /// See: [`mpc_clear`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005fclear)
     #[link_name = "mpc_clear"]
     pub fn clear(z: mpc_ptr);
     /// See: [`mpc_set_prec`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005fset_005fprec)
     #[link_name = "mpc_set_prec"]
-    pub fn set_prec(x: mpc_ptr, prec: mpfr::prec_t);
+    pub fn set_prec(x: mpc_ptr, prec: prec_t);
     /// See: [`mpc_get_prec`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005fget_005fprec)
     #[link_name = "mpc_get_prec"]
-    pub fn get_prec(x: mpc_srcptr) -> mpfr::prec_t;
+    pub fn get_prec(x: mpc_srcptr) -> prec_t;
     /// See: [`mpc_get_prec2`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005fget_005fprec2)
     #[link_name = "mpc_get_prec2"]
-    pub fn get_prec2(pr: *mut mpfr::prec_t, pi: *mut mpfr::prec_t, x: mpc_srcptr);
+    pub fn get_prec2(pr: *mut prec_t, pi: *mut prec_t, x: mpc_srcptr);
 
     // Assignment Functions
 
@@ -299,10 +302,10 @@ extern "C" {
     // Projection and Decomposing Functions
     /// See: [`mpc_real`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005freal)
     #[link_name = "mpc_real"]
-    pub fn real(rop: mpfr_ptr, arg2: mpc_srcptr, rnd: mpfr::rnd_t) -> c_int;
+    pub fn real(rop: mpfr_ptr, arg2: mpc_srcptr, rnd: mpfr_rnd_t) -> c_int;
     /// See: [`mpc_imag`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005fimag)
     #[link_name = "mpc_imag"]
-    pub fn imag(rop: mpfr_ptr, arg2: mpc_srcptr, rnd: mpfr::rnd_t) -> c_int;
+    pub fn imag(rop: mpfr_ptr, arg2: mpc_srcptr, rnd: mpfr_rnd_t) -> c_int;
 }
 /// See: [`mpc_realref`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005frealref)
 #[inline]
@@ -327,7 +330,7 @@ pub unsafe extern "C" fn imagref_const(op: mpc_srcptr) -> mpfr_srcptr {
 extern "C" {
     /// See: [`mpc_arg`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005farg)
     #[link_name = "mpc_arg"]
-    pub fn arg(rop: mpfr_ptr, op: mpc_srcptr, rnd: mpfr::rnd_t) -> c_int;
+    pub fn arg(rop: mpfr_ptr, op: mpc_srcptr, rnd: mpfr_rnd_t) -> c_int;
     /// See: [`mpc_proj`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005fproj)
     #[link_name = "mpc_proj"]
     pub fn proj(rop: mpc_ptr, arg2: mpc_srcptr, rnd: rnd_t) -> c_int;
@@ -421,10 +424,10 @@ extern "C" {
     pub fn conj(rop: mpc_ptr, op: mpc_srcptr, rnd: rnd_t) -> c_int;
     /// See: [`mpc_abs`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005fabs)
     #[link_name = "mpc_abs"]
-    pub fn abs(rop: mpfr_ptr, op: mpc_srcptr, rnd: mpfr::rnd_t) -> c_int;
+    pub fn abs(rop: mpfr_ptr, op: mpc_srcptr, rnd: mpfr_rnd_t) -> c_int;
     /// See: [`mpc_norm`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005fnorm)
     #[link_name = "mpc_norm"]
-    pub fn norm(rop: mpfr_ptr, op: mpc_srcptr, rnd: mpfr::rnd_t) -> c_int;
+    pub fn norm(rop: mpfr_ptr, op: mpc_srcptr, rnd: mpfr_rnd_t) -> c_int;
     /// See: [`mpc_mul_2ui`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpc/Complex-Functions.html#index-mpc_005fmul_005f2ui)
     #[link_name = "mpc_mul_2ui"]
     pub fn mul_2ui(rop: mpc_ptr, op1: mpc_srcptr, op2: c_ulong, rnd: rnd_t) -> c_int;

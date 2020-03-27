@@ -104,7 +104,7 @@ fn main() {
 #![allow(non_camel_case_types, non_snake_case)]
 #![allow(clippy::needless_doctest_main)]
 
-use crate::gmp;
+use crate::gmp::{limb_t, mpf_t, mpq_t, mpz_t, randstate_t, NUMB_BITS};
 use core::mem;
 #[doc(hidden)]
 // libc::c_int is public for the mpfr_round_nearest_away macro
@@ -237,7 +237,7 @@ pub struct mpfr_t {
     ///
     /// [`NonNull`]: https://doc.rust-lang.org/nightly/core/ptr/struct.NonNull.html
     /// [`limb_t`]: ../gmp/type.limb_t.html
-    pub d: *mut gmp::limb_t,
+    pub d: *mut limb_t,
 }
 
 /// See: [`mpfr_custom_init_set`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005fcustom_005finit_005fset)
@@ -256,13 +256,13 @@ pub const FREE_GLOBAL_CACHE: c_int = 2;
 
 // Types for function declarations in this file.
 
-type mpz_srcptr = *const gmp::mpz_t;
-type mpz_ptr = *mut gmp::mpz_t;
-type mpq_srcptr = *const gmp::mpq_t;
-type mpq_ptr = *mut gmp::mpq_t;
-type mpf_srcptr = *const gmp::mpf_t;
-type mpf_ptr = *mut gmp::mpf_t;
-type randstate_ptr = *mut gmp::randstate_t;
+type mpz_srcptr = *const mpz_t;
+type mpz_ptr = *mut mpz_t;
+type mpq_srcptr = *const mpq_t;
+type mpq_ptr = *mut mpq_t;
+type mpf_srcptr = *const mpf_t;
+type mpf_ptr = *mut mpf_t;
+type randstate_ptr = *mut randstate_t;
 type mpfr_ptr = *mut mpfr_t;
 type mpfr_srcptr = *const mpfr_t;
 
@@ -1426,8 +1426,8 @@ pub unsafe extern "C" fn div_2exp(
 /// See: [`mpfr_custom_get_size`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005fcustom_005fget_005fsize)
 #[inline]
 pub unsafe extern "C" fn custom_get_size(prec: prec_t) -> usize {
-    let bits = prec_t::from(gmp::NUMB_BITS);
-    ((prec + bits - 1) / bits) as usize * mem::size_of::<gmp::limb_t>()
+    let bits = prec_t::from(NUMB_BITS);
+    ((prec + bits - 1) / bits) as usize * mem::size_of::<limb_t>()
 }
 /// See: [`mpfr_custom_init`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005fcustom_005finit)
 #[inline]
@@ -1451,7 +1451,7 @@ pub unsafe extern "C" fn custom_init_set(
     (*x).prec = prec;
     (*x).sign = s;
     (*x).exp = e;
-    (*x).d = significand as *mut gmp::limb_t;
+    (*x).d = significand as *mut limb_t;
 }
 /// See: [`mpfr_custom_get_kind`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005fcustom_005fget_005fkind)
 #[inline]
@@ -1479,7 +1479,7 @@ pub unsafe extern "C" fn custom_get_exp(x: mpfr_srcptr) -> exp_t {
 /// See: [`mpfr_custom_move`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005fcustom_005fmove)
 #[inline]
 pub unsafe extern "C" fn custom_move(x: mpfr_ptr, new_position: *mut c_void) {
-    (*x).d = new_position as *mut gmp::limb_t
+    (*x).d = new_position as *mut limb_t
 }
 
 #[cfg(test)]
