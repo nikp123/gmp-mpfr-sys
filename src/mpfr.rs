@@ -201,12 +201,10 @@ pub type flags_t = c_uint;
 /// See: [Exception Related Functions](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#Exception-Related-Functions)
 pub type exp_t = c_long;
 
-type uexp_t = c_ulong;
-
 /// See: [Nomenclature and Types](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#Nomenclature-and-Types)
 pub const PREC_MIN: prec_t = 1;
 /// See: [Nomenclature and Types](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#Nomenclature-and-Types)
-pub const PREC_MAX: prec_t = ((!(0 as uprec_t) >> 1) - 256) as prec_t;
+pub const PREC_MAX: prec_t = prec_t::max_value() - 256;
 
 /// See: [`mpfr_t`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005ft)
 /// and [Internals](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#Internals)
@@ -258,7 +256,6 @@ pub const FREE_GLOBAL_CACHE: c_int = 2;
 
 // Types for function declarations in this file.
 
-type uprec_t = c_ulong;
 type mpz_srcptr = *const gmp::mpz_t;
 type mpz_ptr = *mut gmp::mpz_t;
 type mpq_srcptr = *const gmp::mpq_t;
@@ -271,7 +268,7 @@ type mpfr_srcptr = *const mpfr_t;
 
 // Private constants.
 
-const EXP_MAX: exp_t = ((!0 as uexp_t) >> 1) as exp_t;
+const EXP_MAX: exp_t = exp_t::max_value();
 const EXP_NAN: exp_t = 1 - EXP_MAX;
 const EXP_ZERO: exp_t = 0 - EXP_MAX;
 const EXP_INF: exp_t = 2 - EXP_MAX;
