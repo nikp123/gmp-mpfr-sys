@@ -1449,7 +1449,9 @@ pub unsafe extern "C" fn custom_get_size(prec: prec_t) -> usize {
 }
 /// See: [`mpfr_custom_init`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005fcustom_005finit)
 #[inline]
-pub unsafe extern "C" fn custom_init(_significand: *mut c_void, _prec: prec_t) {}
+pub unsafe extern "C" fn custom_init(significand: *mut c_void, prec: prec_t) {
+    let _ = (significand, prec);
+}
 /// See: [`mpfr_custom_init_set`](https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Interface.html#index-mpfr_005fcustom_005finit_005fset)
 #[inline]
 pub unsafe extern "C" fn custom_init_set(
