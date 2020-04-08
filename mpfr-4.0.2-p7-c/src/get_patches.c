@@ -1,6 +1,6 @@
-/* mpfr_get_version -- MPFR version
+/* mpfr_get_patches -- Patches that have been applied
 
-Copyright 2004-2019 Free Software Foundation, Inc.
+Copyright 2007-2019 Free Software Foundation, Inc.
 Contributed by the AriC and Caramba projects, INRIA.
 
 This file is part of the GNU MPFR Library.
@@ -23,7 +23,7 @@ https://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc.,
 #include "mpfr-impl.h"
 
 const char *
-mpfr_get_version (void)
+mpfr_get_patches (void)
 {
-  return "4.0.2-p1";
+  return "sub1-ubftest array-length const sub1-ubf set-int int-overflow include-float";
 }

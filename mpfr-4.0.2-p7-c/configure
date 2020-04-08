@@ -15868,9 +15868,9 @@ else
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
-char *number = "0123456789";
-char *lower  = "abcdefghijklmnopqrstuvwxyz";
-char *upper  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const char *number = "0123456789";
+const char *lower  = "abcdefghijklmnopqrstuvwxyz";
+const char *upper  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 int
 main (void)

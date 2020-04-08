@@ -2026,7 +2026,21 @@ __MPFR_DECLSPEC extern mpfr_prec_t mpfr_log_prec;
 struct mpfr_group_t {
   size_t     alloc;
   mp_limb_t *mant;
+#if MPFR_GROUP_STATIC_SIZE != 0
   mp_limb_t  tab[MPFR_GROUP_STATIC_SIZE];
+#else
+  /* In order to detect memory leaks when testing, MPFR_GROUP_STATIC_SIZE
+     can be set to 0, in which case tab will not be used. ISO C does not
+     support zero-length arrays[*], thus let's use a flexible array member
+     (which will be equivalent here). Note: this is new in C99, but this
+     is just used for testing.
+     [*] Zero-length arrays are a GNU extension:
+           https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+         and as such an extension is forbidden in ISO C, it triggers an
+         error with -Werror=pedantic.
+  */
+  mp_limb_t  tab[];
+#endif
 };
 
 #define MPFR_GROUP_DECL(g) struct mpfr_group_t g
@@ -2406,11 +2420,28 @@ __MPFR_DECLSPEC mpfr_exp_t mpfr_ubf_diff_exp (mpfr_srcptr, mpfr_srcptr);
 }
 #endif
 
-#define MPFR_ZEXP(x)                                                    \
-  ((void) (x)->_mpfr_exp /* to check that x has a correct type */,      \
+/* Get the _mpfr_zexp field (pointer to a mpz_t) of a UBF object.
+   For practical reasons, the type of the argument x can be either
+   mpfr_ubf_ptr or mpfr_ptr, since the latter is used in functions
+   that accept both MPFR numbers and UBF's; this is checked by the
+   code "(x)->_mpfr_exp" (the "sizeof" prevents an access, which
+   could be invalid when MPFR_ZEXP(x) is used for an assignment,
+   and also avoids breaking the aliasing rules if they are dealt
+   with in the future).
+   This macro can be used when building a UBF. So we do not check
+   that the _mpfr_exp field has the value MPFR_EXP_UBF. */
+#define MPFR_ZEXP(x)                            \
+  ((void) sizeof ((x)->_mpfr_exp),              \
    ((mpfr_ubf_ptr) (x))->_mpfr_zexp)
 
+/* If x is a UBF, clear its mpz_t exponent. */
 #define MPFR_UBF_CLEAR_EXP(x) \
   ((void) (MPFR_IS_UBF (x) && (mpz_clear (MPFR_ZEXP (x)), 0)))
+
+/* Like MPFR_GET_EXP, but accepts UBF (with exponent saturated to
+   the interval [MPFR_EXP_MIN,MPFR_EXP_MAX]). */
+#define MPFR_UBF_GET_EXP(x)                                     \
+  (MPFR_IS_UBF (x) ? mpfr_ubf_zexp2exp (MPFR_ZEXP (x)) :        \
+   MPFR_GET_EXP ((mpfr_ptr) (x)))
 
 #endif /* __MPFR_IMPL_H__ */
