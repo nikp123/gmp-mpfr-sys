@@ -26,6 +26,7 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ### Version 1.2.2 news (unreleased)
 
+  * [MPFR] was updated from version 4.0.2-p1 to 4.0.2-p7.
   * The missing function
     <code>[gmp][gmp-1-2]::[MPZ\_ROINIT\_N][gmp-mrn-1-2]</code> was
     added.
