@@ -98,7 +98,7 @@ fn main() {
     let cache_dir = match env::var_os("GMP_MPFR_SYS_CACHE") {
         Some(ref c) if c.is_empty() => None,
         Some(c) => Some(PathBuf::from(c)),
-        None => dirs::cache_dir().map(|c| c.join("gmp-mpfr-sys")),
+        None => system_cache_dir().map(|c| c.join("gmp-mpfr-sys")),
     };
     let cache_dir = cache_dir.map(|cache| cache.join(&version_prefix).join(host));
 
@@ -1189,6 +1189,50 @@ fn write_flush(writer: &mut BufWriter<File>, buf: &str, name: &Path) {
     writer
         .flush()
         .unwrap_or_else(|_| panic!("Cannot write to: {:?}", name));
+}
+
+fn system_cache_dir() -> Option<PathBuf> {
+    #[cfg(target_os = "windows")]
+    {
+        use core::{mem::MaybeUninit, ptr, slice};
+        use std::os::windows::ffi::OsStringExt;
+        use winapi::{
+            shared::winerror::S_OK,
+            um::{combaseapi, knownfolders::FOLDERID_LocalAppData, shlobj, winbase},
+        };
+        let id = &FOLDERID_LocalAppData;
+        let flags = 0;
+        let access = ptr::null_mut();
+        let mut path = MaybeUninit::uninit();
+        unsafe {
+            if shlobj::SHGetKnownFolderPath(id, flags, access, path.as_mut_ptr()) == S_OK {
+                let path = path.assume_init();
+                let slice = slice::from_raw_parts(path, winbase::lstrlenW(path) as usize);
+                let string = OsString::from_wide(slice);
+                combaseapi::CoTaskMemFree(path as _);
+                Some(string.into())
+            } else {
+                None
+            }
+        }
+    }
+    #[cfg(any(target_os = "macos", target_os = "ios"))]
+    {
+        env::var_os("HOME")
+            .filter(|x| !x.is_empty())
+            .map(|x| AsRef::<Path>::as_ref(&x).join("Library").join("Caches"))
+    }
+    #[cfg(not(any(target_os = "windows", target_os = "macos", target_os = "ios")))]
+    {
+        env::var_os("XDG_CACHE_HOME")
+            .filter(|x| !x.is_empty())
+            .map(PathBuf::from)
+            .or_else(|| {
+                env::var_os("HOME")
+                    .filter(|x| !x.is_empty())
+                    .map(|x| AsRef::<Path>::as_ref(&x).join(".cache"))
+            })
+    }
 }
 
 const BUG_47048_SAY_HI_C: &str = r#"/* say_hi.c */

@@ -35,5 +35,6 @@ cnodelete = []
 version = "0.2.44"
 default-features = false
 
-[build-dependencies]
-dirs = "2.0"
+[target.'cfg(target_os = "windows")'.build-dependencies.winapi]
+version = "0.3"
+features = ["combaseapi", "knownfolders", "shlobj", "winbase", "winerror"]
