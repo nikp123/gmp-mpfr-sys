@@ -22,6 +22,7 @@ environment:
       MSYSTEM_CARCH: x86_64
       MSYSTEM_CHOST: x86_64-w64-mingw32
       MSYSTEM_PREFIX: C:/msys64/mingw64
+      PKG_CONFIG_PATH: C:\msys64\mingw64\lib\pkgconfig;C:\msys64\mingw64\share\pkgconfig
     - TARGET: i686-pc-windows-gnu
       CONFIG_SITE: C:/msys64/mingw32/etc/config.site
       MINGW_CHOST: i686-w64-mingw32
@@ -31,6 +32,7 @@ environment:
       MSYSTEM_CARCH: i686
       MSYSTEM_CHOST: i686-w64-mingw32
       MSYSTEM_PREFIX: C:/msys64/mingw32
+      PKG_CONFIG_PATH: C:\msys64\mingw32\lib\pkgconfig;C:\msys64\mingw32\share\pkgconfig
 
 cache:
   - '%USERPROFILE%\.cargo\registry\cache -> Cargo.toml'
@@ -57,10 +59,11 @@ test_script:
   - rm Cargo.lock
   - cargo +1.37.0-%TARGET% test --features fail-on-warnings
   - cargo +1.37.0-%TARGET% test --release --features fail-on-warnings
-#Disable use-system-libs tests until GMP version catches up
-#  - cargo clean
-#  - cargo +beta-%TARGET% test --features "fail-on-warnings use-system-libs"
-#  - cargo +beta-%TARGET% test --release --features "fail-on-warnings use-system-libs"
+  # Update GMP to 6.2.0 now to make sure the update does not interfere with gcc
+  - pacman -Sy --noconfirm %MINGW_PACKAGE_PREFIX%-gmp
+  - cargo clean
+  - cargo +beta-%TARGET% test --features "fail-on-warnings use-system-libs"
+  - cargo +beta-%TARGET% test --release --features "fail-on-warnings use-system-libs"
 
 after_test:
   - bash -c "if [ -d $USERPROFILE/.cargo/registry/cache ]; then cd $USERPROFILE/.cargo/registry; for c in cache/*/*.crate; do s=src/${c#cache/}; if [ ! -e ${s/.crate/} ]; then rm -v $c; fi; done; find cache -name \*.crate; fi"
