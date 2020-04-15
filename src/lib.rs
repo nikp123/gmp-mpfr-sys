@@ -277,7 +277,7 @@ pub mod mpc;
 #[cfg(feature = "mpfr")]
 pub mod mpfr;
 
-#[cfg(doc)]
+#[cfg(all(doc, not(doctest)))]
 /// This module only holds documentation; do not use it in code.
 pub mod C;
 
