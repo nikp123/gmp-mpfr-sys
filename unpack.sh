@@ -53,6 +53,7 @@ function truncate {
 # 3b. Remove doc/Makefile, demos/{,*/}Makefile from ac_config_files in configure
 # 4. Remove doc and demos from SUBDIRS in Makefile.in
 # 5. In tests/misc/t-locale.c, add " && ! defined __ANDROID__" to "#if HAVE_NL_LANGINFO".
+# 6. Include a Rust entry in the Language Bindings documentation.
 if [ -e gmp-*-c ]; then
 	rm -r gmp-*-c
 fi
@@ -66,25 +67,39 @@ truncate ChangeLog $CHANGELOG_CHARS
 rm doc/*.info* doc/*.tex
 sed -i.rm~ -e '
 /Configs for demos/,/Create config.m4/{
-         /Create config.m4/!s/^/#gmp-mpfr-sys /
-         s/\(#gmp-mpfr-sys\) $/\1/
+    /Create config.m4/!s/^/#gmp-mpfr-sys /
+    s/\(#gmp-mpfr-sys\) $/\1/
 }
 /^ac_config_files=/{
-        :repeat
-        s/\( #gmp-mpfr-sys .*\) #gmp-mpfr-sys\(.*\)/\1\2/
-        s,^\([^#]*\) \(\(doc\|demos[/a-z]*\)/Makefile\)\([^#]*\)\($\| #\),\1\4 #gmp-mpfr-sys \2\5,
-        t repeat
+    :repeat
+    s/\( #gmp-mpfr-sys .*\) #gmp-mpfr-sys\(.*\)/\1\2/
+    s,^\([^#]*\) \(\(doc\|demos[/a-z]*\)/Makefile\)\([^#]*\)\($\| #\),\1\4 #gmp-mpfr-sys \2\5,
+    t repeat
 }
 ' configure
 sed -i.rm~ -e '
 /^SUBDIRS = /{
-	:repeat
-        s/\( #gmp-mpfr-sys .*\) #gmp-mpfr-sys\(.*\)/\1\2/
-        s,^\([^#]*\) \(doc\|demos\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
-        t repeat
+    :repeat
+    s/\( #gmp-mpfr-sys .*\) #gmp-mpfr-sys\(.*\)/\1\2/
+    s,^\([^#]*\) \(doc\|demos\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
+    t repeat
 }
 ' Makefile.in
 sed -i.rm~ -e 's/#if HAVE_NL_LANGINFO/& \&\& ! defined __ANDROID__/' tests/misc/t-locale.c
+sed -i.rm~ -e '/@item Scheme/ {
+    i\
+@item Rust
+    i\
+@itemize @bullet
+    i\
+@item
+    i\
+Rug @spaceuref{https://crates.io/crates/rug}
+    i\
+@end itemize
+    i\
+
+}' doc/gmp.texi
 cd ..
 
 # MPFR
@@ -96,7 +111,7 @@ cd ..
 # 5. Remove get_patches.c rule in src/Makefile.in
 # 6. Generate src/get_patches.c
 if [ -e mpfr-*-c ]; then
-	rm -r mpfr-*-c
+    rm -r mpfr-*-c
 fi
 tar xf "$MPFRTAR"
 mv mpfr-$MPFRVER mpfr-$MPFRVERP-c
@@ -108,10 +123,10 @@ truncate ChangeLog $CHANGELOG_CHARS
 rm doc/*.info* doc/*.tex
 sed -i.rm~ -e '
 /^ac_config_files=/{
-        :repeat
-        s/\( #gmp-mpfr-sys .*\) #gmp-mpfr-sys\(.*\)/\1\2/
-        s,^\([^#]*\) \(doc/Makefile\|mpfr.pc\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
-        t repeat
+    :repeat
+    s/\( #gmp-mpfr-sys .*\) #gmp-mpfr-sys\(.*\)/\1\2/
+    s,^\([^#]*\) \(doc/Makefile\|mpfr.pc\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
+    t repeat
 }
 ' configure
 sed -i.rm~ -e '
@@ -192,9 +207,9 @@ for f in doc-c/*/*.html; do
     sed -i.rm~ -e '/<table class="menu"/,/<\/table>/s/<td\|<th/& style="padding: 0; border: 0;" /g' "$f"
     sed -i.rm~ -e '/<table class="index-/,/<\/table>/s/<td\|<th/& style="padding: 1px; border: 0;" /g' "$f"
     sed -i.rm~ -e 's/<table class="\(menu\|index-[cpfn]*\)"/& style="margin: 0; width: auto; padding: 0; border: 0;"/' "$f"
-    sed -i.rm~ -e ': repeat; s/"\([A-Z][A-Za-z0-9_-]*\.html\)/"constant.\1/; t repeat' "$f"
-    sed -i.rm~ -e ': repeat; s/\("constant\.[A-Za-z0-9_]*\)-\([A-Za-z0-9_-]*\.html\)/\1_\2/; t repeat' "$f"
-    sed -i.rm~ -e ': repeat; s/\("constant\.[A-Za-z0-9_]*\)_002b\([A-Za-z0-9_]*\.html\)/\1P\2/; t repeat' "$f"
-    sed -i.rm~ -e ': repeat; s/\("constant\.[A-Za-z0-9_]*\)_002d\([A-Za-z0-9_]*\.html\)/\1_\2/; t repeat' "$f"
+    sed -i.rm~ -e ':repeat; s/"\([A-Z][A-Za-z0-9_-]*\.html\)/"constant.\1/; t repeat' "$f"
+    sed -i.rm~ -e ':repeat; s/\("constant\.[A-Za-z0-9_]*\)-\([A-Za-z0-9_-]*\.html\)/\1_\2/; t repeat' "$f"
+    sed -i.rm~ -e ':repeat; s/\("constant\.[A-Za-z0-9_]*\)_002b\([A-Za-z0-9_]*\.html\)/\1P\2/; t repeat' "$f"
+    sed -i.rm~ -e ':repeat; s/\("constant\.[A-Za-z0-9_]*\)_002d\([A-Za-z0-9_]*\.html\)/\1_\2/; t repeat' "$f"
 done
 find doc-c -name \*.rm~ -delete

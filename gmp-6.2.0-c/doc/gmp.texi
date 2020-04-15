@@ -7592,6 +7592,12 @@ GMPY @uref{https://code.google.com/p/gmpy/}
 @uref{https://rubygems.org/gems/gmp}
 @end itemize
 
+@item Rust
+@itemize @bullet
+@item
+Rug @spaceuref{https://crates.io/crates/rug}
+@end itemize
+
 @item Scheme
 @itemize @bullet
 @item
