@@ -278,7 +278,6 @@ pub mod mpc;
 pub mod mpfr;
 
 #[cfg(all(doc, not(doctest)))]
-/// This module only holds documentation; do not use it in code.
 pub mod C;
 
 #[cfg(test)]
