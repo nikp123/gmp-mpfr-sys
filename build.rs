@@ -126,6 +126,7 @@ fn main() {
         use_system_libs,
         workaround_47048: Workaround47048::No,
     };
+    env.check_feature("external_doc", TRY_EXTERNAL_DOC, Some("external_doc"));
 
     // make sure we have target directories
     create_dir_or_panic(&env.lib_dir);
@@ -1348,3 +1349,9 @@ int main(void) {
     return 0;
 }
 "##;
+
+const TRY_EXTERNAL_DOC: &str = r#"// try_external_doc.rs
+#[doc(include = "try_external_doc.rs")]
+pub struct S;
+fn main() {}
+"#;

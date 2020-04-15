@@ -53,6 +53,9 @@ function truncate {
 # 3b. Remove doc/Makefile, demos/{,*/}Makefile from ac_config_files in configure
 # 4. Remove doc and demos from SUBDIRS in Makefile.in
 # 5. In tests/misc/t-locale.c, add " && ! defined __ANDROID__" to "#if HAVE_NL_LANGINFO".
+if [ -e gmp-*-c ]; then
+	rm -r gmp-*-c
+fi
 tar xf "$GMPTAR"
 mv gmp-$GMPVER gmp-$GMPVERP-c
 cd gmp-$GMPVERP-c
@@ -92,6 +95,9 @@ cd ..
 # 4b. Remove $(pkgconfig_DATA) from DATA in Makefile.in
 # 5. Remove get_patches.c rule in src/Makefile.in
 # 6. Generate src/get_patches.c
+if [ -e mpfr-*-c ]; then
+	rm -r mpfr-*-c
+fi
 tar xf "$MPFRTAR"
 mv mpfr-$MPFRVER mpfr-$MPFRVERP-c
 cd mpfr-$MPFRVERP-c
@@ -122,6 +128,9 @@ cd ..
 # 3. Remove doc/*.info*, doc/*.tex
 # 4. Remove doc/Makefile from ac_config_files in configure
 # 5. Remove doc from SUBDIRS in Makefile.in
+if [ -e mpc-*-c ]; then
+	rm -r mpc-*-c
+fi
 tar xf "$MPCTAR"
 mv mpc-$MPCVER mpc-$MPCVERP-c
 cd mpc-$MPCVERP-c
@@ -146,3 +155,46 @@ for m in $(find *-c -name Makefile.in); do
     sed -i.rm~ '/Makefile:/,/esac/s/^/#gmp-mpfr-sys /' $m
 done
 find *-c -name \*.rm~ -delete
+
+# Documentation
+# 1. Build html documentation
+# 2. Remove unnecessary node redirects
+# 3. Remove anything outside <body>, including the <body> and </body> tags themselves
+# 4. Remove blank lines (so that rustdoc's markdown interpreter sees as html)
+# 5. Redirect directory links
+# 6. Clear margins and padding for tables with class="menu", "index-cp", "index-fn"
+# 8. Redirect links by prepending "constant.", replacing "-" and "_002d" by "_", and replacing "_002b" by "P"
+if [ -e doc-c ]; then
+    rm -r doc-c
+fi
+REMOVE_STRAY_BACKSLASHES='
+s/mp\\_bits\\_per\\_limb/mp_bits_per_limb/g
+s/GMP\\_NUMB\\_BITS/GMP_NUMB_BITS/g
+s/\\log/log/g
+s/\\exp/exp/g
+s/\\pi/Pi/g
+s/\\infty/Inf/g
+'
+mkdir doc-c{,/GMP,/MPFR,/MPC}
+makeinfo gmp*/doc/gmp.texi --html --split=chapter --output=doc-c/GMP
+makeinfo mpfr*/doc/mpfr.texi --html --split=chapter --output=doc-c/MPFR
+makeinfo mpc*/doc/mpc.texi --html --split=chapter --output=doc-c/MPC
+for f in doc-c/*/*.html; do
+    if grep -q 'The node you are looking for is' "$f"; then
+        rm "$f"
+        continue
+    fi
+    sed -i.rm~ -e '0,/<body/d' "$f"
+    sed -i.rm~ -e '/<\/body>/,$d' "$f"
+    sed -i.rm~ -e '/^$/d' "$f"
+    sed -i.rm~ -e "$REMOVE_STRAY_BACKSLASHES" "$f"
+    sed -i.rm~ -e 's/..\/dir\/index.html\|dir.html#Top/..\/index.html/g' "$f"
+    sed -i.rm~ -e '/<table class="menu"/,/<\/table>/s/<td\|<th/& style="padding: 0; border: 0;" /g' "$f"
+    sed -i.rm~ -e '/<table class="index-/,/<\/table>/s/<td\|<th/& style="padding: 1px; border: 0;" /g' "$f"
+    sed -i.rm~ -e 's/<table class="\(menu\|index-[cpfn]*\)"/& style="margin: 0; width: auto; padding: 0; border: 0;"/' "$f"
+    sed -i.rm~ -e ': repeat; s/"\([A-Z][A-Za-z0-9_-]*\.html\)/"constant.\1/; t repeat' "$f"
+    sed -i.rm~ -e ': repeat; s/\("constant\.[A-Za-z0-9_]*\)-\([A-Za-z0-9_-]*\.html\)/\1_\2/; t repeat' "$f"
+    sed -i.rm~ -e ': repeat; s/\("constant\.[A-Za-z0-9_]*\)_002b\([A-Za-z0-9_]*\.html\)/\1P\2/; t repeat' "$f"
+    sed -i.rm~ -e ': repeat; s/\("constant\.[A-Za-z0-9_]*\)_002d\([A-Za-z0-9_]*\.html\)/\1_\2/; t repeat' "$f"
+done
+find doc-c -name \*.rm~ -delete

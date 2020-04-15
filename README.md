@@ -271,9 +271,9 @@ To use a different directory, you can set the environment variable
 [`Complex`]: https://docs.rs/rug/*/rug/struct.Complex.html
 [`Float`]: https://docs.rs/rug/*/rug/struct.Float.html
 [`Integer`]: https://docs.rs/rug/*/rug/struct.Integer.html
-[`MPFR_RNDN`]: https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#Rounding-Modes
+[`MPFR_RNDN`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/C/MPFR/constant.MPFR_Basics.html#Rounding-Modes
 [`Rational`]: https://docs.rs/rug/*/rug/struct.Rational.html
-[`enum MPFR_RND_T`]: https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005frnd_005ft
+[`enum MPFR_RND_T`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/C/MPFR/constant.MPFR_Basics.html#index-mpfr_005frnd_005ft
 [`gmp::mpf_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.mpf_t.html
 [`gmp::mpq_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.mpq_t.html
 [`gmp::mpz_init`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/fn.mpz_init.html
@@ -281,13 +281,13 @@ To use a different directory, you can set the environment variable
 [`gmp::randstate_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/struct.randstate_t.html
 [`gmp::set_memory_functions`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/fn.set_memory_functions.html
 [`gmp`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/gmp/index.html
-[`mp_set_memory_functions`]: https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Custom-Allocation.html#index-mp_005fset_005fmemory_005ffunctions
+[`mp_set_memory_functions`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/C/GMP/constant.Custom_Allocation.html#index-mp_005fset_005fmemory_005ffunctions
 [`mpc::mpc_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpc/struct.mpc_t.html
 [`mpc`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpc/index.html
 [`mpfr::mpfr_t`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpfr/struct.mpfr_t.html
 [`mpfr::rnd_t::RNDN`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpfr/enum.rnd_t.html#variant.RNDN
 [`mpfr`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/mpfr/index.html
-[`mpz_init`]: https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Integer-Functions.html#index-mpz_005finit
+[`mpz_init`]: https://docs.rs/gmp-mpfr-sys/~1.2/gmp_mpfr_sys/C/GMP/constant.Integer_Functions.html#index-mpz_005finit
 [msys]:     https://msys2.github.io/
 [rug crate]: https://crates.io/crates/rug
 [sys crate]: https://crates.io/crates/gmp-mpfr-sys

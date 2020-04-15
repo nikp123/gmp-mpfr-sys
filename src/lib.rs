@@ -241,9 +241,9 @@ To use a different directory, you can set the environment variable
 [`Complex`]: https://docs.rs/rug/&#42;/rug/struct.Complex.html
 [`Float`]: https://docs.rs/rug/&#42;/rug/struct.Float.html
 [`Integer`]: https://docs.rs/rug/&#42;/rug/struct.Integer.html
-[`MPFR_RNDN`]: https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#Rounding-Modes
+[`MPFR_RNDN`]: C/MPFR/constant.MPFR_Basics.html#Rounding-Modes
 [`Rational`]: https://docs.rs/rug/&#42;/rug/struct.Rational.html
-[`enum MPFR_RND_T`]: https://tspiteri.gitlab.io/gmp-mpfr-sys/mpfr/MPFR-Basics.html#index-mpfr_005frnd_005ft
+[`enum MPFR_RND_T`]: C/MPFR/constant.MPFR_Basics.html#index-mpfr_005frnd_005ft
 [`gmp::mpf_t`]: gmp/struct.mpf_t.html
 [`gmp::mpq_t`]: gmp/struct.mpq_t.html
 [`gmp::mpz_init`]: gmp/fn.mpz_init.html
@@ -251,13 +251,13 @@ To use a different directory, you can set the environment variable
 [`gmp::randstate_t`]: gmp/struct.randstate_t.html
 [`gmp::set_memory_functions`]: gmp/fn.set_memory_functions.html
 [`gmp`]: gmp/index.html
-[`mp_set_memory_functions`]: https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Custom-Allocation.html#index-mp_005fset_005fmemory_005ffunctions
+[`mp_set_memory_functions`]: C/GMP/constant.Custom_Allocation.html#index-mp_005fset_005fmemory_005ffunctions
 [`mpc::mpc_t`]: mpc/struct.mpc_t.html
 [`mpc`]: mpc/index.html
 [`mpfr::mpfr_t`]: mpfr/struct.mpfr_t.html
 [`mpfr::rnd_t::RNDN`]: mpfr/enum.rnd_t.html#variant.RNDN
 [`mpfr`]: mpfr/index.html
-[`mpz_init`]: https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/Integer-Functions.html#index-mpz_005finit
+[`mpz_init`]: C/GMP/constant.Integer_Functions.html#index-mpz_005finit
 [msys]:     https://msys2.github.io/
 [rug crate]: https://crates.io/crates/rug
 [sys crate]: https://crates.io/crates/gmp-mpfr-sys
@@ -268,6 +268,7 @@ To use a different directory, you can set the environment variable
 #![doc(html_logo_url = "https://tspiteri.gitlab.io/gmp-mpfr-sys/rug.svg")]
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
+#![cfg_attr(nightly_external_doc, feature(external_doc))]
 #![allow(clippy::identity_conversion, clippy::missing_safety_doc)]
 
 pub mod gmp;
@@ -275,6 +276,10 @@ pub mod gmp;
 pub mod mpc;
 #[cfg(feature = "mpfr")]
 pub mod mpfr;
+
+#[cfg(doc)]
+/// This module only holds documentation; do not use it in code.
+pub mod C;
 
 #[cfg(test)]
 mod tests {
