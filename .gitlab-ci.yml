@@ -104,15 +104,17 @@ i686-gnulinux:
 #  - www
 
 pages:
-  image: alpine:latest
-  before_script:
-  - "true"
+  image: amd64/rust:1
+  variables:
+    TOOLCHAIN: nightly-x86_64
   script:
-  - "true"
-  after_script:
-  - "true"
+  - rustup toolchain install --profile minimal $TOOLCHAIN
+  - rm -rf public
+  - cp -R doc public
+  - cargo +$TOOLCHAIN doc --no-deps
+  - mv target/doc public/dev
   artifacts:
     paths:
     - public
   only:
-  - www
+  - master
