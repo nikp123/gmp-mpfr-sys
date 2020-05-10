@@ -1,6 +1,6 @@
 <span id="Algorithms"></span><div class="header">
 <p>
-Next: <a href="constant.Internals.html#Internals" accesskey="n" rel="next">Internals</a>, Previous: <a href="constant.Language_Bindings.html#Language-Bindings" accesskey="p" rel="prev">Language Bindings</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="constant.Internals.html#Internals" accesskey="n" rel="next">Internals</a>, Previous: <a href="constant.Language_Bindings.html#start" accesskey="p" rel="prev">Language Bindings</a>, Up: <a href="index.html#start" accesskey="u" rel="up">Top</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Algorithms-1"></span><h2 class="chapter">15 Algorithms</h2>
 <span id="index-Algorithms"></span>
@@ -33,7 +33,7 @@ documented functions.
 <hr>
 <span id="Multiplication-Algorithms"></span><div class="header">
 <p>
-Next: <a href="#Division-Algorithms" accesskey="n" rel="next">Division Algorithms</a>, Previous: <a href="#Algorithms" accesskey="p" rel="prev">Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Division-Algorithms" accesskey="n" rel="next">Division Algorithms</a>, Previous: <a href="#Algorithms" accesskey="p" rel="prev">Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Multiplication"></span><h3 class="section">15.1 Multiplication</h3>
 <span id="index-Multiplication-algorithms"></span>
@@ -79,14 +79,14 @@ algorithms or directly with FFT, depending on operand size (see <a href="#Unbala
 <hr>
 <span id="Basecase-Multiplication"></span><div class="header">
 <p>
-Next: <a href="#Karatsuba-Multiplication" accesskey="n" rel="next">Karatsuba Multiplication</a>, Previous: <a href="#Multiplication-Algorithms" accesskey="p" rel="prev">Multiplication Algorithms</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Karatsuba-Multiplication" accesskey="n" rel="next">Karatsuba Multiplication</a>, Previous: <a href="#Multiplication-Algorithms" accesskey="p" rel="prev">Multiplication Algorithms</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Basecase-Multiplication-1"></span><h4 class="subsection">15.1.1 Basecase Multiplication</h4>
 <p>Basecase NxM multiplication is a straightforward rectangular set of
 cross-products, the same as long multiplication done by hand and for that
 reason sometimes known as the schoolbook or grammar school method.  This is an
 <em>O(N*M)</em> algorithm.  See Knuth section 4.3.1 algorithm M
-(see <a href="constant.References.html#References">References</a>), and the <samp>mpn/generic/mul_basecase.c</samp> code.
+(see <a href="constant.References.html#start">References</a>), and the <samp>mpn/generic/mul_basecase.c</samp> code.
 </p>
 <p>Assembly implementations of <code>mpn_mul_basecase</code> are essentially the same
 as the generic C code, but have all the usual assembly tricks and
@@ -125,7 +125,7 @@ routine should be used always.
 <hr>
 <span id="Karatsuba-Multiplication"></span><div class="header">
 <p>
-Next: <a href="#Toom-3_002dWay-Multiplication" accesskey="n" rel="next">Toom 3-Way Multiplication</a>, Previous: <a href="#Basecase-Multiplication" accesskey="p" rel="prev">Basecase Multiplication</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Toom-3_002dWay-Multiplication" accesskey="n" rel="next">Toom 3-Way Multiplication</a>, Previous: <a href="#Basecase-Multiplication" accesskey="p" rel="prev">Basecase Multiplication</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Karatsuba-Multiplication-1"></span><h4 class="subsection">15.1.2 Karatsuba Multiplication</h4>
 <span id="index-Karatsuba-multiplication"></span>
@@ -214,7 +214,7 @@ that sense the algorithm thresholds are merely of academic interest.
 <hr>
 <span id="Toom-3_002dWay-Multiplication"></span><div class="header">
 <p>
-Next: <a href="#Toom-4_002dWay-Multiplication" accesskey="n" rel="next">Toom 4-Way Multiplication</a>, Previous: <a href="#Karatsuba-Multiplication" accesskey="p" rel="prev">Karatsuba Multiplication</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Toom-4_002dWay-Multiplication" accesskey="n" rel="next">Toom 4-Way Multiplication</a>, Previous: <a href="#Karatsuba-Multiplication" accesskey="p" rel="prev">Karatsuba Multiplication</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Toom-3_002dWay-Multiplication-1"></span><h4 class="subsection">15.1.3 Toom 3-Way Multiplication</h4>
 <span id="index-Toom-multiplication"></span>
@@ -355,7 +355,7 @@ what might be predicted.
 <p>The formula given for the Karatsuba algorithm (see <a href="#Karatsuba-Multiplication">Karatsuba Multiplication</a>) has an equivalent for Toom-3 involving only five multiplies,
 but this would be complicated and unenlightening.
 </p>
-<p>An alternate view of Toom-3 can be found in Zuras (see <a href="constant.References.html#References">References</a>), using
+<p>An alternate view of Toom-3 can be found in Zuras (see <a href="constant.References.html#start">References</a>), using
 a vector to represent the <em>x</em> and <em>y</em> splits and a matrix
 multiplication for the evaluation and interpolation stages.  The matrix
 inverses are not meant to be actually used, and they have elements with values
@@ -367,7 +367,7 @@ done.
 <hr>
 <span id="Toom-4_002dWay-Multiplication"></span><div class="header">
 <p>
-Next: <a href="#Higher-degree-Toom_0027n_0027half" accesskey="n" rel="next">Higher degree Toom'n'half</a>, Previous: <a href="#Toom-3_002dWay-Multiplication" accesskey="p" rel="prev">Toom 3-Way Multiplication</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Higher-degree-Toom_0027n_0027half" accesskey="n" rel="next">Higher degree Toom'n'half</a>, Previous: <a href="#Toom-3_002dWay-Multiplication" accesskey="p" rel="prev">Toom 3-Way Multiplication</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Toom-4_002dWay-Multiplication-1"></span><h4 class="subsection">15.1.4 Toom 4-Way Multiplication</h4>
 <span id="index-Toom-multiplication-1"></span>
@@ -406,7 +406,7 @@ original size each.
 <hr>
 <span id="Higher-degree-Toom_0027n_0027half"></span><div class="header">
 <p>
-Next: <a href="#FFT-Multiplication" accesskey="n" rel="next">FFT Multiplication</a>, Previous: <a href="#Toom-4_002dWay-Multiplication" accesskey="p" rel="prev">Toom 4-Way Multiplication</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#FFT-Multiplication" accesskey="n" rel="next">FFT Multiplication</a>, Previous: <a href="#Toom-4_002dWay-Multiplication" accesskey="p" rel="prev">Toom 4-Way Multiplication</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Higher-degree-Toom_0027n_0027half-1"></span><h4 class="subsection">15.1.5 Higher degree Toom&rsquo;n&rsquo;half</h4>
 <span id="index-Toom-multiplication-2"></span>
@@ -433,13 +433,13 @@ to a memory buffer equal in size to the result of the product.
 <hr>
 <span id="FFT-Multiplication"></span><div class="header">
 <p>
-Next: <a href="#Other-Multiplication" accesskey="n" rel="next">Other Multiplication</a>, Previous: <a href="#Higher-degree-Toom_0027n_0027half" accesskey="p" rel="prev">Higher degree Toom'n'half</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Other-Multiplication" accesskey="n" rel="next">Other Multiplication</a>, Previous: <a href="#Higher-degree-Toom_0027n_0027half" accesskey="p" rel="prev">Higher degree Toom'n'half</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="FFT-Multiplication-1"></span><h4 class="subsection">15.1.6 FFT Multiplication</h4>
 <span id="index-FFT-multiplication-1"></span>
 <span id="index-Fast-Fourier-Transform"></span>
 <p>At large to very large sizes a Fermat style FFT multiplication is used,
-following Sch&ouml;nhage and Strassen (see <a href="constant.References.html#References">References</a>).  Descriptions of FFTs
+following Sch&ouml;nhage and Strassen (see <a href="constant.References.html#start">References</a>).  Descriptions of FFTs
 in various forms can be found in many textbooks, for instance Knuth section
 4.3.3 part C or Lipson chapter IX.  A brief description of the form used in
 GMP is given here.
@@ -541,7 +541,7 @@ needed.
 <hr>
 <span id="Other-Multiplication"></span><div class="header">
 <p>
-Next: <a href="#Unbalanced-Multiplication" accesskey="n" rel="next">Unbalanced Multiplication</a>, Previous: <a href="#FFT-Multiplication" accesskey="p" rel="prev">FFT Multiplication</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Unbalanced-Multiplication" accesskey="n" rel="next">Unbalanced Multiplication</a>, Previous: <a href="#FFT-Multiplication" accesskey="p" rel="prev">FFT Multiplication</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Other-Multiplication-1"></span><h4 class="subsection">15.1.7 Other Multiplication</h4>
 <span id="index-Toom-multiplication-3"></span>
@@ -587,7 +587,7 @@ GMP.
 <hr>
 <span id="Unbalanced-Multiplication"></span><div class="header">
 <p>
-Previous: <a href="#Other-Multiplication" accesskey="p" rel="prev">Other Multiplication</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Other-Multiplication" accesskey="p" rel="prev">Other Multiplication</a>, Up: <a href="#Multiplication-Algorithms" accesskey="u" rel="up">Multiplication Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Unbalanced-Multiplication-1"></span><h4 class="subsection">15.1.8 Unbalanced Multiplication</h4>
 <span id="index-Unbalanced-multiplication"></span>
@@ -607,7 +607,7 @@ can be split into 2, 3, or 4 coefficients, i.e., a polynomial of degree 1 to
 <hr>
 <span id="Division-Algorithms"></span><div class="header">
 <p>
-Next: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="n" rel="next">Greatest Common Divisor Algorithms</a>, Previous: <a href="#Multiplication-Algorithms" accesskey="p" rel="prev">Multiplication Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="n" rel="next">Greatest Common Divisor Algorithms</a>, Previous: <a href="#Multiplication-Algorithms" accesskey="p" rel="prev">Multiplication Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Division-Algorithms-1"></span><h3 class="section">15.2 Division Algorithms</h3>
 <span id="index-Division-algorithms"></span>
@@ -630,7 +630,7 @@ Next: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="n" rel="next">Gre
 <hr>
 <span id="Single-Limb-Division"></span><div class="header">
 <p>
-Next: <a href="#Basecase-Division" accesskey="n" rel="next">Basecase Division</a>, Previous: <a href="#Division-Algorithms" accesskey="p" rel="prev">Division Algorithms</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Basecase-Division" accesskey="n" rel="next">Basecase Division</a>, Previous: <a href="#Division-Algorithms" accesskey="p" rel="prev">Division Algorithms</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Single-Limb-Division-1"></span><h4 class="subsection">15.2.1 Single Limb Division</h4>
 <p>Nx1 division is implemented using repeated 2x1 divisions from
@@ -638,7 +638,7 @@ high to low, either with a hardware divide instruction or a multiplication by
 inverse, whichever is best on a given CPU.
 </p>
 <p>The multiply by inverse follows &ldquo;Improved division by invariant integers&rdquo; by
-M&ouml;ller and Granlund (see <a href="constant.References.html#References">References</a>) and is implemented as
+M&ouml;ller and Granlund (see <a href="constant.References.html#start">References</a>) and is implemented as
 <code>udiv_qrnnd_preinv</code> in <samp>gmp-impl.h</samp>.  The idea is to have a
 fixed-point approximation to <em>1/d</em> (see <code>invert_limb</code>) and then
 multiply by the high limb (plus one bit) of the dividend to get a quotient
@@ -682,7 +682,7 @@ if the only multiply is a half limb, and especially if it&rsquo;s not pipelined.
 <hr>
 <span id="Basecase-Division"></span><div class="header">
 <p>
-Next: <a href="#Divide-and-Conquer-Division" accesskey="n" rel="next">Divide and Conquer Division</a>, Previous: <a href="#Single-Limb-Division" accesskey="p" rel="prev">Single Limb Division</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Divide-and-Conquer-Division" accesskey="n" rel="next">Divide and Conquer Division</a>, Previous: <a href="#Single-Limb-Division" accesskey="p" rel="prev">Single Limb Division</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Basecase-Division-1"></span><h4 class="subsection">15.2.2 Basecase Division</h4>
 <p>Basecase NxM division is like long division done by hand, but in base
@@ -707,12 +707,12 @@ divide for each of the Q quotient limbs.
 <hr>
 <span id="Divide-and-Conquer-Division"></span><div class="header">
 <p>
-Next: <a href="#Block_002dWise-Barrett-Division" accesskey="n" rel="next">Block-Wise Barrett Division</a>, Previous: <a href="#Basecase-Division" accesskey="p" rel="prev">Basecase Division</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Block_002dWise-Barrett-Division" accesskey="n" rel="next">Block-Wise Barrett Division</a>, Previous: <a href="#Basecase-Division" accesskey="p" rel="prev">Basecase Division</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Divide-and-Conquer-Division-1"></span><h4 class="subsection">15.2.3 Divide and Conquer Division</h4>
 <p>For divisors larger than <code>DC_DIV_QR_THRESHOLD</code>, division is done by dividing.
 Or to be precise by a recursive divide and conquer algorithm based on work by
-Moenck and Borodin, Jebelean, and Burnikel and Ziegler (see <a href="constant.References.html#References">References</a>).
+Moenck and Borodin, Jebelean, and Burnikel and Ziegler (see <a href="constant.References.html#start">References</a>).
 </p>
 <p>The algorithm consists essentially of recognising that a 2NxN division
 can be done with the basecase division algorithm (see <a href="#Basecase-Division">Basecase Division</a>),
@@ -744,7 +744,7 @@ is about 2 to 4 times slower than an NxN multiplication.
 <hr>
 <span id="Block_002dWise-Barrett-Division"></span><div class="header">
 <p>
-Next: <a href="#Exact-Division" accesskey="n" rel="next">Exact Division</a>, Previous: <a href="#Divide-and-Conquer-Division" accesskey="p" rel="prev">Divide and Conquer Division</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Exact-Division" accesskey="n" rel="next">Exact Division</a>, Previous: <a href="#Divide-and-Conquer-Division" accesskey="p" rel="prev">Divide and Conquer Division</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Block_002dWise-Barrett-Division-1"></span><h4 class="subsection">15.2.4 Block-Wise Barrett Division</h4>
 <p>For the largest divisions, a block-wise Barrett division algorithm is used.
@@ -758,12 +758,12 @@ algorithm.  For a <em>2n/n</em> division, the inverse will be just <em>ceil(n/2)
 <hr>
 <span id="Exact-Division"></span><div class="header">
 <p>
-Next: <a href="#Exact-Remainder" accesskey="n" rel="next">Exact Remainder</a>, Previous: <a href="#Block_002dWise-Barrett-Division" accesskey="p" rel="prev">Block-Wise Barrett Division</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Exact-Remainder" accesskey="n" rel="next">Exact Remainder</a>, Previous: <a href="#Block_002dWise-Barrett-Division" accesskey="p" rel="prev">Block-Wise Barrett Division</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Exact-Division-1"></span><h4 class="subsection">15.2.5 Exact Division</h4>
 <p>A so-called exact division is when the dividend is known to be an exact
 multiple of the divisor.  Jebelean&rsquo;s exact division algorithm uses this
-knowledge to make some significant optimizations (see <a href="constant.References.html#References">References</a>).
+knowledge to make some significant optimizations (see <a href="constant.References.html#start">References</a>).
 </p>
 <p>The idea can be illustrated in decimal for example with 368154 divided by
 543.  Because the low digit of the dividend is 4, the low digit of the
@@ -819,7 +819,7 @@ multipliers.
 <hr>
 <span id="Exact-Remainder"></span><div class="header">
 <p>
-Next: <a href="#Small-Quotient-Division" accesskey="n" rel="next">Small Quotient Division</a>, Previous: <a href="#Exact-Division" accesskey="p" rel="prev">Exact Division</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Small-Quotient-Division" accesskey="n" rel="next">Small Quotient Division</a>, Previous: <a href="#Exact-Division" accesskey="p" rel="prev">Exact Division</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Exact-Remainder-1"></span><h4 class="subsection">15.2.6 Exact Remainder</h4>
 <span id="index-Exact-remainder"></span>
@@ -873,7 +873,7 @@ has been found for this.
 <hr>
 <span id="Small-Quotient-Division"></span><div class="header">
 <p>
-Previous: <a href="#Exact-Remainder" accesskey="p" rel="prev">Exact Remainder</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Exact-Remainder" accesskey="p" rel="prev">Exact Remainder</a>, Up: <a href="#Division-Algorithms" accesskey="u" rel="up">Division Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Small-Quotient-Division-1"></span><h4 class="subsection">15.2.7 Small Quotient Division</h4>
 <p>An NxM division where the number of quotient limbs Q=N-M is
@@ -904,7 +904,7 @@ section 4.3.1 exercise 20 but with the <em>v2*q&gt;b*r+u2</em> condition appropr
 <hr>
 <span id="Greatest-Common-Divisor-Algorithms"></span><div class="header">
 <p>
-Next: <a href="#Powering-Algorithms" accesskey="n" rel="next">Powering Algorithms</a>, Previous: <a href="#Division-Algorithms" accesskey="p" rel="prev">Division Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Powering-Algorithms" accesskey="n" rel="next">Powering Algorithms</a>, Previous: <a href="#Division-Algorithms" accesskey="p" rel="prev">Division Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Greatest-Common-Divisor"></span><h3 class="section">15.3 Greatest Common Divisor</h3>
 <span id="index-Greatest-common-divisor-algorithms"></span>
@@ -924,7 +924,7 @@ Next: <a href="#Powering-Algorithms" accesskey="n" rel="next">Powering Algorithm
 <hr>
 <span id="Binary-GCD"></span><div class="header">
 <p>
-Next: <a href="#Lehmer_0027s-Algorithm" accesskey="n" rel="next">Lehmer's Algorithm</a>, Previous: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="p" rel="prev">Greatest Common Divisor Algorithms</a>, Up: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="u" rel="up">Greatest Common Divisor Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Lehmer_0027s-Algorithm" accesskey="n" rel="next">Lehmer's Algorithm</a>, Previous: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="p" rel="prev">Greatest Common Divisor Algorithms</a>, Up: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="u" rel="up">Greatest Common Divisor Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Binary-GCD-1"></span><h4 class="subsection">15.3.1 Binary GCD</h4>
 <p>At small sizes GMP uses an <em>O(N^2)</em> binary style GCD.  This is described
@@ -986,14 +986,14 @@ advantageous to combine a set of divisibility tests into a GCD.
 <hr>
 <span id="Lehmer_0027s-Algorithm"></span><div class="header">
 <p>
-Next: <a href="#Subquadratic-GCD" accesskey="n" rel="next">Subquadratic GCD</a>, Previous: <a href="#Binary-GCD" accesskey="p" rel="prev">Binary GCD</a>, Up: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="u" rel="up">Greatest Common Divisor Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Subquadratic-GCD" accesskey="n" rel="next">Subquadratic GCD</a>, Previous: <a href="#Binary-GCD" accesskey="p" rel="prev">Binary GCD</a>, Up: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="u" rel="up">Greatest Common Divisor Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Lehmer_0027s-algorithm"></span><h4 class="subsection">15.3.2 Lehmer&rsquo;s algorithm</h4>
 <p>Lehmer&rsquo;s improvement of the Euclidean algorithms is based on the observation
 that the initial part of the quotient sequence depends only on the most
 significant parts of the inputs. The variant of Lehmer&rsquo;s algorithm used in GMP
 splits off the most significant two limbs, as suggested, e.g., in &ldquo;A
-Double-Digit Lehmer-Euclid Algorithm&rdquo; by Jebelean (see <a href="constant.References.html#References">References</a>). The
+Double-Digit Lehmer-Euclid Algorithm&rdquo; by Jebelean (see <a href="constant.References.html#start">References</a>). The
 quotients of two double-limb inputs are collected as a 2 by 2 matrix with
 single-limb elements. This is done by the function <code>mpn_hgcd2</code>. The
 resulting matrix is applied to the inputs using <code>mpn_mul_1</code> and
@@ -1026,7 +1026,7 @@ one and a half.
 <hr>
 <span id="Subquadratic-GCD"></span><div class="header">
 <p>
-Next: <a href="#Extended-GCD" accesskey="n" rel="next">Extended GCD</a>, Previous: <a href="#Lehmer_0027s-Algorithm" accesskey="p" rel="prev">Lehmer's Algorithm</a>, Up: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="u" rel="up">Greatest Common Divisor Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Extended-GCD" accesskey="n" rel="next">Extended GCD</a>, Previous: <a href="#Lehmer_0027s-Algorithm" accesskey="p" rel="prev">Lehmer's Algorithm</a>, Up: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="u" rel="up">Greatest Common Divisor Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Subquadratic-GCD-1"></span><h4 class="subsection">15.3.3 Subquadratic GCD</h4>
 <p>For inputs larger than <code>GCD_DC_THRESHOLD</code>, GCD is computed via the HGCD
@@ -1043,7 +1043,7 @@ that returns reduced numbers and the corresponding transformation matrix
 half-way through. For inputs larger than <code>HGCD_THRESHOLD</code>, HGCD is
 computed recursively, using the divide and conquer algorithm in &ldquo;On
 Sch&ouml;nhage&rsquo;s algorithm and subquadratic integer GCD computation&rdquo; by M&ouml;ller
-(see <a href="constant.References.html#References">References</a>). The recursive algorithm consists of these main
+(see <a href="constant.References.html#start">References</a>). The recursive algorithm consists of these main
 steps.
 </p>
 <ul>
@@ -1075,7 +1075,7 @@ where <em>M(N)</em> is the time for multiplying two <em>N</em>-limb numbers.
 <hr>
 <span id="Extended-GCD"></span><div class="header">
 <p>
-Next: <a href="#Jacobi-Symbol" accesskey="n" rel="next">Jacobi Symbol</a>, Previous: <a href="#Subquadratic-GCD" accesskey="p" rel="prev">Subquadratic GCD</a>, Up: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="u" rel="up">Greatest Common Divisor Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Jacobi-Symbol" accesskey="n" rel="next">Jacobi Symbol</a>, Previous: <a href="#Subquadratic-GCD" accesskey="p" rel="prev">Subquadratic GCD</a>, Up: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="u" rel="up">Greatest Common Divisor Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Extended-GCD-1"></span><h4 class="subsection">15.3.4 Extended GCD</h4>
 <p>The extended GCD function, or GCDEXT, calculates <em>gcd(a,b)</em> and also
@@ -1099,7 +1099,7 @@ current size of the cofactors.
 <hr>
 <span id="Jacobi-Symbol"></span><div class="header">
 <p>
-Previous: <a href="#Extended-GCD" accesskey="p" rel="prev">Extended GCD</a>, Up: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="u" rel="up">Greatest Common Divisor Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Extended-GCD" accesskey="p" rel="prev">Extended GCD</a>, Up: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="u" rel="up">Greatest Common Divisor Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Jacobi-Symbol-1"></span><h4 class="subsection">15.3.5 Jacobi Symbol</h4>
 <span id="index-Jacobi-symbol-algorithm"></span>
@@ -1126,7 +1126,7 @@ algorithm is the same if we use <a href="#Lehmer_0027s-Algorithm">Lehmer's Algor
 <p>At each step it is possible to compute if the reduction inverts the Jacobi
 symbol based on the two least significant bits of <var>a</var> and <var>b</var>.  For
 more details see &ldquo;Efficient computation of the Jacobi symbol&rdquo; by
-M&ouml;ller (see <a href="constant.References.html#References">References</a>).
+M&ouml;ller (see <a href="constant.References.html#start">References</a>).
 </p>
 <p>A small set of bits is thus used to track state
 </p><ul>
@@ -1150,7 +1150,7 @@ as the 2x2 matrix calculation, See <a href="#Lehmer_0027s-Algorithm">Lehmer's Al
 <hr>
 <span id="Powering-Algorithms"></span><div class="header">
 <p>
-Next: <a href="#Root-Extraction-Algorithms" accesskey="n" rel="next">Root Extraction Algorithms</a>, Previous: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="p" rel="prev">Greatest Common Divisor Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Root-Extraction-Algorithms" accesskey="n" rel="next">Root Extraction Algorithms</a>, Previous: <a href="#Greatest-Common-Divisor-Algorithms" accesskey="p" rel="prev">Greatest Common Divisor Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Powering-Algorithms-1"></span><h3 class="section">15.4 Powering Algorithms</h3>
 <span id="index-Powering-algorithms"></span>
@@ -1163,7 +1163,7 @@ Next: <a href="#Root-Extraction-Algorithms" accesskey="n" rel="next">Root Extrac
 <hr>
 <span id="Normal-Powering-Algorithm"></span><div class="header">
 <p>
-Next: <a href="#Modular-Powering-Algorithm" accesskey="n" rel="next">Modular Powering Algorithm</a>, Previous: <a href="#Powering-Algorithms" accesskey="p" rel="prev">Powering Algorithms</a>, Up: <a href="#Powering-Algorithms" accesskey="u" rel="up">Powering Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Modular-Powering-Algorithm" accesskey="n" rel="next">Modular Powering Algorithm</a>, Previous: <a href="#Powering-Algorithms" accesskey="p" rel="prev">Powering Algorithms</a>, Up: <a href="#Powering-Algorithms" accesskey="u" rel="up">Powering Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Normal-Powering"></span><h4 class="subsection">15.4.1 Normal Powering</h4>
 <p>Normal <code>mpz</code> or <code>mpf</code> powering uses a simple binary algorithm,
@@ -1175,25 +1175,25 @@ easy and can be done with somewhat less temporary memory.
 <hr>
 <span id="Modular-Powering-Algorithm"></span><div class="header">
 <p>
-Previous: <a href="#Normal-Powering-Algorithm" accesskey="p" rel="prev">Normal Powering Algorithm</a>, Up: <a href="#Powering-Algorithms" accesskey="u" rel="up">Powering Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Normal-Powering-Algorithm" accesskey="p" rel="prev">Normal Powering Algorithm</a>, Up: <a href="#Powering-Algorithms" accesskey="u" rel="up">Powering Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Modular-Powering"></span><h4 class="subsection">15.4.2 Modular Powering</h4>
 <p>Modular powering is implemented using a <em>2^k</em>-ary sliding window
 algorithm, as per &ldquo;Handbook of Applied Cryptography&rdquo; algorithm 14.85
-(see <a href="constant.References.html#References">References</a>).  <em>k</em> is chosen according to the size of the
+(see <a href="constant.References.html#start">References</a>).  <em>k</em> is chosen according to the size of the
 exponent.  Larger exponents use larger values of <em>k</em>, the choice being
 made to minimize the average number of multiplications that must supplement
 the squaring.
 </p>
 <p>The modular multiplies and squarings use either a simple division or the REDC
-method by Montgomery (see <a href="constant.References.html#References">References</a>).  REDC is a little faster,
+method by Montgomery (see <a href="constant.References.html#start">References</a>).  REDC is a little faster,
 essentially saving N single limb divisions in a fashion similar to an exact
 remainder (see <a href="#Exact-Remainder">Exact Remainder</a>).
 </p>
 <hr>
 <span id="Root-Extraction-Algorithms"></span><div class="header">
 <p>
-Next: <a href="#Radix-Conversion-Algorithms" accesskey="n" rel="next">Radix Conversion Algorithms</a>, Previous: <a href="#Powering-Algorithms" accesskey="p" rel="prev">Powering Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Radix-Conversion-Algorithms" accesskey="n" rel="next">Radix Conversion Algorithms</a>, Previous: <a href="#Powering-Algorithms" accesskey="p" rel="prev">Powering Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Root-Extraction-Algorithms-1"></span><h3 class="section">15.5 Root Extraction Algorithms</h3>
 <span id="index-Root-extraction-algorithms"></span>
@@ -1210,13 +1210,13 @@ Next: <a href="#Radix-Conversion-Algorithms" accesskey="n" rel="next">Radix Conv
 <hr>
 <span id="Square-Root-Algorithm"></span><div class="header">
 <p>
-Next: <a href="#Nth-Root-Algorithm" accesskey="n" rel="next">Nth Root Algorithm</a>, Previous: <a href="#Root-Extraction-Algorithms" accesskey="p" rel="prev">Root Extraction Algorithms</a>, Up: <a href="#Root-Extraction-Algorithms" accesskey="u" rel="up">Root Extraction Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Nth-Root-Algorithm" accesskey="n" rel="next">Nth Root Algorithm</a>, Previous: <a href="#Root-Extraction-Algorithms" accesskey="p" rel="prev">Root Extraction Algorithms</a>, Up: <a href="#Root-Extraction-Algorithms" accesskey="u" rel="up">Root Extraction Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Square-Root"></span><h4 class="subsection">15.5.1 Square Root</h4>
 <span id="index-Square-root-algorithm"></span>
 <span id="index-Karatsuba-square-root-algorithm"></span>
 <p>Square roots are taken using the &ldquo;Karatsuba Square Root&rdquo; algorithm by Paul
-Zimmermann (see <a href="constant.References.html#References">References</a>).
+Zimmermann (see <a href="constant.References.html#start">References</a>).
 </p>
 <p>An input <em>n</em> is split into four parts of <em>k</em> bits each, so with
 <em>b=2^k</em> we have <em>n = a3*b^3 + a2*b^2
@@ -1269,7 +1269,7 @@ padding with zero limbs.
 <hr>
 <span id="Nth-Root-Algorithm"></span><div class="header">
 <p>
-Next: <a href="#Perfect-Square-Algorithm" accesskey="n" rel="next">Perfect Square Algorithm</a>, Previous: <a href="#Square-Root-Algorithm" accesskey="p" rel="prev">Square Root Algorithm</a>, Up: <a href="#Root-Extraction-Algorithms" accesskey="u" rel="up">Root Extraction Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Perfect-Square-Algorithm" accesskey="n" rel="next">Perfect Square Algorithm</a>, Previous: <a href="#Square-Root-Algorithm" accesskey="p" rel="prev">Square Root Algorithm</a>, Up: <a href="#Root-Extraction-Algorithms" accesskey="u" rel="up">Root Extraction Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Nth-Root"></span><h4 class="subsection">15.5.2 Nth Root</h4>
 <span id="index-Root-extraction-algorithm"></span>
@@ -1292,7 +1292,7 @@ optimized.
 <hr>
 <span id="Perfect-Square-Algorithm"></span><div class="header">
 <p>
-Next: <a href="#Perfect-Power-Algorithm" accesskey="n" rel="next">Perfect Power Algorithm</a>, Previous: <a href="#Nth-Root-Algorithm" accesskey="p" rel="prev">Nth Root Algorithm</a>, Up: <a href="#Root-Extraction-Algorithms" accesskey="u" rel="up">Root Extraction Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Perfect-Power-Algorithm" accesskey="n" rel="next">Perfect Power Algorithm</a>, Previous: <a href="#Nth-Root-Algorithm" accesskey="p" rel="prev">Nth Root Algorithm</a>, Up: <a href="#Root-Extraction-Algorithms" accesskey="u" rel="up">Root Extraction Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Perfect-Square"></span><h4 class="subsection">15.5.3 Perfect Square</h4>
 <span id="index-Perfect-square-algorithm"></span>
@@ -1336,7 +1336,7 @@ considerations.
 <hr>
 <span id="Perfect-Power-Algorithm"></span><div class="header">
 <p>
-Previous: <a href="#Perfect-Square-Algorithm" accesskey="p" rel="prev">Perfect Square Algorithm</a>, Up: <a href="#Root-Extraction-Algorithms" accesskey="u" rel="up">Root Extraction Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Perfect-Square-Algorithm" accesskey="p" rel="prev">Perfect Square Algorithm</a>, Up: <a href="#Root-Extraction-Algorithms" accesskey="u" rel="up">Root Extraction Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Perfect-Power"></span><h4 class="subsection">15.5.4 Perfect Power</h4>
 <span id="index-Perfect-power-algorithm"></span>
@@ -1352,7 +1352,7 @@ work necessary.  To this end divisibility by a set of small primes is checked.
 <hr>
 <span id="Radix-Conversion-Algorithms"></span><div class="header">
 <p>
-Next: <a href="#Other-Algorithms" accesskey="n" rel="next">Other Algorithms</a>, Previous: <a href="#Root-Extraction-Algorithms" accesskey="p" rel="prev">Root Extraction Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Other-Algorithms" accesskey="n" rel="next">Other Algorithms</a>, Previous: <a href="#Root-Extraction-Algorithms" accesskey="p" rel="prev">Root Extraction Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Radix-Conversion"></span><h3 class="section">15.6 Radix Conversion</h3>
 <span id="index-Radix-conversion-algorithms"></span>
@@ -1368,7 +1368,7 @@ dominated by conversions should probably use a different data representation.
 <hr>
 <span id="Binary-to-Radix"></span><div class="header">
 <p>
-Next: <a href="#Radix-to-Binary" accesskey="n" rel="next">Radix to Binary</a>, Previous: <a href="#Radix-Conversion-Algorithms" accesskey="p" rel="prev">Radix Conversion Algorithms</a>, Up: <a href="#Radix-Conversion-Algorithms" accesskey="u" rel="up">Radix Conversion Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Radix-to-Binary" accesskey="n" rel="next">Radix to Binary</a>, Previous: <a href="#Radix-Conversion-Algorithms" accesskey="p" rel="prev">Radix Conversion Algorithms</a>, Up: <a href="#Radix-Conversion-Algorithms" accesskey="u" rel="up">Radix Conversion Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Binary-to-Radix-1"></span><h4 class="subsection">15.6.1 Binary to Radix</h4>
 <p>Conversions from binary to a power-of-2 radix use a simple and fast
@@ -1435,7 +1435,7 @@ speedup.
 <hr>
 <span id="Radix-to-Binary"></span><div class="header">
 <p>
-Previous: <a href="#Binary-to-Radix" accesskey="p" rel="prev">Binary to Radix</a>, Up: <a href="#Radix-Conversion-Algorithms" accesskey="u" rel="up">Radix Conversion Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Binary-to-Radix" accesskey="p" rel="prev">Binary to Radix</a>, Up: <a href="#Radix-Conversion-Algorithms" accesskey="u" rel="up">Radix Conversion Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Radix-to-Binary-1"></span><h4 class="subsection">15.6.2 Radix to Binary</h4>
 <p><strong>This section needs to be rewritten, it currently describes the
@@ -1450,7 +1450,7 @@ of <em>n</em> digits are converted to limbs, where <em>n</em> is the biggest
 power of the base <em>b</em> which will fit in a limb, then those groups are
 accumulated into the result by multiplying by <em>b^n</em> and adding.  This
 saves multi-precision operations, as per Knuth section 4.4 part E
-(see <a href="constant.References.html#References">References</a>).  Some special case code is provided for decimal, giving
+(see <a href="constant.References.html#start">References</a>).  Some special case code is provided for decimal, giving
 the compiler a chance to optimize multiplications by 10.
 </p>
 <p>Above <code>SET_STR_PRECOMPUTE_THRESHOLD</code> a sub-quadratic algorithm is used.
@@ -1478,7 +1478,7 @@ much faster than <code>mpn_divrem_1</code> (often by a factor of 5, or more).
 <hr>
 <span id="Other-Algorithms"></span><div class="header">
 <p>
-Next: <a href="#Assembly-Coding" accesskey="n" rel="next">Assembly Coding</a>, Previous: <a href="#Radix-Conversion-Algorithms" accesskey="p" rel="prev">Radix Conversion Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Assembly-Coding" accesskey="n" rel="next">Assembly Coding</a>, Previous: <a href="#Radix-Conversion-Algorithms" accesskey="p" rel="prev">Radix Conversion Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Other-Algorithms-1"></span><h3 class="section">15.7 Other Algorithms</h3>
 <table class="menu" style="margin: 0; width: auto; padding: 0; border: 0;" border="0" cellspacing="0">
@@ -1498,13 +1498,13 @@ Next: <a href="#Assembly-Coding" accesskey="n" rel="next">Assembly Coding</a>, P
 <hr>
 <span id="Prime-Testing-Algorithm"></span><div class="header">
 <p>
-Next: <a href="#Factorial-Algorithm" accesskey="n" rel="next">Factorial Algorithm</a>, Previous: <a href="#Other-Algorithms" accesskey="p" rel="prev">Other Algorithms</a>, Up: <a href="#Other-Algorithms" accesskey="u" rel="up">Other Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Factorial-Algorithm" accesskey="n" rel="next">Factorial Algorithm</a>, Previous: <a href="#Other-Algorithms" accesskey="p" rel="prev">Other Algorithms</a>, Up: <a href="#Other-Algorithms" accesskey="u" rel="up">Other Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Prime-Testing"></span><h4 class="subsection">15.7.1 Prime Testing</h4>
 <span id="index-Prime-testing-algorithms"></span>
 <p>The primality testing in <code>mpz_probab_prime_p</code> (see <a href="constant.Integer_Functions.html#Number-Theoretic-Functions">Number Theoretic Functions</a>) first does some trial division by small factors and then uses the
 Miller-Rabin probabilistic primality testing algorithm, as described in Knuth
-section 4.5.4 algorithm P (see <a href="constant.References.html#References">References</a>).
+section 4.5.4 algorithm P (see <a href="constant.References.html#start">References</a>).
 </p>
 <p>For an odd input <em>n</em>, and with <em>n = q*2^k+1</em> where
 <em>q</em> is odd, this algorithm selects a random base <em>x</em> and tests
@@ -1524,7 +1524,7 @@ for an arbitrary <em>n</em>.
 <hr>
 <span id="Factorial-Algorithm"></span><div class="header">
 <p>
-Next: <a href="#Binomial-Coefficients-Algorithm" accesskey="n" rel="next">Binomial Coefficients Algorithm</a>, Previous: <a href="#Prime-Testing-Algorithm" accesskey="p" rel="prev">Prime Testing Algorithm</a>, Up: <a href="#Other-Algorithms" accesskey="u" rel="up">Other Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Binomial-Coefficients-Algorithm" accesskey="n" rel="next">Binomial Coefficients Algorithm</a>, Previous: <a href="#Prime-Testing-Algorithm" accesskey="p" rel="prev">Prime Testing Algorithm</a>, Up: <a href="#Other-Algorithms" accesskey="u" rel="up">Other Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Factorial"></span><h4 class="subsection">15.7.2 Factorial</h4>
 <span id="index-Factorial-algorithm"></span>
@@ -1584,7 +1584,7 @@ efficient for the basecase algorithm.
 <hr>
 <span id="Binomial-Coefficients-Algorithm"></span><div class="header">
 <p>
-Next: <a href="#Fibonacci-Numbers-Algorithm" accesskey="n" rel="next">Fibonacci Numbers Algorithm</a>, Previous: <a href="#Factorial-Algorithm" accesskey="p" rel="prev">Factorial Algorithm</a>, Up: <a href="#Other-Algorithms" accesskey="u" rel="up">Other Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Fibonacci-Numbers-Algorithm" accesskey="n" rel="next">Fibonacci Numbers Algorithm</a>, Previous: <a href="#Factorial-Algorithm" accesskey="p" rel="prev">Factorial Algorithm</a>, Up: <a href="#Other-Algorithms" accesskey="u" rel="up">Other Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Binomial-Coefficients"></span><h4 class="subsection">15.7.3 Binomial Coefficients</h4>
 <span id="index-Binomial-coefficient-algorithm"></span>
@@ -1608,7 +1608,7 @@ into as many fit a limb, to save multi-precision operations, though for
 <hr>
 <span id="Fibonacci-Numbers-Algorithm"></span><div class="header">
 <p>
-Next: <a href="#Lucas-Numbers-Algorithm" accesskey="n" rel="next">Lucas Numbers Algorithm</a>, Previous: <a href="#Binomial-Coefficients-Algorithm" accesskey="p" rel="prev">Binomial Coefficients Algorithm</a>, Up: <a href="#Other-Algorithms" accesskey="u" rel="up">Other Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Lucas-Numbers-Algorithm" accesskey="n" rel="next">Lucas Numbers Algorithm</a>, Previous: <a href="#Binomial-Coefficients-Algorithm" accesskey="p" rel="prev">Binomial Coefficients Algorithm</a>, Up: <a href="#Other-Algorithms" accesskey="u" rel="up">Other Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Fibonacci-Numbers"></span><h4 class="subsection">15.7.4 Fibonacci Numbers</h4>
 <span id="index-Fibonacci-number-algorithm"></span>
@@ -1664,7 +1664,7 @@ borrow into further limbs, which saves some code size.  See comments with
 <hr>
 <span id="Lucas-Numbers-Algorithm"></span><div class="header">
 <p>
-Next: <a href="#Random-Number-Algorithms" accesskey="n" rel="next">Random Number Algorithms</a>, Previous: <a href="#Fibonacci-Numbers-Algorithm" accesskey="p" rel="prev">Fibonacci Numbers Algorithm</a>, Up: <a href="#Other-Algorithms" accesskey="u" rel="up">Other Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Random-Number-Algorithms" accesskey="n" rel="next">Random Number Algorithms</a>, Previous: <a href="#Fibonacci-Numbers-Algorithm" accesskey="p" rel="prev">Fibonacci Numbers Algorithm</a>, Up: <a href="#Other-Algorithms" accesskey="u" rel="up">Other Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Lucas-Numbers"></span><h4 class="subsection">15.7.5 Lucas Numbers</h4>
 <span id="index-Lucas-number-algorithm"></span>
@@ -1691,7 +1691,7 @@ numbers, similar to what <code>mpz_fib_ui</code> does.
 <hr>
 <span id="Random-Number-Algorithms"></span><div class="header">
 <p>
-Previous: <a href="#Lucas-Numbers-Algorithm" accesskey="p" rel="prev">Lucas Numbers Algorithm</a>, Up: <a href="#Other-Algorithms" accesskey="u" rel="up">Other Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Lucas-Numbers-Algorithm" accesskey="p" rel="prev">Lucas Numbers Algorithm</a>, Up: <a href="#Other-Algorithms" accesskey="u" rel="up">Other Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Random-Numbers"></span><h4 class="subsection">15.7.6 Random Numbers</h4>
 <span id="index-Random-number-algorithms"></span>
@@ -1707,7 +1707,7 @@ generator is somehow degenerate and produces only 1 bits or similar.
 </p>
 <span id="index-Mersenne-twister-algorithm"></span>
 <p>The Mersenne Twister generator is by Matsumoto and Nishimura
-(see <a href="constant.References.html#References">References</a>).  It has a non-repeating period of <em>2^19937<!-- /@w -->-1</em>,
+(see <a href="constant.References.html#start">References</a>).  It has a non-repeating period of <em>2^19937<!-- /@w -->-1</em>,
 which is a Mersenne prime, hence the name of the generator.  The state is 624
 words of 32-bits each, which is iterated with one XOR and shift for each
 32-bit word generated, making the algorithm very fast.  Randomness properties
@@ -1715,7 +1715,7 @@ are also very good and this is the default algorithm used by GMP.
 </p>
 <span id="index-Linear-congruential-algorithm"></span>
 <p>Linear congruential generators are described in many text books, for instance
-Knuth volume 2 (see <a href="constant.References.html#References">References</a>).  With a modulus <em>M</em> and parameters
+Knuth volume 2 (see <a href="constant.References.html#start">References</a>).  With a modulus <em>M</em> and parameters
 <em>A</em> and <em>C</em>, an integer state <em>S</em> is iterated by the formula
 <em>S &lt;- A*S+C mod M</em>.  At each step the new
 state is a linear function of the previous, mod <em>M</em>, hence the name of
@@ -1736,7 +1736,7 @@ cryptographic applications without further hashing or the like.
 <hr>
 <span id="Assembly-Coding"></span><div class="header">
 <p>
-Previous: <a href="#Other-Algorithms" accesskey="p" rel="prev">Other Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Other-Algorithms" accesskey="p" rel="prev">Other Algorithms</a>, Up: <a href="#Algorithms" accesskey="u" rel="up">Algorithms</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Assembly-Coding-1"></span><h3 class="section">15.8 Assembly Coding</h3>
 <span id="index-Assembly-coding"></span>
@@ -1775,7 +1775,7 @@ speedup over generic C by a factor of anything from 2 to 10.
 <hr>
 <span id="Assembly-Code-Organisation"></span><div class="header">
 <p>
-Next: <a href="#Assembly-Basics" accesskey="n" rel="next">Assembly Basics</a>, Previous: <a href="#Assembly-Coding" accesskey="p" rel="prev">Assembly Coding</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Assembly-Basics" accesskey="n" rel="next">Assembly Basics</a>, Previous: <a href="#Assembly-Coding" accesskey="p" rel="prev">Assembly Coding</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Code-Organisation"></span><h4 class="subsection">15.8.1 Code Organisation</h4>
 <span id="index-Assembly-code-organisation"></span>
@@ -1797,7 +1797,7 @@ effort put into nails if they&rsquo;re not going to enhance a given CPU.
 <hr>
 <span id="Assembly-Basics"></span><div class="header">
 <p>
-Next: <a href="#Assembly-Carry-Propagation" accesskey="n" rel="next">Assembly Carry Propagation</a>, Previous: <a href="#Assembly-Code-Organisation" accesskey="p" rel="prev">Assembly Code Organisation</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Assembly-Carry-Propagation" accesskey="n" rel="next">Assembly Carry Propagation</a>, Previous: <a href="#Assembly-Code-Organisation" accesskey="p" rel="prev">Assembly Code Organisation</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Assembly-Basics-1"></span><h4 class="subsection">15.8.2 Assembly Basics</h4>
 <p><code>mpn_addmul_1</code> and <code>mpn_submul_1</code> are the most important routines
@@ -1812,7 +1812,7 @@ make better use of a wide superscalar processor, as can bigger primitives like
 <code>mpn_addmul_2</code> or <code>mpn_addmul_4</code>.
 </p>
 <p>The restrictions on overlaps between sources and destinations
-(see <a href="constant.Low_level_Functions.html#Low_002dlevel-Functions">Low-level Functions</a>) are designed to facilitate a variety of
+(see <a href="constant.Low_level_Functions.html#start">Low-level Functions</a>) are designed to facilitate a variety of
 implementations.  For example, knowing <code>mpn_add_n</code> won&rsquo;t have partly
 overlapping sources and destination means reading can be done far ahead of
 writing on superscalar processors, and loops can be vectorized on a vector
@@ -1821,7 +1821,7 @@ processor, depending on the carry handling.
 <hr>
 <span id="Assembly-Carry-Propagation"></span><div class="header">
 <p>
-Next: <a href="#Assembly-Cache-Handling" accesskey="n" rel="next">Assembly Cache Handling</a>, Previous: <a href="#Assembly-Basics" accesskey="p" rel="prev">Assembly Basics</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Assembly-Cache-Handling" accesskey="n" rel="next">Assembly Cache Handling</a>, Previous: <a href="#Assembly-Basics" accesskey="p" rel="prev">Assembly Basics</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Carry-Propagation"></span><h4 class="subsection">15.8.3 Carry Propagation</h4>
 <span id="index-Assembly-carry-propagation"></span>
@@ -1856,7 +1856,7 @@ needs to be coded in assembly for best results.
 <hr>
 <span id="Assembly-Cache-Handling"></span><div class="header">
 <p>
-Next: <a href="#Assembly-Functional-Units" accesskey="n" rel="next">Assembly Functional Units</a>, Previous: <a href="#Assembly-Carry-Propagation" accesskey="p" rel="prev">Assembly Carry Propagation</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Assembly-Functional-Units" accesskey="n" rel="next">Assembly Functional Units</a>, Previous: <a href="#Assembly-Carry-Propagation" accesskey="p" rel="prev">Assembly Carry Propagation</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Cache-Handling"></span><h4 class="subsection">15.8.4 Cache Handling</h4>
 <span id="index-Assembly-cache-handling"></span>
@@ -1901,7 +1901,7 @@ initiates suitable cache movements automatically, making life easy.
 <hr>
 <span id="Assembly-Functional-Units"></span><div class="header">
 <p>
-Next: <a href="#Assembly-Floating-Point" accesskey="n" rel="next">Assembly Floating Point</a>, Previous: <a href="#Assembly-Cache-Handling" accesskey="p" rel="prev">Assembly Cache Handling</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Assembly-Floating-Point" accesskey="n" rel="next">Assembly Floating Point</a>, Previous: <a href="#Assembly-Cache-Handling" accesskey="p" rel="prev">Assembly Cache Handling</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Functional-Units"></span><h4 class="subsection">15.8.5 Functional Units</h4>
 <p>When choosing an approach for an assembly loop, consideration is given to
@@ -1934,7 +1934,7 @@ twiddling.
 <hr>
 <span id="Assembly-Floating-Point"></span><div class="header">
 <p>
-Next: <a href="#Assembly-SIMD-Instructions" accesskey="n" rel="next">Assembly SIMD Instructions</a>, Previous: <a href="#Assembly-Functional-Units" accesskey="p" rel="prev">Assembly Functional Units</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Assembly-SIMD-Instructions" accesskey="n" rel="next">Assembly SIMD Instructions</a>, Previous: <a href="#Assembly-Functional-Units" accesskey="p" rel="prev">Assembly Functional Units</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Floating-Point"></span><h4 class="subsection">15.8.6 Floating Point</h4>
 <span id="index-Assembly-floating-Point"></span>
@@ -2030,7 +2030,7 @@ extends 33 bits into the high half).
 <hr>
 <span id="Assembly-SIMD-Instructions"></span><div class="header">
 <p>
-Next: <a href="#Assembly-Software-Pipelining" accesskey="n" rel="next">Assembly Software Pipelining</a>, Previous: <a href="#Assembly-Floating-Point" accesskey="p" rel="prev">Assembly Floating Point</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Assembly-Software-Pipelining" accesskey="n" rel="next">Assembly Software Pipelining</a>, Previous: <a href="#Assembly-Floating-Point" accesskey="p" rel="prev">Assembly Floating Point</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="SIMD-Instructions"></span><h4 class="subsection">15.8.7 SIMD Instructions</h4>
 <span id="index-Assembly-SIMD"></span>
@@ -2052,7 +2052,7 @@ P55 <code>mpn_mul_1</code>.  SSE2 is used for Pentium 4 <code>mpn_mul_1</code>,
 <hr>
 <span id="Assembly-Software-Pipelining"></span><div class="header">
 <p>
-Next: <a href="#Assembly-Loop-Unrolling" accesskey="n" rel="next">Assembly Loop Unrolling</a>, Previous: <a href="#Assembly-SIMD-Instructions" accesskey="p" rel="prev">Assembly SIMD Instructions</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Assembly-Loop-Unrolling" accesskey="n" rel="next">Assembly Loop Unrolling</a>, Previous: <a href="#Assembly-SIMD-Instructions" accesskey="p" rel="prev">Assembly SIMD Instructions</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Software-Pipelining"></span><h4 class="subsection">15.8.8 Software Pipelining</h4>
 <span id="index-Assembly-software-pipelining"></span>
@@ -2076,7 +2076,7 @@ another (or multiple others) are still in progress.  (see <a href="#Assembly-Loo
 <hr>
 <span id="Assembly-Loop-Unrolling"></span><div class="header">
 <p>
-Next: <a href="#Assembly-Writing-Guide" accesskey="n" rel="next">Assembly Writing Guide</a>, Previous: <a href="#Assembly-Software-Pipelining" accesskey="p" rel="prev">Assembly Software Pipelining</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Assembly-Writing-Guide" accesskey="n" rel="next">Assembly Writing Guide</a>, Previous: <a href="#Assembly-Software-Pipelining" accesskey="p" rel="prev">Assembly Software Pipelining</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Loop-Unrolling"></span><h4 class="subsection">15.8.9 Loop Unrolling</h4>
 <span id="index-Assembly-loop-unrolling"></span>
@@ -2117,7 +2117,7 @@ tricky and could become quite difficult in combination with deep pipelining.
 <hr>
 <span id="Assembly-Writing-Guide"></span><div class="header">
 <p>
-Previous: <a href="#Assembly-Loop-Unrolling" accesskey="p" rel="prev">Assembly Loop Unrolling</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Assembly-Loop-Unrolling" accesskey="p" rel="prev">Assembly Loop Unrolling</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Writing-Guide"></span><h4 class="subsection">15.8.10 Writing Guide</h4>
 <span id="index-Assembly-writing-guide"></span>
@@ -2174,5 +2174,5 @@ suitable part of the wind-down or to special code for small sizes.
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#Assembly-Loop-Unrolling" accesskey="p" rel="prev">Assembly Loop Unrolling</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Assembly-Loop-Unrolling" accesskey="p" rel="prev">Assembly Loop Unrolling</a>, Up: <a href="#Assembly-Coding" accesskey="u" rel="up">Assembly Coding</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
