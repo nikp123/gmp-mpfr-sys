@@ -26,6 +26,11 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ### Version 1.2.3 news (unreleased)
 
+  * The experimental feature `force-cross` was added. It is ignored in
+    version 1.2 but will be required for cross compilation attempts
+    from version 1.3, because cross compilation is not tested or
+    supported and can lead to silent failures that are hard to debug,
+    especially if this crate is an indirect dependency.
   * Bug fix: cross-compilation C libraries were being cached in the
     same directory as native C libraries.
 
@@ -167,12 +172,19 @@ minor version bump.
 
 Experimental features may also not work on all platforms.
 
-There is one experimental feature:
+There are two experimental feature:
 
  1. `use-system-libs`, disabled by default. Using this feature, the
     system libraries for [GMP], and [MPFR] and [MPC] if enabled, will
     be used instead of building them from source. The versions must be
     compatible with the versions provided by the crate.
+ 2. `force-cross`, disabled by default. In version 1.2 this feature is
+    ignored, but from version 1.3 onwards the build will fail if cross
+    compilation is detected, because cross compilation is not tested
+    or supported and can lead to silent failures that are hard to
+    debug, especially if this crate is an indirect dependency. This
+    feature will force a compilation attempt even if cross compilation
+    is detected.
 
 ## Metadata
 
@@ -248,7 +260,9 @@ Then, to build a crate with a dependency on this crate:
 
 While some cross compilation is possible, it is not tested
 automatically, and may not work. Merge requests that improve cross
-compilation are accepted.
+compilation are accepted. From the next minor version 1.3 onwards, the
+experimental feature `force-cross` must be enabled for cross
+compilation.
 
 ## Caching the built C libraries
 

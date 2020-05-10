@@ -26,6 +26,7 @@ mpfr = []
 mpc = ["mpfr"]
 use-system-libs = []
 fail-on-warnings = []
+force-cross = []
 
 # With the cnodelete feature, C build artefacts are not deleted.
 

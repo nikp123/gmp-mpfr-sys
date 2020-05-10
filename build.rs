@@ -76,6 +76,15 @@ fn main() {
     let raw_target = cargo_env("TARGET")
         .into_string()
         .expect("env var TARGET having sensible characters");
+    let force_cross = there_is_env("CARGO_FEATURE_FORCE_CROSS");
+    if !force_cross && host != raw_target {
+        println!(
+            "cargo:warning=Cross compilation not supported! \
+             Use the `force-cross` feature to cross compile anyway. \
+             (This warning will become an error in version 1.3.)"
+        );
+    }
+
     let target = if raw_target.contains("-windows-msvc") {
         Target::Msvc
     } else if raw_target.contains("-windows-gnu") {

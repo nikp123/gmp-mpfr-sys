@@ -8,6 +8,11 @@ as-is, without any warranty. -->
 Version 1.2.3 (unreleased)
 ==========================
 
+  * The experimental feature `force-cross` was added. It is ignored in
+    version 1.2 but will be required for cross compilation attempts
+    from version 1.3, because cross compilation is not tested or
+    supported and can lead to silent failures that are hard to debug,
+    especially if this crate is an indirect dependency.
   * Bug fix: cross-compilation C libraries were being cached in the
     same directory as native C libraries.
 
