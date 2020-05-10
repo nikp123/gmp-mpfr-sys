@@ -24,6 +24,11 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.2.3 news (unreleased)
+
+  * Bug fix: cross-compilation C libraries were being cached in the
+    same directory as native C libraries.
+
 ### Version 1.2.2 news (2020-04-08)
 
   * [MPFR] was updated from version 4.0.2-p1 to 4.0.2-p7.

@@ -100,7 +100,8 @@ fn main() {
         Some(c) => Some(PathBuf::from(c)),
         None => system_cache_dir().map(|c| c.join("gmp-mpfr-sys")),
     };
-    let cache_dir = cache_dir.map(|cache| cache.join(&version_prefix).join(host));
+    let cache_target = cross_target.as_ref().unwrap_or(&host);
+    let cache_dir = cache_dir.map(|cache| cache.join(&version_prefix).join(cache_target));
 
     let use_system_libs = there_is_env("CARGO_FEATURE_USE_SYSTEM_LIBS");
     if use_system_libs {
