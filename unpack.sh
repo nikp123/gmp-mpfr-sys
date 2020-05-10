@@ -46,14 +46,7 @@ function truncate {
 	) < "$1.rm~" > "$1"
 }
 
-# GMP
-# 1. Truncate ChangeLog
-# 2. Remove doc/*.info*, doc/*.tex
-# 3a. Remove demos section in configure
-# 3b. Remove doc/Makefile, demos/{,*/}Makefile from ac_config_files in configure
-# 4. Remove doc and demos from SUBDIRS in Makefile.in
-# 5. In tests/misc/t-locale.c, add " && ! defined __ANDROID__" to "#if HAVE_NL_LANGINFO".
-# 6. Include a Rust entry in the Language Bindings documentation.
+## GMP
 if [ -e gmp-*-c ]; then
 	rm -r gmp-*-c
 fi
@@ -63,29 +56,36 @@ cd gmp-$GMPVERP-c
 if [ -f "$GMPPATCH" ]; then
     patch -N -Z -p1 < "$GMPPATCH" > /dev/null
 fi
+# Truncate ChangeLog
 truncate ChangeLog $CHANGELOG_CHARS
+# Remove doc/*.info*, doc/*.tex
 rm doc/*.info* doc/*.tex
+# a. Remove demos section in configure
+# b. Remove doc/Makefile, demos/{,*/}Makefile from ac_config_files in configure
 sed -i.rm~ -e '
-/Configs for demos/,/Create config.m4/{
-    /Create config.m4/!s/^/#gmp-mpfr-sys /
-    s/\(#gmp-mpfr-sys\) $/\1/
-}
-/^ac_config_files=/{
-    :repeat
-    s/\( #gmp-mpfr-sys .*\) #gmp-mpfr-sys\(.*\)/\1\2/
-    s,^\([^#]*\) \(\(doc\|demos[/a-z]*\)/Makefile\)\([^#]*\)\($\| #\),\1\4 #gmp-mpfr-sys \2\5,
-    t repeat
-}
+    /Configs for demos/,/Create config.m4/{
+        /Create config.m4/!s/^/#gmp-mpfr-sys /
+        s/\(#gmp-mpfr-sys\) $/\1/
+    }
+    /^ac_config_files=/{
+        :repeat
+        s/\( #gmp-mpfr-sys .*\) #gmp-mpfr-sys\(.*\)/\1\2/
+        s,^\([^#]*\) \(\(doc\|demos[/a-z]*\)/Makefile\)\([^#]*\)\($\| #\),\1\4 #gmp-mpfr-sys \2\5,
+        t repeat
+    }
 ' configure
+# Remove doc and demos from SUBDIRS in Makefile.in
 sed -i.rm~ -e '
-/^SUBDIRS = /{
-    :repeat
-    s/\( #gmp-mpfr-sys .*\) #gmp-mpfr-sys\(.*\)/\1\2/
-    s,^\([^#]*\) \(doc\|demos\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
-    t repeat
-}
+    /^SUBDIRS = /{
+        :repeat
+        s/\( #gmp-mpfr-sys .*\) #gmp-mpfr-sys\(.*\)/\1\2/
+        s,^\([^#]*\) \(doc\|demos\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
+        t repeat
+    }
 ' Makefile.in
+# In tests/misc/t-locale.c, add " && ! defined __ANDROID__" to "#if HAVE_NL_LANGINFO".
 sed -i.rm~ -e 's/#if HAVE_NL_LANGINFO/& \&\& ! defined __ANDROID__/' tests/misc/t-locale.c
+# Include a Rust entry in the Language Bindings documentation.
 sed -i.rm~ -e '/@item Scheme/ {
     i\
 @item Rust
@@ -102,14 +102,7 @@ Rug @spaceuref{https://crates.io/crates/rug}
 }' doc/gmp.texi
 cd ..
 
-# MPFR
-# 1. Truncate ChangeLog
-# 2. Remove doc/*.info*, doc/*.tex
-# 3. Remove doc/Makefile, mpfr.pc from ac_config_files in configure
-# 4a. Remove doc from SUBDIRS in Makefile.in
-# 4b. Remove $(pkgconfig_DATA) from DATA in Makefile.in
-# 5. Remove get_patches.c rule in src/Makefile.in
-# 6. Generate src/get_patches.c
+## MPFR
 if [ -e mpfr-*-c ]; then
     rm -r mpfr-*-c
 fi
@@ -119,30 +112,32 @@ cd mpfr-$MPFRVERP-c
 if [ -f "$MPFRPATCH" ]; then
     patch -N -Z -p1 < "$MPFRPATCH" > /dev/null
 fi
+# Truncate ChangeLog
 truncate ChangeLog $CHANGELOG_CHARS
+# Remove doc/*.info*, doc/*.tex
 rm doc/*.info* doc/*.tex
+# Remove doc/Makefile, mpfr.pc from ac_config_files in configure
 sed -i.rm~ -e '
-/^ac_config_files=/{
-    :repeat
-    s/\( #gmp-mpfr-sys .*\) #gmp-mpfr-sys\(.*\)/\1\2/
-    s,^\([^#]*\) \(doc/Makefile\|mpfr.pc\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
-    t repeat
-}
+    /^ac_config_files=/{
+        :repeat
+        s/\( #gmp-mpfr-sys .*\) #gmp-mpfr-sys\(.*\)/\1\2/
+        s,^\([^#]*\) \(doc/Makefile\|mpfr.pc\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
+        t repeat
+    }
 ' configure
+# a. Remove doc from SUBDIRS in Makefile.in
+# b. Remove $(pkgconfig_DATA) from DATA in Makefile.in
 sed -i.rm~ -e '
-/^SUBDIRS = /s,^\([^#]*\) \(doc\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
-/^DATA = /s,^\([^#]*\) \(\$(pkgconfig_DATA)\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
+    /^SUBDIRS = /s,^\([^#]*\) \(doc\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
+    /^DATA = /s,^\([^#]*\) \(\$(pkgconfig_DATA)\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
 ' Makefile.in
+# Remove get_patches.c rule in src/Makefile.in
 sed -i.rm~ '/get_patches.c:/,/^$/s/^\(.\)/#gmp-mpfr-sys \1/' src/Makefile.in
+# Generate src/get_patches.c
 tools/get_patches.sh > src/get_patches.c
 cd ..
 
-# MPC
-# 1. Make sure all files are user writeable
-# 2. Truncate ChangeLog
-# 3. Remove doc/*.info*, doc/*.tex
-# 4. Remove doc/Makefile from ac_config_files in configure
-# 5. Remove doc from SUBDIRS in Makefile.in
+## MPC
 if [ -e mpc-*-c ]; then
 	rm -r mpc-*-c
 fi
@@ -152,64 +147,84 @@ cd mpc-$MPCVERP-c
 if [ -f "$MPCPATCH" ]; then
     patch -N -Z -p1 < "$MPCPATCH" > /dev/null
 fi
+# Make sure all files are user writeable
 chmod -R u+w *
+# Truncate ChangeLog
 truncate ChangeLog $CHANGELOG_CHARS
+# Remove doc/*.info*, doc/*.tex
 rm doc/*.info* doc/*.tex
+# Remove doc/Makefile from ac_config_files in configure
 sed -i.rm~ '
-/^ac_config_files=/s,^\([^#]*\) \(doc/Makefile\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
+    /^ac_config_files=/s,^\([^#]*\) \(doc/Makefile\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
 ' configure
+# Remove doc from SUBDIRS in Makefile.in
 sed -i.rm~ '
-/^SUBDIRS = /s,^\([^#]*\) \(doc\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
+    /^SUBDIRS = /s,^\([^#]*\) \(doc\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
 ' Makefile.in
 cd ..
 
-# Finally
-# 1. Comment Makefile:...esac sections from all Makefile.in
-# 2. Remove all .rm~ files left over by sed
+## Comment Makefile:...esac sections from all Makefile.in
 for m in $(find *-c -name Makefile.in); do
     sed -i.rm~ '/Makefile:/,/esac/s/^/#gmp-mpfr-sys /' $m
 done
-find *-c -name \*.rm~ -delete
 
-# Documentation
-# 1. Build html documentation
-# 2. Remove unnecessary node redirects
-# 3. Remove anything outside <body>, including the <body> and </body> tags themselves
-# 4. Remove blank lines (so that rustdoc's markdown interpreter sees as html)
-# 5. Redirect directory links
-# 6. Clear margins and padding for tables with class="menu", "index-cp", "index-fn"
-# 8. Redirect links by prepending "constant.", replacing "-" and "_002d" by "_", and replacing "_002b" by "P"
+## Documentation
 if [ -e doc-c ]; then
     rm -r doc-c
 fi
-REMOVE_STRAY_BACKSLASHES='
-s/mp\\_bits\\_per\\_limb/mp_bits_per_limb/g
-s/GMP\\_NUMB\\_BITS/GMP_NUMB_BITS/g
-s/\\log/log/g
-s/\\exp/exp/g
-s/\\pi/Pi/g
-s/\\infty/Inf/g
-'
+# Build html documentation
 mkdir doc-c{,/GMP,/MPFR,/MPC}
 makeinfo gmp*/doc/gmp.texi --html --split=chapter --output=doc-c/GMP
 makeinfo mpfr*/doc/mpfr.texi --html --split=chapter --output=doc-c/MPFR
 makeinfo mpc*/doc/mpc.texi --html --split=chapter --output=doc-c/MPC
 for f in doc-c/*/*.html; do
+    # Remove unnecessary node redirects
     if grep -q 'The node you are looking for is' "$f"; then
         rm "$f"
         continue
     fi
-    sed -i.rm~ -e '0,/<body/d' "$f"
-    sed -i.rm~ -e '/<\/body>/,$d' "$f"
-    sed -i.rm~ -e '/^$/d' "$f"
-    sed -i.rm~ -e "$REMOVE_STRAY_BACKSLASHES" "$f"
-    sed -i.rm~ -e 's/..\/dir\/index.html\|dir.html#Top/..\/index.html/g' "$f"
-    sed -i.rm~ -e '/<table class="menu"/,/<\/table>/s/<td\|<th/& style="padding: 0; border: 0;" /g' "$f"
-    sed -i.rm~ -e '/<table class="index-/,/<\/table>/s/<td\|<th/& style="padding: 1px; border: 0;" /g' "$f"
-    sed -i.rm~ -e 's/<table class="\(menu\|index-[cpfn]*\)"/& style="margin: 0; width: auto; padding: 0; border: 0;"/' "$f"
-    sed -i.rm~ -e ':repeat; s/"\([A-Z][A-Za-z0-9_-]*\.html\)/"constant.\1/; t repeat' "$f"
-    sed -i.rm~ -e ':repeat; s/\("constant\.[A-Za-z0-9_]*\)-\([A-Za-z0-9_-]*\.html\)/\1_\2/; t repeat' "$f"
-    sed -i.rm~ -e ':repeat; s/\("constant\.[A-Za-z0-9_]*\)_002b\([A-Za-z0-9_]*\.html\)/\1P\2/; t repeat' "$f"
-    sed -i.rm~ -e ':repeat; s/\("constant\.[A-Za-z0-9_]*\)_002d\([A-Za-z0-9_]*\.html\)/\1_\2/; t repeat' "$f"
+    # a. Remove anything outside <body>, including the <body> and </body> tags themselves
+    # b. Remove blank lines (so that rustdoc's markdown interpreter sees as html)
+    sed -i.rm~ -e '
+        0,/<body/d
+    	/<\/body>/,$d
+        /^$/d
+    ' "$f"
+    # Remove stray backslashes
+    sed -i.rm~ -e '
+        s/mp\\_bits\\_per\\_limb/mp_bits_per_limb/g
+        s/GMP\\_NUMB\\_BITS/GMP_NUMB_BITS/g
+        s/\\log/log/g
+        s/\\exp/exp/g
+        s/\\pi/Pi/g
+        s/\\infty/Inf/g
+    ' "$f"
+    # Clear margins and padding for tables with class="menu", "index-cp", "index-fn"
+    sed -i.rm~ -e '
+        /<table class="menu"/,/<\/table>/s/<td\|<th/& style="padding: 0; border: 0;" /g
+	/<table class="index-/,/<\/table>/s/<td\|<th/& style="padding: 1px; border: 0;" /g
+	s/<table class="\(menu\|index-[cpfn]*\)"/& style="margin: 0; width: auto; padding: 0; border: 0;"/
+    ' "$f"
+    # Redirect links by
+    # a. replacing directory links by "../../index.html"
+    # b. appending "#start" to links having no slashes and ending in ".html"
+    # c. prepending "constant."
+    # d. replacing "-" and "_002d" by "_"
+    # e. replacing "_002b" by "P"
+    sed -i.rm~ -e '
+        s/..\/dir\/index.html\|dir.html#Top/..\/..\/index.html/g
+        s/\(href="[^/"]*\.html\)"/\1#start"/g
+        :repeat
+        s/\(href="\)\([A-Z][A-Za-z0-9_-]*\.html\)/\1constant.\2/
+        t repeat
+        s/\("constant\.[A-Za-z0-9_]*\)-\([A-Za-z0-9_-]*\.html\)/\1_\2/
+        t repeat
+        s/\("constant\.[A-Za-z0-9_]*\)_002b\([A-Za-z0-9_]*\.html\)/\1P\2/
+        t repeat
+        s/\("constant\.[A-Za-z0-9_]*\)_002d\([A-Za-z0-9_]*\.html\)/\1_\2/
+        t repeat
+    ' "$f"
 done
-find doc-c -name \*.rm~ -delete
+
+## Remove all .rm~ files left over by sed
+find *-c -name \*.rm~ -delete
