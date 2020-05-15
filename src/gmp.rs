@@ -828,7 +828,7 @@ extern "C" {
     pub fn mpz_combit(rop: mpz_ptr, bit_index: bitcnt_t);
     /// See: [`mpz_tstbit`](../C/GMP/constant.Integer_Functions.html#index-mpz_005ftstbit)
     #[link_name = "__gmpz_tstbit"]
-    pub fn mpz_tstbit(rop: mpz_srcptr, bit_index: bitcnt_t) -> c_int;
+    pub fn mpz_tstbit(op: mpz_srcptr, bit_index: bitcnt_t) -> c_int;
 
     // Input and Ouput Functions
 
