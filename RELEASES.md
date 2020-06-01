@@ -5,7 +5,7 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.2.3 (unreleased)
+Version 1.2.3 (2020-06-01)
 ==========================
 
   * The experimental feature `force-cross` was added. It is ignored in
