@@ -25,5 +25,5 @@ https://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc.,
 const char *
 mpfr_get_patches (void)
 {
-  return "sub1-ubftest array-length const sub1-ubf set-int int-overflow include-float";
+  return "fpif-dead-code bernoulli-ziv sub1-ubftest array-length const sub1-ubf set-int int-overflow include-float";
 }
