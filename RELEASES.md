@@ -5,6 +5,11 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.2.4 (unreleased)
+==========================
+
+  * [MPFR] was updated from version 4.0.2-p7 to 4.0.2-p9.
+
 Version 1.2.3 (2020-06-01)
 ==========================
 

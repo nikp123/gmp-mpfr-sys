@@ -24,6 +24,10 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.2.4 news (unreleased)
+
+  * [MPFR] was updated from version 4.0.2-p7 to 4.0.2-p9.
+
 ### Version 1.2.3 news (2020-06-01)
 
   * The experimental feature `force-cross` was added. It is ignored in
@@ -62,7 +66,7 @@ This crate contains three modules:
   * [`mpc`] provides external FFI bindings to [MPC].
 
 The versions provided by this crate release are [GMP] version 6.2.0,
-[MPFR] version 4.0.2-p7, and [MPC] version 1.1.0.
+[MPFR] version 4.0.2-p9, and [MPC] version 1.1.0.
 
 If you want a high-level API, consider using [Rug][rug crate], a crate
 which provides integers and floating-point numbers with arbitrary
