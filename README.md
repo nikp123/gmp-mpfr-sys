@@ -24,7 +24,7 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
-### Version 1.2.4 news (unreleased)
+### Version 1.2.4 news (2020-06-14)
 
   * [MPFR] was updated from version 4.0.2-p7 to 4.0.2-p9.
 
