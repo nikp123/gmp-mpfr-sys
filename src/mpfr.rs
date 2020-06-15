@@ -40,7 +40,7 @@ the [MPFR] website. The program computes a lower bound on
 1 + 1/1! + 1/2! + … + 1/100!
 using 200-bit precision. The program outputs:
 
-`Sum is 2.7182818284590452353602874713526624977572470936999595749669131`
+`Sum is 2.7182818284590452353602874713526624977572470936999595749669131e0`
 
 ```rust
 use core::mem::MaybeUninit;
@@ -78,15 +78,15 @@ fn main() {
         mpfr::out_str(stdout, 10, 0, &s, rnd_t::RNDD);
         libc::fputc(b'\n' as c_int, stdout);
 #       libc::rewind(stdout);
-#       let mut buf = [0u8; 71];
-#       libc::fread(buf.as_mut_ptr() as _, 1, 71, stdout);
+#       let mut buf = [0u8; 73];
+#       libc::fread(buf.as_mut_ptr() as _, 1, 73, stdout);
 #       let stdout = real_stdout;
         libc::fclose(stdout);
 #       if !tmp_file.is_null() {
 #           libc::fclose(tmp_file);
 #           assert_eq!(
 #               &buf[..],
-#               &b"Sum is 2.7182818284590452353602874713526624977572470936999595749669131\n"[..]
+#               &b"Sum is 2.7182818284590452353602874713526624977572470936999595749669131e0\n"[..]
 #           );
 #       }
 
