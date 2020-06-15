@@ -18,6 +18,10 @@ Version 1.3.0 (unreleased)
   * The internal details of
     <code>[gmp][gmp-1-3]::[randfnptr\_t][gmp-randfnptr-1-3]</code>
     have been changed to reflect that its functions are not nullable.
+  * Cross compilation will now fail if the experimental feature
+    `force-cross` is not enabled, because cross compilation is not
+    tested or supported and can lead to silent failures that are hard
+    to debug, especially if this crate is an indirect dependency.
 
 [gmp-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/index.html
 [gmp-mpf-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.mpf_t.html

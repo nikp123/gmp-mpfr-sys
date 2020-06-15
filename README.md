@@ -36,6 +36,10 @@ text of the [GNU LGPL] and [GNU GPL] for details.
   * The internal details of
     <code>[gmp][gmp-1-3]::[randfnptr\_t][gmp-randfnptr-1-3]</code>
     have been changed to reflect that its functions are not nullable.
+  * Cross compilation will now fail if the experimental feature
+    `force-cross` is not enabled, because cross compilation is not
+    tested or supported and can lead to silent failures that are hard
+    to debug, especially if this crate is an indirect dependency.
 
 [gmp-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/index.html
 [gmp-mpf-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.mpf_t.html
@@ -188,13 +192,12 @@ There are two experimental feature:
     system libraries for [GMP], and [MPFR] and [MPC] if enabled, will
     be used instead of building them from source. The versions must be
     compatible with the versions provided by the crate.
- 2. `force-cross`, disabled by default. In version 1.2 this feature is
-    ignored, but from version 1.3 onwards the build will fail if cross
-    compilation is detected, because cross compilation is not tested
-    or supported and can lead to silent failures that are hard to
-    debug, especially if this crate is an indirect dependency. This
-    feature will force a compilation attempt even if cross compilation
-    is detected.
+ 2. `force-cross`, disabled by default. Without this feature, the
+    build will fail if cross compilation is detected, because cross
+    compilation is not tested or supported and can lead to silent
+    failures that are hard to debug, especially if this crate is an
+    indirect dependency. As an exception, cross compiling from x86_64
+    to i686 does not need this feature.
 
 ## Metadata
 

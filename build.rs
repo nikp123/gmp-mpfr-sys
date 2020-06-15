@@ -77,11 +77,11 @@ fn main() {
         .into_string()
         .expect("env var TARGET having sensible characters");
     let force_cross = there_is_env("CARGO_FEATURE_FORCE_CROSS");
-    if !force_cross && !compilation_whitelisted(&host, &raw_target) {
-        println!(
-            "cargo:warning=Cross compilation not supported! \
-             Use the `force-cross` feature to cross compile anyway. \
-             (This warning will become an error in version 1.3.)"
+    if !force_cross && !compilation_target_allowed(&host, &raw_target) {
+        panic!(
+            "Cross compilation from {} to {} not supported! \
+             Use the `force-cross` feature to cross compile anyway.",
+            host, raw_target
         );
     }
 
@@ -1246,7 +1246,7 @@ fn system_cache_dir() -> Option<PathBuf> {
     }
 }
 
-fn compilation_whitelisted(host: &str, target: &str) -> bool {
+fn compilation_target_allowed(host: &str, target: &str) -> bool {
     if host == target {
         return true;
     }
@@ -1262,6 +1262,7 @@ fn compilation_whitelisted(host: &str, target: &str) -> bool {
     {
         return true;
     }
+
     false
 }
 
