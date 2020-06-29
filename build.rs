@@ -1251,12 +1251,14 @@ fn compilation_whitelisted(host: &str, target: &str) -> bool {
         return true;
     }
 
-    // allow cross-compilation from x86_64 to i686, as it is a simple
-    // -m32 switch in GMP compilation
+    // Allow cross-compilation from x86_64 to i686, as it is a simple
+    // -m32 switch in GMP compilation; unless MinGW is in use, where
+    // cross compilation from 64-bit to 32-bit has issues.
     let (machine_x86_64, machine_i686) = ("x86_64", "i686");
     if host.starts_with(machine_x86_64)
         && target.starts_with(machine_i686)
         && host[machine_x86_64.len()..] == target[machine_i686.len()..]
+        && !target.contains("-windows-gnu")
     {
         return true;
     }
