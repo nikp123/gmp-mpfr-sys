@@ -62,8 +62,9 @@ test_script:
   # Update GMP to 6.2.0 now to make sure the update does not interfere with gcc
   - pacman -Sy --noconfirm %MINGW_PACKAGE_PREFIX%-gmp
   - cargo clean
-  - cargo +beta-%HOST% test --features "fail-on-warnings use-system-libs"
-  - cargo +beta-%HOST% test --release --features "fail-on-warnings use-system-libs"
+  # Test only GMP using use-system-libs until MPFR version available
+  - cargo +beta-%HOST% test --no-default-features --features "fail-on-warnings use-system-libs"
+  - cargo +beta-%HOST% test --release --no-default-features --features "fail-on-warnings use-system-libs"
 
 after_test:
   - bash -c "if [ -d $USERPROFILE/.cargo/registry/cache ]; then cd $USERPROFILE/.cargo/registry; for c in cache/*/*.crate; do s=src/${c#cache/}; if [ ! -e ${s/.crate/} ]; then rm -v $c; fi; done; find cache -name \*.crate; fi"

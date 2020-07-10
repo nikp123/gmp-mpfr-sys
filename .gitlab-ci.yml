@@ -80,7 +80,7 @@ x86_64-i686-gnulinux:
   except:
   - www
 
-#Disable use-system-libs tests until GMP version catches up
+#Disable use-system-libs tests until GMP and MPFR versions catch up
 #
 #x86_64-gnulinux-sys-libs:
 #  image: amd64/rust:1
