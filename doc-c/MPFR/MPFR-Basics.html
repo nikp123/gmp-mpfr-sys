@@ -10,7 +10,7 @@ Next: <a href="constant.MPFR_Interface.html#MPFR-Interface" accesskey="n" rel="n
 </td></tr>
 <tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#MPFR-Variable-Conventions" accesskey="3">MPFR Variable Conventions</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
 </td></tr>
-<tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Rounding-Modes" accesskey="4">Rounding Modes</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
+<tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Rounding" accesskey="4">Rounding</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
 </td></tr>
 <tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Floating_002dPoint-Values-on-Special-Numbers" accesskey="5">Floating-Point Values on Special Numbers</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
 </td></tr>
@@ -104,7 +104,7 @@ also be necessary to set up some sort of run-time library path (e.g.,
 file for additional information.
 </p>
 <p>Alternatively, it is possible to use &lsquo;<samp>pkg-config</samp>&rsquo; (a file
-&lsquo;<samp>mpfr.pc</samp>&rsquo; is provided as of MPFR 4.0):
+&lsquo;<samp>mpfr.pc</samp>&rsquo; is provided as of MPFR&nbsp;4.0):
 </p>
 <div class="example">
 <pre class="example">cc myprogram.c $(pkg-config --cflags --libs mpfr)
@@ -128,15 +128,15 @@ Next: <a href="#MPFR-Variable-Conventions" accesskey="n" rel="next">MPFR Variabl
 representing a radix-2 floating-point number consisting of a sign,
 an arbitrary-precision normalized significand (also called mantissa),
 and an exponent (an integer in some given range); these are called
-<em>regular numbers</em>. Like in the IEEE 754 standard, a floating-point
+<em>regular numbers</em>. Like in the IEEE&nbsp;754 standard, a floating-point
 number can also have three kinds of special values: a signed zero, a
 signed infinity, and Not-a-Number (NaN). NaN can represent the default
 value of a floating-point object and the result of some operations for
 which no other results would make sense, such as 0 divided by 0 or
 +Infinity minus +Infinity; unless documented otherwise, the sign bit of
-a NaN is unspecified. Note that contrary to IEEE 754, MPFR has a single
+a NaN is unspecified. Note that contrary to IEEE&nbsp;754, MPFR has a single
 kind of NaN and does not have subnormals. Other than that, the behavior
-is very similar to IEEE 754, but there may be some differences.
+is very similar to IEEE&nbsp;754, but there may be some differences.
 </p>
 <p>The C data type for such objects is <code>mpfr_t</code>, internally defined
 as a one-element array of a structure (so that when passed as an
@@ -156,10 +156,10 @@ is equal to 1.
 <p>Warning! MPFR needs to increase the precision internally, in order to
 provide accurate results (and in particular, correct rounding). Do not
 attempt to set the precision to any value near <code>MPFR_PREC_MAX</code>,
-otherwise MPFR will abort due to an assertion failure. Moreover, you
-may reach some memory limit on your platform, in which case the program
-may abort, crash or have undefined behavior (depending on your C
-implementation).
+otherwise MPFR will abort due to an assertion failure. However, in practice,
+the real limitation will probably be the available memory on your platform,
+and in case of lack of memory, the program may abort, crash or have
+undefined behavior (depending on your C implementation).
 </p>
 <span id="index-Exponent"></span>
 <span id="index-mpfr_005fexp_005ft"></span>
@@ -169,12 +169,12 @@ to a subset of this type, and the exponent range can be changed globally
 as described in <a href="constant.MPFR_Interface.html#Exception-Related-Functions">Exception Related Functions</a>. Special values do not
 have an exponent.
 </p>
-<span id="index-Rounding-Modes"></span>
+<span id="index-Rounding"></span>
 <span id="index-mpfr_005frnd_005ft"></span>
 <p>The <em>rounding mode</em> specifies the way to round the result of a
-floating-point operation, in case the exact result can not be represented
-exactly in the destination;
-the corresponding C data type is <code>mpfr_rnd_t</code>.
+floating-point operation, in case the exact result cannot be represented
+exactly in the destination (see <a href="#Rounding">Rounding</a>).
+The corresponding C data type is <code>mpfr_rnd_t</code>.
 </p>
 <span id="index-Group-of-flags"></span>
 <span id="index-mpfr_005fflags_005ft"></span>
@@ -185,7 +185,7 @@ to represent a group of flags (or a mask).
 <hr>
 <span id="MPFR-Variable-Conventions"></span><div class="header">
 <p>
-Next: <a href="#Rounding-Modes" accesskey="n" rel="next">Rounding Modes</a>, Previous: <a href="#Nomenclature-and-Types" accesskey="p" rel="prev">Nomenclature and Types</a>, Up: <a href="#MPFR-Basics" accesskey="u" rel="up">MPFR Basics</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Rounding" accesskey="n" rel="next">Rounding</a>, Previous: <a href="#Nomenclature-and-Types" accesskey="p" rel="prev">Nomenclature and Types</a>, Up: <a href="#MPFR-Basics" accesskey="u" rel="up">MPFR Basics</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="MPFR-Variable-Conventions-1"></span><h3 class="section">4.3 MPFR Variable Conventions</h3>
 <p>Before you can assign to a MPFR variable, you need to initialize it by calling
@@ -213,17 +213,22 @@ This computes the square of <var>x</var> with rounding mode <code>rnd</code>
 and puts the result back in <var>x</var>.
 </p>
 <hr>
-<span id="Rounding-Modes"></span><div class="header">
+<span id="Rounding"></span><div class="header">
 <p>
 Next: <a href="#Floating_002dPoint-Values-on-Special-Numbers" accesskey="n" rel="next">Floating-Point Values on Special Numbers</a>, Previous: <a href="#MPFR-Variable-Conventions" accesskey="p" rel="prev">MPFR Variable Conventions</a>, Up: <a href="#MPFR-Basics" accesskey="u" rel="up">MPFR Basics</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
-<span id="Rounding-Modes-1"></span><h3 class="section">4.4 Rounding Modes</h3>
+<span id="Rounding-1"></span><h3 class="section">4.4 Rounding</h3>
 <p>The following rounding modes are supported:
-</p><ul>
-<li> <code>MPFR_RNDN</code>: round to nearest (roundTiesToEven in IEEE 754-2008),
-</li><li> <code>MPFR_RNDZ</code>: round toward zero (roundTowardZero in IEEE 754-2008),
-</li><li> <code>MPFR_RNDU</code>: round toward plus infinity (roundTowardPositive in IEEE 754-2008),
-</li><li> <code>MPFR_RNDD</code>: round toward minus infinity (roundTowardNegative in IEEE 754-2008),
+</p>
+<ul>
+<li> <code>MPFR_RNDN</code>: round to nearest, with the even rounding rule
+      (roundTiesToEven in IEEE&nbsp;754-2008); see details below.
+</li><li> <code>MPFR_RNDD</code>: round toward minus infinity
+      (roundTowardNegative in IEEE&nbsp;754-2008).
+</li><li> <code>MPFR_RNDU</code>: round toward plus infinity
+      (roundTowardPositive in IEEE&nbsp;754-2008).
+</li><li> <code>MPFR_RNDZ</code>: round toward zero
+      (roundTowardZero in IEEE&nbsp;754-2008).
 </li><li> <code>MPFR_RNDA</code>: round away from zero.
 </li><li> <code>MPFR_RNDF</code>: faithful rounding. This feature is currently
 experimental. Specific support for this rounding mode has been added
@@ -235,14 +240,39 @@ is not guaranteed yet (corrections were done when failures occurred in the
 test suite, but almost nothing has been checked manually), failures should
 be regarded as bugs and reported, so that they can be fixed.
 </li></ul>
-<p>The &lsquo;<samp>round to nearest</samp>&rsquo; mode works as in the IEEE 754 standard: in
-case the number to be rounded lies exactly in the middle of two representable
-numbers, it is rounded to the one with the least significant bit set to zero.
-For example, the number 2.5, which is represented by (10.1) in binary, is
-rounded to (10.0)=2 with a precision of two bits, and not to (11.0)=3.
-This rule avoids the <em>drift</em> phenomenon mentioned by Knuth in volume 2
-of The Art of Computer Programming (Section 4.2.2).
+<p>Note that, in particular for a result equal to zero, the sign is preserved
+by the rounding operation.
 </p>
+<p>The <code>MPFR_RNDN</code> mode works like roundTiesToEven from the
+IEEE&nbsp;754 standard: in case the number to be rounded lies exactly
+in the middle between two consecutive representable numbers, it is
+rounded to the one with an even significand; in radix 2, this means
+that the least significant bit is 0. For example, the number 2.5,
+which is represented by (10.1) in binary, is rounded to (10.0)=2 with
+a precision of two bits, and not to (11.0)=3.
+This rule avoids the <em>drift</em> phenomenon mentioned by Knuth in volume 2
+of The Art of Computer Programming (Section&nbsp;4.2.2).
+</p>
+<p>Note: In particular for a 1-digit precision (in radix 2 or other radices,
+as in conversions to a string of digits), one considers the significands
+associated with the exponent of the number to be rounded. For instance,
+to round the number 95 in radix 10 with a 1-digit precision, one considers
+its truncated 1-digit integer significand 9 and the following integer 10
+(since these are consecutive integers, exactly one of them is even).
+10 is the even significand, so that 95 will be rounded to 100, not to 90.
+</p>
+<p>For the <em>directed rounding modes</em>, a number <var>x</var> is rounded to
+the number <var>y</var> that is the closest to <var>x</var> such that
+</p><ul>
+<li> <code>MPFR_RNDD</code>:
+      <var>y</var> is less than or equal to <var>x</var>;
+</li><li> <code>MPFR_RNDU</code>:
+      <var>y</var> is greater than or equal to <var>x</var>;
+</li><li> <code>MPFR_RNDZ</code>:
+      abs(<var>y</var>) is less than or equal to abs(<var>x</var>);
+</li><li> <code>MPFR_RNDA</code>:
+      abs(<var>y</var>) is greater than or equal to abs(<var>x</var>).
+</li></ul>
 <p>The <code>MPFR_RNDF</code> mode works as follows: the computed value is either
 that corresponding to <code>MPFR_RNDD</code> or that corresponding to
 <code>MPFR_RNDU</code>.
@@ -271,7 +301,7 @@ The input variables are regarded as exact (in particular, their precision
 does not affect the result).
 </p>
 <p>As a consequence, in case of a non-zero real rounded result, the error
-on the result is less or equal to 1/2 ulp (unit in the last place) of
+on the result is less than or equal to 1/2 ulp (unit in the last place) of
 that result in the rounding to nearest mode, and less than 1 ulp of that
 result in the directed rounding modes (a ulp is the weight of the least
 significant represented bit of the result after rounding).
@@ -298,7 +328,7 @@ an underflow if that value is not representable in the current exponent range.
 <hr>
 <span id="Floating_002dPoint-Values-on-Special-Numbers"></span><div class="header">
 <p>
-Next: <a href="#Exceptions" accesskey="n" rel="next">Exceptions</a>, Previous: <a href="#Rounding-Modes" accesskey="p" rel="prev">Rounding Modes</a>, Up: <a href="#MPFR-Basics" accesskey="u" rel="up">MPFR Basics</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Exceptions" accesskey="n" rel="next">Exceptions</a>, Previous: <a href="#Rounding" accesskey="p" rel="prev">Rounding</a>, Up: <a href="#MPFR-Basics" accesskey="u" rel="up">MPFR Basics</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Floating_002dPoint-Values-on-Special-Numbers-1"></span><h3 class="section">4.5 Floating-Point Values on Special Numbers</h3>
 <p>This section specifies the floating-point values (of type <code>mpfr_t</code>)
@@ -315,7 +345,7 @@ as a tuple in the extended real numbers (the set of the real numbers
 with both infinities).
 </p>
 <p>When the input point is in the domain of the mathematical function, the
-result is rounded as described in Section &ldquo;Rounding Modes&rdquo; (but see
+result is rounded as described in <a href="#Rounding">Rounding</a> (but see
 below for the specification of the sign of an exact zero). Otherwise
 the general rules from this section apply unless stated otherwise in
 the description of the MPFR function (<a href="constant.MPFR_Interface.html#MPFR-Interface">MPFR Interface</a>).
@@ -354,7 +384,7 @@ the result is NaN. Example: <code>mpfr_sqrt</code> on -17 gives NaN.
 a partial function is constant on the finite floating-point numbers;
 such a case is always explicitly specified in <a href="constant.MPFR_Interface.html#MPFR-Interface">MPFR Interface</a>.
 Example: <code>mpfr_hypot</code> on (NaN,0) gives NaN, but <code>mpfr_hypot</code>
-on (NaN,+Inf) gives +Inf (as specified in <a href="constant.MPFR_Interface.html#Special-Functions">Special Functions</a>),
+on (NaN,+Inf) gives +Inf (as specified in <a href="constant.MPFR_Interface.html#Transcendental-Functions">Transcendental Functions</a>),
 since for any finite or infinite input <var>x</var>, <code>mpfr_hypot</code> on
 (<var>x</var>,+Inf) gives +Inf.
 </p>
@@ -481,10 +511,9 @@ their users about this issue.
 all threads where MPFR may be used; data allocated in one thread may
 be reallocated and/or freed in some other thread.
 </p>
-<p>MPFR internal data such as flags, the exponent range, the default
-precision and rounding mode, and caches (i.e., data that are not
-accessed via parameters) are either global (if MPFR has not been
-compiled as thread safe) or per-thread (thread local storage, TLS).
+<p>MPFR internal data such as flags, the exponent range, the default precision,
+and the default rounding mode are either global (if MPFR has not been
+compiled as thread safe) or per-thread (thread-local storage, TLS).
 The initial values of TLS data after a thread is created entirely
 depend on the compiler and thread implementation (MPFR simply does
 a conventional variable initialization, the variables being declared

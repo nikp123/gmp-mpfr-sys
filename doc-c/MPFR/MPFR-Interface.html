@@ -4,7 +4,6 @@ Next: <a href="constant.API_Compatibility.html#API-Compatibility" accesskey="n" 
 </div>
 <span id="MPFR-Interface-1"></span><h2 class="chapter">5 MPFR Interface</h2>
 <span id="index-Floating_002dpoint-functions"></span>
-<span id="index-Float-functions"></span>
 <p>The floating-point functions expect arguments of type <code>mpfr_t</code>.
 </p>
 <p>The MPFR floating-point functions have an interface that is similar to the
@@ -22,7 +21,7 @@ precision of variables used as input (on average).
 requested operation exactly (with &ldquo;infinite accuracy&rdquo;), and round the result
 to the precision of the destination variable, with the given rounding mode.
 The MPFR floating-point functions are intended to be a smooth extension
-of the IEEE 754 arithmetic. The results obtained on a given computer are
+of the IEEE&nbsp;754 arithmetic. The results obtained on a given computer are
 identical to those obtained on a computer with a different word size,
 or with a different compiler or operating system.
 </p>
@@ -48,11 +47,11 @@ MPFR code (libc functions, memory allocator, etc.) may do so.
 </td></tr>
 <tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Conversion-Functions" accesskey="4">Conversion Functions</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
 </td></tr>
-<tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Basic-Arithmetic-Functions" accesskey="5">Basic Arithmetic Functions</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
+<tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Arithmetic-Functions" accesskey="5">Arithmetic Functions</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
 </td></tr>
 <tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Comparison-Functions" accesskey="6">Comparison Functions</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
 </td></tr>
-<tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Special-Functions" accesskey="7">Special Functions</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
+<tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Transcendental-Functions" accesskey="7">Transcendental Functions</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
 </td></tr>
 <tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Input-and-Output-Functions" accesskey="8">Input and Output Functions</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
 </td></tr>
@@ -65,6 +64,8 @@ MPFR code (libc functions, memory allocator, etc.) may do so.
 <tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Miscellaneous-Functions">Miscellaneous Functions</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
 </td></tr>
 <tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Exception-Related-Functions">Exception Related Functions</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
+</td></tr>
+<tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Memory-Handling-Functions">Memory Handling Functions</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
 </td></tr>
 <tr><td style="padding: 0; border: 0;"  align="left" valign="top">&bull; <a href="#Compatibility-with-MPF">Compatibility with MPF</a></td><td style="padding: 0; border: 0;" >&nbsp;&nbsp;</td><td style="padding: 0; border: 0;"  align="left" valign="top">
 </td></tr>
@@ -92,8 +93,11 @@ MPF function initializes to zero instead.)
 </p>
 <p>Normally, a variable should be initialized once only or at
 least be cleared, using <code>mpfr_clear</code>, between initializations.
-To change the precision of a variable which has already been initialized,
-use <code>mpfr_set_prec</code>.
+To change the precision of a variable that has already been initialized,
+use <code>mpfr_set_prec</code> or <code>mpfr_prec_round</code>; note that if the
+precision is decreased, the unused memory will not be freed, so that
+it may be wise to choose a large enough initial precision in order to
+avoid reallocations.
 The precision <var>prec</var> must be an integer between <code>MPFR_PREC_MIN</code> and
 <code>MPFR_PREC_MAX</code> (otherwise the behavior is undefined).
 </p></dd></dl>
@@ -226,7 +230,7 @@ closely match the actual accurate part of the numbers.
 </p>
 <dl>
 <dt id="index-mpfr_005fset_005fprec">Function: <em>void</em> <strong>mpfr_set_prec</strong> <em>(mpfr_t <var>x</var>, mpfr_prec_t <var>prec</var>)</em></dt>
-<dd><p>Reset the precision of <var>x</var> to be <strong>exactly</strong> <var>prec</var> bits,
+<dd><p>Set the precision of <var>x</var> to be <strong>exactly</strong> <var>prec</var> bits,
 and set its value to NaN.
 The previous value stored in <var>x</var> is lost. It is equivalent to
 a call to <code>mpfr_clear(x)</code> followed by a call to
@@ -265,8 +269,9 @@ Next: <a href="#Combined-Initialization-and-Assignment-Functions" accesskey="n" 
 <dt id="index-mpfr_005fset_005fflt">Function: <em>int</em> <strong>mpfr_set_flt</strong> <em>(mpfr_t <var>rop</var>, float <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpfr_005fset_005fd">Function: <em>int</em> <strong>mpfr_set_d</strong> <em>(mpfr_t <var>rop</var>, double <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpfr_005fset_005fld">Function: <em>int</em> <strong>mpfr_set_ld</strong> <em>(mpfr_t <var>rop</var>, long double <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpfr_005fset_005ffloat128">Function: <em>int</em> <strong>mpfr_set_float128</strong> <em>(mpfr_t <var>rop</var>, __float128 <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpfr_005fset_005ffloat128">Function: <em>int</em> <strong>mpfr_set_float128</strong> <em>(mpfr_t <var>rop</var>, _Float128 <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpfr_005fset_005fdecimal64">Function: <em>int</em> <strong>mpfr_set_decimal64</strong> <em>(mpfr_t <var>rop</var>, _Decimal64 <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpfr_005fset_005fdecimal128">Function: <em>int</em> <strong>mpfr_set_decimal128</strong> <em>(mpfr_t <var>rop</var>, _Decimal128 <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpfr_005fset_005fz">Function: <em>int</em> <strong>mpfr_set_z</strong> <em>(mpfr_t <var>rop</var>, mpz_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpfr_005fset_005fq">Function: <em>int</em> <strong>mpfr_set_q</strong> <em>(mpfr_t <var>rop</var>, mpq_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpfr_005fset_005ff">Function: <em>int</em> <strong>mpfr_set_f</strong> <em>(mpfr_t <var>rop</var>, mpf_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
@@ -276,37 +281,39 @@ Note that the input 0 is converted to +0 by <code>mpfr_set_ui</code>,
 <code>mpfr_set_si</code>, <code>mpfr_set_uj</code>, <code>mpfr_set_sj</code>,
 The <code>mpfr_set_float128</code> function is built only with the configure
 option &lsquo;<samp>--enable-float128</samp>&rsquo;, which requires the compiler or
-system provides the &lsquo;<samp>__float128</samp>&rsquo; data type
+system provides the &lsquo;<samp>_Float128</samp>&rsquo; data type
 (GCC 4.3 or later supports this data type);
 to use <code>mpfr_set_float128</code>, one should define the macro
 <code>MPFR_WANT_FLOAT128</code> before including <samp>mpfr.h</samp>.
 <code>mpfr_set_z</code>, <code>mpfr_set_q</code> and
 <code>mpfr_set_f</code>, regardless of the rounding mode.
-If the system does not support the IEEE 754 standard,
-<code>mpfr_set_flt</code>, <code>mpfr_set_d</code>, <code>mpfr_set_ld</code> and
-<code>mpfr_set_decimal64</code> might not preserve the signed zeros.
-The <code>mpfr_set_decimal64</code> function is built only with the configure
+If the system does not support the IEEE&nbsp;754 standard,
+<code>mpfr_set_flt</code>, <code>mpfr_set_d</code>, <code>mpfr_set_ld</code>,
+<code>mpfr_set_decimal64</code> and <code>mpfr_set_decimal128</code>
+might not preserve the signed zeros.
+The <code>mpfr_set_decimal64</code> and <code>mpfr_set_decimal128</code>
+functions are built only with the configure
 option &lsquo;<samp>--enable-decimal-float</samp>&rsquo;, and when the compiler or
-system provides the &lsquo;<samp>_Decimal64</samp>&rsquo; data type
-(recent versions of GCC support this data type);
-to use <code>mpfr_set_decimal64</code>, one should define the macro
+system provides the &lsquo;<samp>_Decimal64</samp>&rsquo; and &lsquo;<samp>_Decimal128</samp>&rsquo; data type;
+to use those functions, one should define the macro
 <code>MPFR_WANT_DECIMAL_FLOATS</code> before including <samp>mpfr.h</samp>.
 <code>mpfr_set_q</code> might fail if the numerator (or the
-denominator) can not be represented as a <code>mpfr_t</code>.
+denominator) cannot be represented as a <code>mpfr_t</code>.
 </p>
 <p>For <code>mpfr_set</code>, the sign of a NaN is propagated in order to mimic the
-IEEE 754 <code>copy</code> operation. But contrary to IEEE 754, the NaN flag is
-set as usual.
+IEEE&nbsp;754 <code>copy</code> operation. But contrary to IEEE&nbsp;754, the
+NaN flag is set as usual.
 </p>
 <p>Note: If you want to store a floating-point constant to a <code>mpfr_t</code>,
 you should use <code>mpfr_set_str</code> (or one of the MPFR constant functions,
 such as <code>mpfr_const_pi</code> for <em>Pi</em>) instead of
 <code>mpfr_set_flt</code>, <code>mpfr_set_d</code>,
-<code>mpfr_set_ld</code> or <code>mpfr_set_decimal64</code>.
+<code>mpfr_set_ld</code>, <code>mpfr_set_decimal64</code> or
+<code>mpfr_set_decimal128</code>.
 Otherwise the floating-point constant will be first
 converted into a reduced-precision (e.g., 53-bit) binary
-(or decimal, for <code>mpfr_set_decimal64</code>) number before
-MPFR can work with it.
+(or decimal, for <code>mpfr_set_decimal64</code> and <code>mpfr_set_decimal128</code>)
+number before MPFR can work with it.
 </p></dd></dl>
 <dl>
 <dt id="index-mpfr_005fset_005fui_005f2exp">Function: <em>int</em> <strong>mpfr_set_ui_2exp</strong> <em>(mpfr_t <var>rop</var>, unsigned long int <var>op</var>, mpfr_exp_t <var>e</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
@@ -357,19 +364,19 @@ data. The subject sequence is defined as the longest initial subsequence of
 the input string, starting with the first non-whitespace character, that is of
 the expected form.
 </p>
-<p>The form of numeric data is a non-empty sequence of significand digits with an
-optional decimal point, and an optional exponent consisting of an exponent
-prefix followed by an optional sign and a non-empty sequence of decimal
-digits. A significand digit is either a decimal digit or a Latin letter (62
-possible characters), with &lsquo;<samp>A</samp>&rsquo; = 10, &lsquo;<samp>B</samp>&rsquo; = 11, &hellip;, &lsquo;<samp>Z</samp>&rsquo; =
-35; case is ignored in bases less or equal to 36, in bases larger than 36,
-&lsquo;<samp>a</samp>&rsquo; = 36, &lsquo;<samp>b</samp>&rsquo; = 37, &hellip;, &lsquo;<samp>z</samp>&rsquo; = 61.
-The value of a
-significand digit must be strictly less than the base.  The decimal point can
-be either the one defined by the current locale or the period (the first one
-is accepted for consistency with the C standard and the practice, the second
-one is accepted to allow the programmer to provide MPFR numbers from strings
-in a way that does not depend on the current locale).
+<p>The form of numeric data is a non-empty sequence of significand digits with
+an optional decimal-point character, and an optional exponent consisting of
+an exponent prefix followed by an optional sign and a non-empty sequence of
+decimal digits. A significand digit is either a decimal digit or a Latin
+letter (62 possible characters), with &lsquo;<samp>A</samp>&rsquo; = 10, &lsquo;<samp>B</samp>&rsquo; = 11, &hellip;,
+&lsquo;<samp>Z</samp>&rsquo; = 35; case is ignored in bases less than or equal to 36, in bases
+larger than 36, &lsquo;<samp>a</samp>&rsquo; = 36, &lsquo;<samp>b</samp>&rsquo; = 37, &hellip;, &lsquo;<samp>z</samp>&rsquo; = 61.
+The value of a significand digit must be strictly less than the base. The
+decimal-point character can be either the one defined by the current locale
+or the period (the first one is accepted for consistency with the C standard
+and the practice, the second one is accepted to allow the programmer to
+provide MPFR numbers from strings in a way that does not depend on the
+current locale).
 The exponent prefix can be &lsquo;<samp>e</samp>&rsquo; or &lsquo;<samp>E</samp>&rsquo; for bases up to 10, or
 &lsquo;<samp>@</samp>&rsquo; in any base; it indicates a multiplication by a power of the
 base. In bases 2 and 16, the exponent prefix can also be &lsquo;<samp>p</samp>&rsquo; or &lsquo;<samp>P</samp>&rsquo;,
@@ -456,7 +463,7 @@ See <code>mpfr_set_str</code>.
 <hr>
 <span id="Conversion-Functions"></span><div class="header">
 <p>
-Next: <a href="#Basic-Arithmetic-Functions" accesskey="n" rel="next">Basic Arithmetic Functions</a>, Previous: <a href="#Combined-Initialization-and-Assignment-Functions" accesskey="p" rel="prev">Combined Initialization and Assignment Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Arithmetic-Functions" accesskey="n" rel="next">Arithmetic Functions</a>, Previous: <a href="#Combined-Initialization-and-Assignment-Functions" accesskey="p" rel="prev">Combined Initialization and Assignment Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="index-Conversion-functions"></span>
 <span id="Conversion-Functions-1"></span><h3 class="section">5.4 Conversion Functions</h3>
@@ -464,17 +471,20 @@ Next: <a href="#Basic-Arithmetic-Functions" accesskey="n" rel="next">Basic Arith
 <dt id="index-mpfr_005fget_005fflt">Function: <em>float</em> <strong>mpfr_get_flt</strong> <em>(mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpfr_005fget_005fd">Function: <em>double</em> <strong>mpfr_get_d</strong> <em>(mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpfr_005fget_005fld">Function: <em>long double</em> <strong>mpfr_get_ld</strong> <em>(mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpfr_005fget_005ffloat128">Function: <em>__float128</em> <strong>mpfr_get_float128</strong> <em>(mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpfr_005fget_005ffloat128">Function: <em>_Float128</em> <strong>mpfr_get_float128</strong> <em>(mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpfr_005fget_005fdecimal64">Function: <em>_Decimal64</em> <strong>mpfr_get_decimal64</strong> <em>(mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpfr_005fget_005fdecimal128">Function: <em>_Decimal128</em> <strong>mpfr_get_decimal128</strong> <em>(mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Convert <var>op</var> to a <code>float</code> (respectively <code>double</code>,
-<code>long double</code> or <code>_Decimal64</code>), using the rounding mode <var>rnd</var>.
+<code>long double</code>, <code>_Decimal64</code>, or <code>_Decimal128</code>)
+using the rounding mode <var>rnd</var>.
 If <var>op</var> is NaN, some fixed NaN (either quiet or signaling) or the result
 of 0.0/0.0 is returned. If <var>op</var> is ±Inf, an infinity of the same
 sign or the result of ±1.0/0.0 is returned. If <var>op</var> is zero, these
 functions return a zero, trying to preserve its sign, if possible.
-The <code>mpfr_get_float128</code> and <code>mpfr_get_decimal64</code> functions are built
-only under some conditions: see the documentation of <code>mpfr_set_float128</code>
-and <code>mpfr_set_decimal64</code> respectively.
+The <code>mpfr_get_float128</code>, <code>mpfr_get_decimal64</code> and
+<code>mpfr_get_decimal128</code> functions are built
+only under some conditions: see the documentation of <code>mpfr_set_float128</code>,
+<code>mpfr_set_decimal64</code> and <code>mpfr_set_decimal128</code> respectively.
 </p></dd></dl>
 <dl>
 <dt id="index-mpfr_005fget_005fsi">Function: <em>long</em> <strong>mpfr_get_si</strong> <em>(mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
@@ -568,19 +578,33 @@ Note that since MPFR currently has the same exponent type as MPF (but
 not with the same radix), the range of values is much larger in MPF
 than in MPFR, so that an overflow or underflow is not possible.
 </p></dd></dl>
-<dl>
-<dt id="index-mpfr_005fget_005fstr">Function: <em>char *</em> <strong>mpfr_get_str</strong> <em>(char *<var>str</var>, mpfr_exp_t *<var>expptr</var>, int <var>b</var>, size_t <var>n</var>, mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Convert <var>op</var> to a string of digits in base abs(<var>b</var>), with
-rounding in the direction <var>rnd</var>, where <var>n</var> is either zero
+<span id="mpfr_005fget_005fstr_005fndigits"></span><dl>
+<dt id="index-mpfr_005fget_005fstr_005fndigits">Function: <em>size_t</em> <strong>mpfr_get_str_ndigits</strong> <em>(int <var>b</var>, mpfr_prec_t <var>p</var>)</em></dt>
+<dd><p>Return the minimal integer <em>m</em> such that any number
+of <var>p</var> bits, when output with <em>m</em> digits in radix <var>b</var> with
+rounding to nearest, can be recovered exactly when read again,
+still with rounding to nearest.
+More precisely, we have
+m = 1 + ceil(<var>p</var>*log(2)/log(<var>b</var>)),
+with <var>p</var> replaced by <var>p</var>-1 if <var>b</var> is a power of 2.
+</p>
+<p>The argument <var>b</var> must be in the range 2 to 62; this is the range of bases
+supported by the <code>mpfr_get_str</code> function. Note that contrary to the base
+argument of this function, negative values are not accepted.
+</p></dd></dl>
+<span id="mpfr_005fget_005fstr"></span><dl>
+<dt id="index-mpfr_005fget_005fstr">Function: <em>char *</em> <strong>mpfr_get_str</strong> <em>(char *<var>str</var>, mpfr_exp_t *<var>expptr</var>, int <var>base</var>, size_t <var>n</var>, mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Convert <var>op</var> to a string of digits in base abs(<var>base</var>),
+with rounding in the direction <var>rnd</var>, where <var>n</var> is either zero
 (see below) or the number of significant digits output in the string.
-The argument <var>b</var> may vary from 2 to 62 or from -2 to -36;
+The argument <var>base</var> may vary from 2 to 62 or from -2 to -36;
 otherwise the function does nothing and immediately returns a null pointer.
 </p>
-<p>For <var>b</var> in the range 2 to 36, digits and lower-case letters are used;
+<p>For <var>base</var> in the range 2 to 36, digits and lower-case letters are used;
 for -2 to -36, digits and upper-case letters are used; for
 37 to 62, digits, upper-case letters, and lower-case letters, in that
 significance order, are used. Warning! This implies that for
-<em><var>b</var> &gt; 10</em>, the successor of the digit 9 depends on <var>b</var>.
+<em><var>base</var> &gt; 10</em>, the successor of the digit 9 depends on <var>base</var>.
 This choice has been done for compatibility with GMP&rsquo;s <code>mpf_get_str</code>
 function. Users who wish a more consistent behavior should write a simple
 wrapper.
@@ -606,18 +630,9 @@ which is 12 in decimal, (16) and a half is rounded to
 (20) which is 14 in decimal,
 and (26) and a half is rounded to (26) which is 20 in decimal.
 </p>
-<p>If <var>n</var> is zero, the number of digits of the significand is chosen
-large enough so that re-reading the printed value with the same precision,
-assuming both output and input use rounding to nearest, will recover
-the original value of <var>op</var>.
-More precisely, in most cases, the chosen precision of <var>str</var> is the
-minimal precision <em>m</em> depending only on <var>p</var> = PREC(<var>op</var>) and
-<var>b</var> that satisfies the above property, i.e.,
-m = 1 + ceil(<var>p</var>*log(2)/log(<var>b</var>)),
-with <var>p</var> replaced by <var>p</var>-1 if <var>b</var> is a power of 2,
-but in some very rare cases, it might be <em>m+1</em>
-(the smallest case for bases up to 62 is when <var>p</var> equals 186564318007
-for bases 7 and 49).
+<p>If <var>n</var> is zero, the number of digits of the significand is taken as
+<code>mpfr_get_str_ndigits(<var>base</var>,<var>p</var>)</code> where <var>p</var> is the precision
+of <var>op</var> (see <a href="#mpfr_005fget_005fstr_005fndigits">mpfr_get_str_ndigits</a>).
 </p>
 <p>If <var>str</var> is a null pointer, space for the significand is allocated using
 the allocation function (see <a href="constant.MPFR_Basics.html#Memory-Handling">Memory Handling</a>) and a pointer to the string
@@ -627,7 +642,9 @@ To free the returned string, you must use <code>mpfr_free_str</code>.
 <p>If <var>str</var> is not a null pointer, it should point to a block of storage
 large enough for the significand. A safe block size (sufficient for any
 value) is <code>max(<var>n</var> + 2, 7)</code> if <var>n</var> is not zero; if <var>n</var> is
-zero, replace it by <em>m+1</em>, as discussed above. The extra two bytes are
+zero, replace it by <code>mpfr_get_str_ndigits(<var>base</var>,<var>p</var>)</code> where
+<var>p</var> is the precision of <var>op</var>, as mentioned above.
+The extra two bytes are
 for a possible minus sign, and for the terminating null character, and the
 value 7 accounts for &lsquo;<samp>-@Inf@</samp>&rsquo; plus the terminating null character.
 The pointer to the string <var>str</var> is returned (unless the base is invalid).
@@ -660,17 +677,15 @@ that the corresponding conversion function (for example <code>mpfr_get_ui</code>
 for <code>mpfr_fits_ulong_p</code>), when called with faithful rounding,
 will always return a number that is representable in the corresponding type.
 As a consequence, for <code>MPFR_RNDF</code>, <code>mpfr_fits_ulong_p</code> will return
-non-zero for a non-negative number less or equal to <code>ULONG_MAX</code>.
+non-zero for a non-negative number less than or equal to <code>ULONG_MAX</code>.
 </p></dd></dl>
 <hr>
-<span id="Basic-Arithmetic-Functions"></span><div class="header">
+<span id="Arithmetic-Functions"></span><div class="header">
 <p>
 Next: <a href="#Comparison-Functions" accesskey="n" rel="next">Comparison Functions</a>, Previous: <a href="#Conversion-Functions" accesskey="p" rel="prev">Conversion Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
-<span id="index-Basic-arithmetic-functions"></span>
-<span id="index-Float-arithmetic-functions"></span>
 <span id="index-Arithmetic-functions"></span>
-<span id="Basic-Arithmetic-Functions-1"></span><h3 class="section">5.5 Basic Arithmetic Functions</h3>
+<span id="Arithmetic-Functions-1"></span><h3 class="section">5.5 Arithmetic Functions</h3>
 <dl>
 <dt id="index-mpfr_005fadd">Function: <em>int</em> <strong>mpfr_add</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpfr_005fadd_005fui">Function: <em>int</em> <strong>mpfr_add_ui</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, unsigned long int <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
@@ -679,7 +694,7 @@ Next: <a href="#Comparison-Functions" accesskey="n" rel="next">Comparison Functi
 <dt id="index-mpfr_005fadd_005fz">Function: <em>int</em> <strong>mpfr_add_z</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpz_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpfr_005fadd_005fq">Function: <em>int</em> <strong>mpfr_add_q</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpq_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <em><var>op1</var> + <var>op2</var></em> rounded in the direction
-<var>rnd</var>.  The IEEE 754 rules are used, in particular for signed zeros.
+<var>rnd</var>.  The IEEE&nbsp;754 rules are used, in particular for signed zeros.
 But for types having no signed zeros, 0 is considered unsigned
 (i.e., (+0) + 0 = (+0) and (-0) + 0 = (-0)).
 The <code>mpfr_add_d</code> function assumes that the radix of the <code>double</code> type
@@ -698,7 +713,7 @@ is a power of 2, with a precision at most that declared by the C implementation
 <dt id="index-mpfr_005fsub_005fz">Function: <em>int</em> <strong>mpfr_sub_z</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpz_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpfr_005fsub_005fq">Function: <em>int</em> <strong>mpfr_sub_q</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpq_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <em><var>op1</var> - <var>op2</var></em> rounded in the direction
-<var>rnd</var>.  The IEEE 754 rules are used, in particular for signed zeros.
+<var>rnd</var>.  The IEEE&nbsp;754 rules are used, in particular for signed zeros.
 But for types having no signed zeros, 0 is considered unsigned
 (i.e., (+0) - 0 = (+0), (-0) - 0 = (-0),
 0 - (+0) = (-0) and 0 - (-0) = (+0)).
@@ -738,7 +753,7 @@ When a result is zero, its sign is the product of the signs of the operands.
 For types having no signed zeros, 0 is considered positive; but note that if
 <var>op1</var> is non-zero and <var>op2</var> is zero, the result might change from
 ±Inf to NaN in future MPFR versions if there is an opposite decision
-on the IEEE 754 side.
+on the IEEE&nbsp;754 side.
 The same restrictions than for <code>mpfr_add_d</code> apply to <code>mpfr_d_div</code>
 and <code>mpfr_div_d</code>.
 </p></dd></dl>
@@ -747,7 +762,7 @@ and <code>mpfr_div_d</code>.
 <dt id="index-mpfr_005fsqrt_005fui">Function: <em>int</em> <strong>mpfr_sqrt_ui</strong> <em>(mpfr_t <var>rop</var>, unsigned long int <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <em>the square root of <var>op</var></em>
 rounded in the direction <var>rnd</var>.  Set <var>rop</var> to -0 if
-<var>op</var> is -0, to be consistent with the IEEE 754 standard.
+<var>op</var> is -0, to be consistent with the IEEE&nbsp;754 standard.
 Set <var>rop</var> to NaN if <var>op</var> is negative.
 </p></dd></dl>
 <dl>
@@ -756,66 +771,36 @@ Set <var>rop</var> to NaN if <var>op</var> is negative.
 rounded in the direction <var>rnd</var>.  Set <var>rop</var> to +Inf if <var>op</var> is
 ±0, +0 if <var>op</var> is +Inf, and NaN if <var>op</var> is negative.  Warning!
 Therefore the result on -0 is different from the one of the rSqrt
-function recommended by the IEEE 754-2008 standard (Section 9.2.1), which
-is -Inf instead of +Inf.
+function recommended by the IEEE&nbsp;754-2008 standard (Section&nbsp;9.2.1),
+which is -Inf instead of +Inf.
 </p></dd></dl>
 <dl>
 <dt id="index-mpfr_005fcbrt">Function: <em>int</em> <strong>mpfr_cbrt</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpfr_005frootn_005fui">Function: <em>int</em> <strong>mpfr_rootn_ui</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op</var>, unsigned long int <var>k</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to the cubic root (resp. the <var>k</var>th root)
-of <var>op</var> rounded in the direction <var>rnd</var>.
-For <var>k</var> = 0, set <var>rop</var> to NaN.
-For <var>k</var> odd (resp. even) and <var>op</var> negative (including -Inf),
+<dt id="index-mpfr_005frootn_005fui">Function: <em>int</em> <strong>mpfr_rootn_ui</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op</var>, unsigned long int <var>n</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Set <var>rop</var> to the <var>n</var>th root (with <em><var>n</var> = 3</em>, the cubic root,
+for <code>mpfr_cbrt</code>) of <var>op</var> rounded in the direction <var>rnd</var>.
+For <em><var>n</var> = 0</em>, set <var>rop</var> to NaN.
+For <var>n</var> odd (resp. even) and <var>op</var> negative (including -Inf),
 set <var>rop</var> to a negative number (resp. NaN).
 If <var>op</var> is zero, set <var>rop</var> to zero with the sign obtained by the
-usual limit rules, i.e., the same sign as <var>op</var> if <var>k</var> is odd, and
-positive if <var>k</var> is even.
+usual limit rules, i.e., the same sign as <var>op</var> if <var>n</var> is odd, and
+positive if <var>n</var> is even.
 </p>
-<p>These functions agree with the rootn function of the IEEE 754-2008 standard
-(Section 9.2).
+<p>These functions agree with the rootn function of the IEEE&nbsp;754-2008
+standard and the P754/D2.41 draft of the next standard (Section&nbsp;9.2).
+Note that it is here restricted to <em><var>n</var> &gt;= 0</em>. Functions
+allowing a negative <var>n</var> may be implemented in the future.
 </p></dd></dl>
 <dl>
-<dt id="index-mpfr_005froot">Function: <em>int</em> <strong>mpfr_root</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op</var>, unsigned long int <var>k</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpfr_005froot">Function: <em>int</em> <strong>mpfr_root</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op</var>, unsigned long int <var>n</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>This function is the same as <code>mpfr_rootn_ui</code> except when <var>op</var>
-is -0 and <var>k</var> is even: the result is -0 instead of +0
+is -0 and <var>n</var> is even: the result is -0 instead of +0
 (the reason was to be consistent with <code>mpfr_sqrt</code>). Said otherwise,
 if <var>op</var> is zero, set <var>rop</var> to <var>op</var>.
 </p>
-<p>This function predates the IEEE 754-2008 standard and behaves differently
+<p>This function predates the IEEE&nbsp;754-2008 standard and behaves differently
 from its rootn function. It is marked as deprecated and will be removed in
 a future release.
-</p></dd></dl>
-<dl>
-<dt id="index-mpfr_005fpow">Function: <em>int</em> <strong>mpfr_pow</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpfr_005fpow_005fui">Function: <em>int</em> <strong>mpfr_pow_ui</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, unsigned long int <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpfr_005fpow_005fsi">Function: <em>int</em> <strong>mpfr_pow_si</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, long int <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpfr_005fpow_005fz">Function: <em>int</em> <strong>mpfr_pow_z</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpz_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpfr_005fui_005fpow_005fui">Function: <em>int</em> <strong>mpfr_ui_pow_ui</strong> <em>(mpfr_t <var>rop</var>, unsigned long int <var>op1</var>, unsigned long int <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpfr_005fui_005fpow">Function: <em>int</em> <strong>mpfr_ui_pow</strong> <em>(mpfr_t <var>rop</var>, unsigned long int <var>op1</var>, mpfr_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to <em><var>op1</var> raised to <var>op2</var></em>,
-rounded in the direction <var>rnd</var>.
-Special values are handled as described in the ISO C99 and IEEE 754-2008
-standards for the <code>pow</code> function:
-</p><ul>
-<li> <code>pow(±0, <var>y</var>)</code> returns plus or minus infinity for <var>y</var> a negative odd integer.
-</li><li> <code>pow(±0, <var>y</var>)</code> returns plus infinity for <var>y</var> negative and not an odd integer.
-</li><li> <code>pow(±0, <var>y</var>)</code> returns plus or minus zero for <var>y</var> a positive odd integer.
-</li><li> <code>pow(±0, <var>y</var>)</code> returns plus zero for <var>y</var> positive and not an odd integer.
-</li><li> <code>pow(-1, ±Inf)</code> returns 1.
-</li><li> <code>pow(+1, <var>y</var>)</code> returns 1 for any <var>y</var>, even a NaN.
-</li><li> <code>pow(<var>x</var>, ±0)</code> returns 1 for any <var>x</var>, even a NaN.
-</li><li> <code>pow(<var>x</var>, <var>y</var>)</code> returns NaN for finite negative <var>x</var> and finite non-integer <var>y</var>.
-</li><li> <code>pow(<var>x</var>, -Inf)</code> returns plus infinity for <em>0 &lt; abs(x) &lt; 1</em>, and plus zero for <em>abs(x) &gt; 1</em>.
-</li><li> <code>pow(<var>x</var>, +Inf)</code> returns plus zero for <em>0 &lt; abs(x) &lt; 1</em>, and plus infinity for <em>abs(x) &gt; 1</em>.
-</li><li> <code>pow(-Inf, <var>y</var>)</code> returns minus zero for <var>y</var> a negative odd integer.
-</li><li> <code>pow(-Inf, <var>y</var>)</code> returns plus zero for <var>y</var> negative and not an odd integer.
-</li><li> <code>pow(-Inf, <var>y</var>)</code> returns minus infinity for <var>y</var> a positive odd integer.
-</li><li> <code>pow(-Inf, <var>y</var>)</code> returns plus infinity for <var>y</var> positive and not an odd integer.
-</li><li> <code>pow(+Inf, <var>y</var>)</code> returns plus zero for <var>y</var> negative, and plus infinity for <var>y</var> positive.
-</li></ul>
-<p>Note: When 0 is of integer type, it is regarded as +0 by these functions.
-We do not use the usual limit rules in this case, as these rules are not
-used for <code>pow</code>.
 </p></dd></dl>
 <dl>
 <dt id="index-mpfr_005fneg">Function: <em>int</em> <strong>mpfr_neg</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
@@ -827,10 +812,10 @@ the sign if <var>rop</var> and <var>op</var> are the same variable,
 otherwise a rounding might occur if the precision of <var>rop</var> is less than
 that of <var>op</var>.
 </p>
-<p>The sign rule also applies to NaN in order to mimic the IEEE 754
+<p>The sign rule also applies to NaN in order to mimic the IEEE&nbsp;754
 <code>negate</code> and <code>abs</code> operations, i.e., for <code>mpfr_neg</code>, the
 sign is reversed, and for <code>mpfr_abs</code>, the sign is set to positive.
-But contrary to IEEE 754, the NaN flag is set as usual.
+But contrary to IEEE&nbsp;754, the NaN flag is set as usual.
 </p></dd></dl>
 <dl>
 <dt id="index-mpfr_005fdim">Function: <em>int</em> <strong>mpfr_dim</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
@@ -855,12 +840,78 @@ to <var>op2</var></em>
 rounded in the direction <var>rnd</var>. Just decreases the exponent by <var>op2</var>
 when <var>rop</var> and <var>op1</var> are identical.
 </p></dd></dl>
+<dl>
+<dt id="index-mpfr_005ffac_005fui">Function: <em>int</em> <strong>mpfr_fac_ui</strong> <em>(mpfr_t <var>rop</var>, unsigned long int  <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Set <var>rop</var> to the factorial of <var>op</var>, rounded in the direction <var>rnd</var>.
+</p></dd></dl>
+<dl>
+<dt id="index-mpfr_005ffma">Function: <em>int</em> <strong>mpfr_fma</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_t <var>op3</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpfr_005ffms">Function: <em>int</em> <strong>mpfr_fms</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_t <var>op3</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Set <var>rop</var> to <em>(<var>op1</var> times <var>op2</var>) + <var>op3</var></em>
+(resp. <em>(<var>op1</var> times <var>op2</var>) - <var>op3</var></em>)
+rounded in the direction <var>rnd</var>.  Concerning special values (signed zeros,
+infinities, NaN), these functions behave like a multiplication followed by a
+separate addition or subtraction.  That is, the fused operation matters only
+for rounding.
+</p></dd></dl>
+<dl>
+<dt id="index-mpfr_005ffmma">Function: <em>int</em> <strong>mpfr_fmma</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_t <var>op3</var>, mpfr_t <var>op4</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpfr_005ffmms">Function: <em>int</em> <strong>mpfr_fmms</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_t <var>op3</var>, mpfr_t <var>op4</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Set <var>rop</var> to <em>(<var>op1</var> times <var>op2</var>) + (<var>op3</var> times <var>op4</var>)</em>
+(resp. <em>(<var>op1</var> times <var>op2</var>) - (<var>op3</var> times <var>op4</var>)</em>)
+rounded in the direction <var>rnd</var>.
+In case the computation of <em><var>op1</var> times <var>op2</var></em> overflows or
+underflows (or that of <em><var>op3</var> times <var>op4</var></em>), the result
+<var>rop</var> is computed as if the two intermediate products were computed with
+rounding toward zero.
+</p></dd></dl>
+<dl>
+<dt id="index-mpfr_005fhypot">Function: <em>int</em> <strong>mpfr_hypot</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>x</var>, mpfr_t <var>y</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Set <var>rop</var> to the Euclidean norm of <var>x</var> and <var>y</var>,
+i.e., the square root of the sum of the squares of <var>x</var> and <var>y</var>,
+rounded in the direction <var>rnd</var>.
+Special values are handled as described in the ISO C99 (Section&nbsp;F.9.4.3)
+and IEEE&nbsp;754-2008 (Section&nbsp;9.2.1) standards:
+If <var>x</var> or <var>y</var> is an infinity, then +Inf is returned in <var>rop</var>,
+even if the other number is NaN.
+</p></dd></dl>
+<dl>
+<dt id="index-mpfr_005fsum">Function: <em>int</em> <strong>mpfr_sum</strong> <em>(mpfr_t <var>rop</var>, const mpfr_ptr <var>tab</var>[], unsigned long int <var>n</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Set <var>rop</var> to the sum of all elements of <var>tab</var>, whose size is <var>n</var>,
+correctly rounded in the direction <var>rnd</var>. Warning: for efficiency reasons,
+<var>tab</var> is an array of pointers
+to <code>mpfr_t</code>, not an array of <code>mpfr_t</code>.
+If <var>n</var> = 0, then the result is +0, and if <var>n</var> = 1, then the function
+is equivalent to <code>mpfr_set</code>.
+For the special exact cases, the result is the same as the one obtained
+with a succession of additions (<code>mpfr_add</code>) in infinite precision.
+In particular, if the result is an exact zero and <em><var>n</var> &gt;= 1</em>:
+</p><ul>
+<li> if all the inputs have the same sign (i.e., all +0 or all -0),
+then the result has the same sign as the inputs;
+</li><li> otherwise, either because all inputs are zeros with at least a +0 and
+a -0, or because some inputs are non-zero (but they globally cancel),
+the result is +0, except for the <code>MPFR_RNDD</code> rounding mode, where it is
+-0.
+</li></ul>
+</dd></dl>
+<dl>
+<dt id="index-mpfr_005fdot">Function: <em>int</em> <strong>mpfr_dot</strong> <em>(mpfr_t <var>rop</var>, const mpfr_ptr <var>a</var>[], const mpfr_ptr <var>b</var>[], unsigned long int <var>n</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Set <var>rop</var> to the dot product of elements of <var>a</var> by those of <var>b</var>,
+whose common size is <var>n</var>,
+correctly rounded in the direction <var>rnd</var>. Warning: for efficiency reasons,
+<var>a</var> and <var>b</var> are arrays of pointers to <code>mpfr_t</code>.
+This function is experimental, and does not yet handle intermediate overflows
+and underflows.
+</p></dd></dl>
+<p>For the power functions (with an integer exponent or not), see <a href="#mpfr_005fpow">mpfr_pow</a>
+in <a href="#Transcendental-Functions">Transcendental Functions</a>.
+</p>
 <hr>
 <span id="Comparison-Functions"></span><div class="header">
 <p>
-Next: <a href="#Special-Functions" accesskey="n" rel="next">Special Functions</a>, Previous: <a href="#Basic-Arithmetic-Functions" accesskey="p" rel="prev">Basic Arithmetic Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Transcendental-Functions" accesskey="n" rel="next">Transcendental Functions</a>, Previous: <a href="#Arithmetic-Functions" accesskey="p" rel="prev">Arithmetic Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
-<span id="index-Float-comparisons-functions"></span>
 <span id="index-Comparison-functions"></span>
 <span id="Comparison-Functions-1"></span><h3 class="section">5.6 Comparison Functions</h3>
 <dl>
@@ -882,7 +933,7 @@ If one of the operands is NaN, set the <em>erange</em> flag and return zero.
 <p>Note: These functions may be useful to distinguish the three possible cases.
 If you need to distinguish two cases only, it is recommended to use the
 predicate functions (e.g., <code>mpfr_equal_p</code> for the equality) described
-below; they behave like the IEEE 754 comparisons, in particular when one
+below; they behave like the IEEE&nbsp;754 comparisons, in particular when one
 or both arguments are NaN. But only floating-point numbers can be compared
 (you may need to do a conversion first).
 </p></dd></dl>
@@ -894,6 +945,7 @@ the power <var>e</var></em>. Similar as above.
 </p></dd></dl>
 <dl>
 <dt id="index-mpfr_005fcmpabs">Function: <em>int</em> <strong>mpfr_cmpabs</strong> <em>(mpfr_t <var>op1</var>, mpfr_t <var>op2</var>)</em></dt>
+<dt id="index-mpfr_005fcmpabs_005fui">Function: <em>int</em> <strong>mpfr_cmpabs_ui</strong> <em>(mpfr_t <var>op1</var>, unsigned long <var>op2</var>)</em></dt>
 <dd><p>Compare <em>|<var>op1</var>|</em> and <em>|<var>op2</var>|</em>.  Return a positive value if
 <em>|<var>op1</var>| &gt; |<var>op2</var>|</em>, zero if <em>|<var>op1</var>| = |<var>op2</var>|</em>, and
 a negative value if <em>|<var>op1</var>| &lt; |<var>op2</var>|</em>.
@@ -943,25 +995,45 @@ and/or <var>op2</var> is NaN, or <em><var>op1</var> = <var>op2</var></em>).
 <dd><p>Return non-zero if <var>op1</var> or <var>op2</var> is a NaN (i.e., they cannot be
 compared), zero otherwise.
 </p></dd></dl>
+<dl>
+<dt id="index-mpfr_005ftotal_005forder_005fp">Function: <em>int</em> <strong>mpfr_total_order_p</strong> <em>(mpfr_t <var>x</var>, mpfr_t <var>y</var>)</em></dt>
+<dd><p>This function implements the totalOrder predicate from IEEE&nbsp;754-2008,
+where -NaN &lt; -Inf &lt; negative finite numbers &lt; -0 &lt;
++0 &lt; positive finite numbers &lt; +Inf &lt; +NaN.
+It returns a non-zero value (true) when <var>x</var> is smaller than or equal
+to <var>y</var> for this order relation, and zero (false) otherwise.
+Contrary to <code>mpfr_cmp (x, y)</code>, which returns a ternary value,
+<code>mpfr_total_order_p</code> returns a binary value (zero or non-zero).
+In particular, <code>mpfr_total_order_p (x, x)</code> returns true,
+<code>mpfr_total_order_p (-0, +0)</code> returns true and
+<code>mpfr_total_order_p (+0, -0)</code> returns false.
+The sign bit of NaN also matters.
+</p></dd></dl>
 <hr>
-<span id="Special-Functions"></span><div class="header">
+<span id="Transcendental-Functions"></span><div class="header">
 <p>
 Next: <a href="#Input-and-Output-Functions" accesskey="n" rel="next">Input and Output Functions</a>, Previous: <a href="#Comparison-Functions" accesskey="p" rel="prev">Comparison Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
-<span id="index-Special-functions"></span>
-<span id="Special-Functions-1"></span><h3 class="section">5.7 Special Functions</h3>
+<span id="index-Transcendental-functions"></span>
+<span id="Transcendental-Functions-1"></span><h3 class="section">5.7 Transcendental Functions</h3>
 <p>All those functions, except explicitly stated (for example
 <code>mpfr_sin_cos</code>), return a <a href="constant.MPFR_Basics.html#ternary-value">ternary value</a>, i.e., zero for an
 exact return value, a positive value for a return value larger than the
 exact result, and a negative value otherwise.
 </p>
-<p>Important note: in some domains, computing special functions (even more
-with correct rounding) is expensive, even for small precision,
-for example the trigonometric and Bessel functions for large argument.
-For some functions, the memory usage might depend not only on the output
-precision: it is the case of the <code>mpfr_rootn_ui</code> function where the
-memory usage is also linear in the argument <var>k</var>,
-and of the incomplete Gamma function (dependence on the precision of <var>op</var>).
+<p>Important note: In some domains, computing transcendental functions
+(even more with correct rounding) is expensive, even in small precision,
+for example the trigonometric and Bessel functions with a large argument.
+For some functions, the algorithm complexity and memory usage does not
+depend only on the output precision: for instance, the memory usage of
+<code>mpfr_rootn_ui</code> is also linear in the argument <var>k</var>, and the
+memory usage of the incomplete Gamma function also depends on the
+precision of the input <var>op</var>. It is also theoretically possible that
+some functions on some particular inputs might be very hard to round
+(i.e. the Table Maker&rsquo;s Dilemma occurs in much larger precisions than
+normally expected from the context), meaning that the internal precision
+needs to be increased even more; but it is conjectured that the needed
+precision has a reasonable bound.
 </p>
 <dl>
 <dt id="index-mpfr_005flog">Function: <em>int</em> <strong>mpfr_log</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
@@ -973,7 +1045,7 @@ and of the incomplete Gamma function (dependence on the precision of <var>op</va
 <em>log10(<var>op</var>)</em>, respectively,
 rounded in the direction <var>rnd</var>.
 Set <var>rop</var> to +0 if <var>op</var> is 1 (in all rounding modes),
-for consistency with the ISO C99 and IEEE 754-2008 standards.
+for consistency with the ISO C99 and IEEE&nbsp;754-2008 standards.
 Set <var>rop</var> to -Inf if <var>op</var> is ±0
 (i.e., the sign of the zero has no influence on the result).
 </p></dd></dl>
@@ -996,6 +1068,38 @@ rounded in the direction <var>rnd</var>.
 <dt id="index-mpfr_005fexpm1">Function: <em>int</em> <strong>mpfr_expm1</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <em>the exponential of <var>op</var> followed by a
 subtraction by one</em>, rounded in the direction <var>rnd</var>.
+</p></dd></dl>
+<span id="mpfr_005fpow"></span><dl>
+<dt id="index-mpfr_005fpow">Function: <em>int</em> <strong>mpfr_pow</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpfr_005fpow_005fui">Function: <em>int</em> <strong>mpfr_pow_ui</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, unsigned long int <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpfr_005fpow_005fsi">Function: <em>int</em> <strong>mpfr_pow_si</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, long int <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpfr_005fpow_005fz">Function: <em>int</em> <strong>mpfr_pow_z</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpz_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpfr_005fui_005fpow_005fui">Function: <em>int</em> <strong>mpfr_ui_pow_ui</strong> <em>(mpfr_t <var>rop</var>, unsigned long int <var>op1</var>, unsigned long int <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpfr_005fui_005fpow">Function: <em>int</em> <strong>mpfr_ui_pow</strong> <em>(mpfr_t <var>rop</var>, unsigned long int <var>op1</var>, mpfr_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Set <var>rop</var> to <em><var>op1</var> raised to <var>op2</var></em>,
+rounded in the direction <var>rnd</var>.
+Special values are handled as described in the ISO C99 and IEEE&nbsp;754-2008
+standards for the <code>pow</code> function:
+</p><ul>
+<li> <code>pow(±0, <var>y</var>)</code> returns plus or minus infinity for <var>y</var> a negative odd integer.
+</li><li> <code>pow(±0, <var>y</var>)</code> returns plus infinity for <var>y</var> negative and not an odd integer.
+</li><li> <code>pow(±0, <var>y</var>)</code> returns plus or minus zero for <var>y</var> a positive odd integer.
+</li><li> <code>pow(±0, <var>y</var>)</code> returns plus zero for <var>y</var> positive and not an odd integer.
+</li><li> <code>pow(-1, ±Inf)</code> returns 1.
+</li><li> <code>pow(+1, <var>y</var>)</code> returns 1 for any <var>y</var>, even a NaN.
+</li><li> <code>pow(<var>x</var>, ±0)</code> returns 1 for any <var>x</var>, even a NaN.
+</li><li> <code>pow(<var>x</var>, <var>y</var>)</code> returns NaN for finite negative <var>x</var> and finite non-integer <var>y</var>.
+</li><li> <code>pow(<var>x</var>, -Inf)</code> returns plus infinity for <em>0 &lt; abs(x) &lt; 1</em>, and plus zero for <em>abs(x) &gt; 1</em>.
+</li><li> <code>pow(<var>x</var>, +Inf)</code> returns plus zero for <em>0 &lt; abs(x) &lt; 1</em>, and plus infinity for <em>abs(x) &gt; 1</em>.
+</li><li> <code>pow(-Inf, <var>y</var>)</code> returns minus zero for <var>y</var> a negative odd integer.
+</li><li> <code>pow(-Inf, <var>y</var>)</code> returns plus zero for <var>y</var> negative and not an odd integer.
+</li><li> <code>pow(-Inf, <var>y</var>)</code> returns minus infinity for <var>y</var> a positive odd integer.
+</li><li> <code>pow(-Inf, <var>y</var>)</code> returns plus infinity for <var>y</var> positive and not an odd integer.
+</li><li> <code>pow(+Inf, <var>y</var>)</code> returns plus zero for <var>y</var> negative, and plus infinity for <var>y</var> positive.
+</li></ul>
+<p>Note: When 0 is of integer type, it is regarded as +0 by these functions.
+We do not use the usual limit rules in this case, as these rules are not
+used for <code>pow</code>.
 </p></dd></dl>
 <dl>
 <dt id="index-mpfr_005fcos">Function: <em>int</em> <strong>mpfr_cos</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
@@ -1049,7 +1153,7 @@ As for <code>atan</code>, in case the exact mathematical result is <em>+Pi</em> 
 its rounded result might be outside the function output range.
 </p>
 <p><code>atan2(y, 0)</code> does not raise any floating-point exception.
-Special values are handled as described in the ISO C99 and IEEE 754-2008
+Special values are handled as described in the ISO C99 and IEEE&nbsp;754-2008
 standards for the <code>atan2</code> function:
 </p><ul>
 <li> <code>atan2(+0, -0)</code> returns <em>+Pi</em>.
@@ -1103,10 +1207,6 @@ cotangent of <var>op</var>, rounded in the direction <var>rnd</var>.
 <dt id="index-mpfr_005fatanh">Function: <em>int</em> <strong>mpfr_atanh</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the inverse hyperbolic cosine, sine or tangent of <var>op</var>,
 rounded in the direction <var>rnd</var>.
-</p></dd></dl>
-<dl>
-<dt id="index-mpfr_005ffac_005fui">Function: <em>int</em> <strong>mpfr_fac_ui</strong> <em>(mpfr_t <var>rop</var>, unsigned long int  <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to the factorial of <var>op</var>, rounded in the direction <var>rnd</var>.
 </p></dd></dl>
 <dl>
 <dt id="index-mpfr_005feint">Function: <em>int</em> <strong>mpfr_eint</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
@@ -1217,27 +1317,6 @@ NaN or negative, <var>rop</var> is always set to NaN. When <var>op</var> is +Inf
 or -Inf depending on the parity and sign of <var>n</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpfr_005ffma">Function: <em>int</em> <strong>mpfr_fma</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_t <var>op3</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpfr_005ffms">Function: <em>int</em> <strong>mpfr_fms</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_t <var>op3</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to <em>(<var>op1</var> times <var>op2</var>) + <var>op3</var></em>
-(resp. <em>(<var>op1</var> times <var>op2</var>) - <var>op3</var></em>)
-rounded in the direction <var>rnd</var>.  Concerning special values (signed zeros,
-infinities, NaN), these functions behave like a multiplication followed by a
-separate addition or subtraction.  That is, the fused operation matters only
-for rounding.
-</p></dd></dl>
-<dl>
-<dt id="index-mpfr_005ffmma">Function: <em>int</em> <strong>mpfr_fmma</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_t <var>op3</var>, mpfr_t <var>op4</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpfr_005ffmms">Function: <em>int</em> <strong>mpfr_fmms</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_t <var>op3</var>, mpfr_t <var>op4</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to <em>(<var>op1</var> times <var>op2</var>) + (<var>op3</var> times <var>op4</var>)</em>
-(resp. <em>(<var>op1</var> times <var>op2</var>) - (<var>op3</var> times <var>op4</var>)</em>)
-rounded in the direction <var>rnd</var>.
-In case the computation of <em><var>op1</var> times <var>op2</var></em> overflows or
-underflows (or that of <em><var>op3</var> times <var>op4</var></em>), the result
-<var>rop</var> is computed as if the two intermediate products were computed with
-rounding toward zero.
-</p></dd></dl>
-<dl>
 <dt id="index-mpfr_005fagm">Function: <em>int</em> <strong>mpfr_agm</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the arithmetic-geometric mean of <var>op1</var> and <var>op2</var>,
 rounded in the direction <var>rnd</var>.
@@ -1252,16 +1331,6 @@ If any operand is negative and the other one is not zero,
 set <var>rop</var> to NaN.
 If any operand is zero and the other one is finite (resp. infinite),
 set <var>rop</var> to +0 (resp. NaN).
-</p></dd></dl>
-<dl>
-<dt id="index-mpfr_005fhypot">Function: <em>int</em> <strong>mpfr_hypot</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>x</var>, mpfr_t <var>y</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to the Euclidean norm of <var>x</var> and <var>y</var>,
-i.e., the square root of the sum of the squares of <var>x</var> and <var>y</var>,
-rounded in the direction <var>rnd</var>.
-Special values are handled as described in the ISO C99 (Section F.9.4.3)
-and IEEE 754-2008 (Section 9.2.1) standards:
-If <var>x</var> or <var>y</var> is an infinity, then +Inf is returned in <var>rop</var>,
-even if the other number is NaN.
 </p></dd></dl>
 <dl>
 <dt id="index-mpfr_005fai">Function: <em>int</em> <strong>mpfr_ai</strong> <em>(mpfr_t <var>rop</var>, mpfr_t <var>x</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
@@ -1287,70 +1356,11 @@ respectively, rounded in the direction
 calculations if a lower or equal precision is requested. To free these caches,
 use <code>mpfr_free_cache</code> or <code>mpfr_free_cache2</code>.
 </p></dd></dl>
-<dl>
-<dt id="index-mpfr_005ffree_005fcache">Function: <em>void</em> <strong>mpfr_free_cache</strong> <em>(void)</em></dt>
-<dd><p>Free all caches and pools used by MPFR internally (those local to the
-current thread and those shared by all threads).
-You should call this function before terminating a thread, even if you did
-not call <code>mpfr_const_*</code> functions directly (they could have been called
-internally).
-</p></dd></dl>
-<dl>
-<dt id="index-mpfr_005ffree_005fcache2">Function: <em>void</em> <strong>mpfr_free_cache2</strong> <em>(mpfr_free_cache_t <var>way</var>)</em></dt>
-<dd><p>Free various caches and pools used by MPFR internally,
-as specified by <var>way</var>, which is a set of flags:
-</p><ul>
-<li> those local to the current thread if flag <code>MPFR_FREE_LOCAL_CACHE</code>
-is set;
-</li><li> those shared by all threads if flag <code>MPFR_FREE_GLOBAL_CACHE</code>
-is set.
-</li></ul>
-<p>The other bits of <var>way</var> are currently ignored and are reserved for
-future use; they should be zero.
-</p>
-<p>Note: <code>mpfr_free_cache2(MPFR_FREE_LOCAL_CACHE|MPFR_FREE_GLOBAL_CACHE)</code>
-is currently equivalent to <code>mpfr_free_cache()</code>.
-</p></dd></dl>
-<dl>
-<dt id="index-mpfr_005ffree_005fpool">Function: <em>void</em> <strong>mpfr_free_pool</strong> <em>(void)</em></dt>
-<dd><p>Free the pools used by MPFR internally.
-Note: This function is automatically called after the thread-local caches
-are freed (with <code>mpfr_free_cache</code> or <code>mpfr_free_cache2</code>).
-</p></dd></dl>
-<dl>
-<dt id="index-mpfr_005fmp_005fmemory_005fcleanup">Function: <em>int</em> <strong>mpfr_mp_memory_cleanup</strong> <em>(void)</em></dt>
-<dd><p>This function should be called before calling <code>mp_set_memory_functions</code>.
-See <a href="constant.MPFR_Basics.html#Memory-Handling">Memory Handling</a>, for more information.
-Zero is returned in case of success, non-zero in case of error.
-Errors are currently not possible, but checking the return value
-is recommended for future compatibility.
-</p></dd></dl>
-<dl>
-<dt id="index-mpfr_005fsum">Function: <em>int</em> <strong>mpfr_sum</strong> <em>(mpfr_t <var>rop</var>, const mpfr_ptr <var>tab</var>[], unsigned long int <var>n</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to the sum of all elements of <var>tab</var>, whose size is <var>n</var>,
-correctly rounded in the direction <var>rnd</var>. Warning: for efficiency reasons,
-<var>tab</var> is an array of pointers
-to <code>mpfr_t</code>, not an array of <code>mpfr_t</code>.
-If <var>n</var> = 0, then the result is +0, and if <var>n</var> = 1, then the function
-is equivalent to <code>mpfr_set</code>.
-For the special exact cases, the result is the same as the one obtained
-with a succession of additions (<code>mpfr_add</code>) in infinite precision.
-In particular, if the result is an exact zero and <em><var>n</var> &gt;= 1</em>:
-</p><ul>
-<li> if all the inputs have the same sign (i.e., all +0 or all -0),
-then the result has the same sign as the inputs;
-</li><li> otherwise, either because all inputs are zeros with at least a +0 and
-a -0, or because some inputs are non-zero (but they globally cancel),
-the result is +0, except for the <code>MPFR_RNDD</code> rounding mode, where it is
--0.
-</li></ul>
-</dd></dl>
 <hr>
 <span id="Input-and-Output-Functions"></span><div class="header">
 <p>
-Next: <a href="#Formatted-Output-Functions" accesskey="n" rel="next">Formatted Output Functions</a>, Previous: <a href="#Special-Functions" accesskey="p" rel="prev">Special Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Formatted-Output-Functions" accesskey="n" rel="next">Formatted Output Functions</a>, Previous: <a href="#Transcendental-Functions" accesskey="p" rel="prev">Transcendental Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
-<span id="index-Float-input-and-output-functions"></span>
 <span id="index-Input-functions"></span>
 <span id="index-Output-functions"></span>
 <span id="index-I_002fO-functions"></span>
@@ -1366,17 +1376,26 @@ to allow <samp>mpfr.h</samp> to define prototypes for these functions.
 </p>
 <dl>
 <dt id="index-mpfr_005fout_005fstr">Function: <em>size_t</em> <strong>mpfr_out_str</strong> <em>(FILE *<var>stream</var>, int <var>base</var>, size_t <var>n</var>, mpfr_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Output <var>op</var> on stream <var>stream</var>, as a string of digits in
-base <var>base</var>, rounded in the direction <var>rnd</var>.
-The base may vary from 2 to 62.  Print <var>n</var> significant digits exactly,
-or if <var>n</var> is 0, enough digits so that <var>op</var> can be read back
-exactly (see <code>mpfr_get_str</code>).
+<dd><p>Output <var>op</var> on stream <var>stream</var> as a text string in
+base abs(<var>base</var>), rounded in the direction <var>rnd</var>.
+The base may vary from 2 to 62 or from -2 to -36
+(any other value yields undefined behavior). The argument <var>n</var> has
+the same meaning as in <code>mpfr_get_str</code> (see <a href="#mpfr_005fget_005fstr">mpfr_get_str</a>):
+Print <var>n</var> significant digits exactly, or if <var>n</var> is 0, the number
+<code>mpfr_get_str_ndigits(<var>base</var>,<var>p</var>)</code> where <var>p</var> is the
+precision of <var>op</var> (see <a href="#mpfr_005fget_005fstr_005fndigits">mpfr_get_str_ndigits</a>).
 </p>
-<p>In addition to the significant digits, a decimal point (defined by the
-current locale) at the right of the
-first digit and a trailing exponent in base 10, in the form &lsquo;<samp>eNNN</samp>&rsquo;,
-are printed. If <var>base</var> is greater than 10, &lsquo;<samp>@</samp>&rsquo; will be used
-instead of &lsquo;<samp>e</samp>&rsquo; as exponent delimiter.
+<p>If the input is NaN, +Inf, -Inf, +0, or -0, then
+&lsquo;<samp>@NaN@</samp>&rsquo;, &lsquo;<samp>@Inf@</samp>&rsquo;, &lsquo;<samp>-@Inf@</samp>&rsquo;, &lsquo;<samp>0</samp>&rsquo;, or
+&lsquo;<samp>-0</samp>&rsquo; is output, respectively.
+</p>
+<p>For the regular numbers, the format of the output is the following: the
+most significant digit, then a decimal-point character (defined by the
+current locale), then the remaining <var>n</var>-1 digits (including
+trailing zeros), then the exponent prefix, then the exponent in decimal.
+The exponent prefix is &lsquo;<samp>e</samp>&rsquo; when <em>abs(<var>base</var>) &lt;= 10</em>,
+and &lsquo;<samp>@</samp>&rsquo; when <em>abs(<var>base</var>) &gt; 10</em>. See <a href="#mpfr_005fget_005fstr">mpfr_get_str</a> for
+information on the digits depending on the base.
 </p>
 <p>Return the number of characters written, or if an error occurred, return 0.
 </p></dd></dl>
@@ -1441,7 +1460,7 @@ exponent, this function outputs three exclamation marks (&lsquo;<samp>!!!</samp>
 followed by flags, followed by three exclamation marks (&lsquo;<samp>!!!</samp>&rsquo;) again.
 These flags are: &lsquo;<samp>N</samp>&rsquo; if the most significant bit of the significand
 is 0 (i.e., the number is not normalized); &lsquo;<samp>T</samp>&rsquo; if there are non-zero
-trailing bits; &lsquo;<samp>U</samp>&rsquo; if this is a UBF number (internal use only);
+trailing bits; &lsquo;<samp>U</samp>&rsquo; if this is an UBF number (internal use only);
 &lsquo;<samp>&lt;</samp>&rsquo; if the exponent is less than the current minimum exponent;
 &lsquo;<samp>&gt;</samp>&rsquo; if the exponent is greater than the current maximum exponent.
 </p></dd></dl>
@@ -1450,7 +1469,6 @@ trailing bits; &lsquo;<samp>U</samp>&rsquo; if this is a UBF number (internal us
 <p>
 Next: <a href="#Integer-and-Remainder-Related-Functions" accesskey="n" rel="next">Integer and Remainder Related Functions</a>, Previous: <a href="#Input-and-Output-Functions" accesskey="p" rel="prev">Input and Output Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
-<span id="index-Float-output-functions"></span>
 <span id="index-Output-functions-1"></span>
 <span id="index-I_002fO-functions-1"></span>
 <span id="Formatted-Output-Functions-1"></span><h3 class="section">5.9 Formatted Output Functions</h3>
@@ -1592,9 +1610,9 @@ for &lsquo;<samp>a</samp>&rsquo;, &lsquo;<samp>b</samp>&rsquo;, &lsquo;<samp>e</
 <code>NAN</code>, <code>-INF</code>, and <code>INF</code> for &lsquo;<samp>A</samp>&rsquo;, &lsquo;<samp>E</samp>&rsquo;, &lsquo;<samp>F</samp>&rsquo;, and
 &lsquo;<samp>G</samp>&rsquo; specifiers.
 </p>
-<p>If the &lsquo;<samp>precision</samp>&rsquo; field is not empty, the <code>mpfr_t</code> number is
-rounded to the given precision in the direction specified by the rounding
-mode.
+<p>The <code>mpfr_t</code> number is rounded to the given precision in the direction
+specified by the rounding mode (see below if the &lsquo;<samp>precision</samp>&rsquo; field is
+empty).
 If the precision is zero with rounding to nearest mode and one of the
 following &lsquo;<samp>conv</samp>&rsquo; specifiers: &lsquo;<samp>a</samp>&rsquo;, &lsquo;<samp>A</samp>&rsquo;, &lsquo;<samp>b</samp>&rsquo;, &lsquo;<samp>e</samp>&rsquo;,
 &lsquo;<samp>E</samp>&rsquo;, tie case is rounded to even when it lies between two consecutive
@@ -1608,12 +1626,16 @@ the &lsquo;<samp>e</samp>&rsquo; (resp. &lsquo;<samp>E</samp>&rsquo;) style.
 If the precision is set to a value greater than the maximum value for an
 <code>int</code>, it will be silently reduced down to <code>INT_MAX</code>.
 </p>
-<p>If the &lsquo;<samp>precision</samp>&rsquo; field is empty (as in <code>%Re</code> or <code>%.RE</code>) with
-&lsquo;<samp>conv</samp>&rsquo; specifier &lsquo;<samp>e</samp>&rsquo; and &lsquo;<samp>E</samp>&rsquo;, the number is displayed with
-enough digits so that it can be read back exactly, assuming that the input and
-output variables have the same precision and that the input and output
-rounding modes are both rounding to nearest (as for <code>mpfr_get_str</code>).
-The default precision for an empty &lsquo;<samp>precision</samp>&rsquo; field with &lsquo;<samp>conv</samp>&rsquo;
+<p>If the &lsquo;<samp>precision</samp>&rsquo; field is empty with &lsquo;<samp>conv</samp>&rsquo; specifier &lsquo;<samp>e</samp>&rsquo;
+and &lsquo;<samp>E</samp>&rsquo; (as in <code>%Re</code> or <code>%.RE</code>), the chosen precision
+(i.e., the number of digits to be displayed after the initial digit and
+the decimal point) is
+ceil(<var>p</var>*log(2)/log(<var>10</var>)),
+where <var>p</var> is the precision of the input variable, matching the choice
+done for <code>mpfr_get_str</code>; thus, if rounding to nearest is used,
+outputting the value with an empty &lsquo;<samp>precision</samp>&rsquo; field and reading it
+back will yield the original value.
+The chosen precision for an empty &lsquo;<samp>precision</samp>&rsquo; field with &lsquo;<samp>conv</samp>&rsquo;
 specifiers &lsquo;<samp>f</samp>&rsquo;, &lsquo;<samp>F</samp>&rsquo;, &lsquo;<samp>g</samp>&rsquo;, and &lsquo;<samp>G</samp>&rsquo; is 6.
 </p>
 <span id="Functions"></span><h4 class="subsection">5.9.3 Functions</h4>
@@ -1702,7 +1724,7 @@ similar way with some fixed rounding mode:
       (like <code>mpfr_rint</code> with <code>MPFR_RNDD</code>);
 </li><li> <code>mpfr_round</code> to the nearest representable integer,
       rounding halfway cases away from zero
-      (as in the roundTiesToAway mode of IEEE 754-2008);
+      (as in the roundTiesToAway mode of IEEE&nbsp;754-2008);
 </li><li> <code>mpfr_roundeven</code> to the nearest representable integer,
       rounding halfway cases with the even-rounding rule
       (like <code>mpfr_rint</code> with <code>MPFR_RNDN</code>);
@@ -1722,9 +1744,9 @@ not an integer.
 <p>When <var>op</var> is NaN, the NaN flag is set as usual. In the other cases,
 the inexact flag is set when <var>rop</var> differs from <var>op</var>, following
 the ISO C99 rule for the <code>rint</code> function. If you want the behavior to
-be more like IEEE 754 / ISO TS 18661-1, i.e., the usual behavior where the
-round-to-integer function is regarded as any other mathematical function,
-you should use one the <code>mpfr_rint_*</code> functions instead.
+be more like IEEE&nbsp;754 / ISO TS&nbsp;18661-1, i.e., the usual behavior
+where the round-to-integer function is regarded as any other mathematical
+function, you should use one the <code>mpfr_rint_*</code> functions instead.
 </p>
 <p>Note that no double rounding is performed; for instance, 10.5 (1010.1 in
 binary) is rounded by <code>mpfr_rint</code> with rounding to nearest to 12 (1100
@@ -1800,7 +1822,7 @@ toward zero for <code>mpfr_fmod</code> and <code>mpfr_fmodquo</code>,
 and to the nearest integer (ties rounded to even) for <code>mpfr_remainder</code>
 and <code>mpfr_remquo</code>.
 </p>
-<p>Special values are handled as described in Section F.9.7.1 of
+<p>Special values are handled as described in Section&nbsp;F.9.7.1 of
 the ISO C99 standard:
 If <var>x</var> is infinite or <var>y</var> is zero, <var>r</var> is NaN.
 If <var>y</var> is infinite and <var>x</var> is finite, <var>r</var> is <var>x</var> rounded
@@ -1843,10 +1865,11 @@ The default rounding mode is to nearest initially.
 <dd><p>Round <var>x</var> according to <var>rnd</var> with precision <var>prec</var>, which
 must be an integer between <code>MPFR_PREC_MIN</code> and <code>MPFR_PREC_MAX</code>
 (otherwise the behavior is undefined).
-If <var>prec</var> is greater or equal to the precision of <var>x</var>, then new
-space is allocated for the significand, and it is filled with zeros.
+If <var>prec</var> is greater than or equal to the precision of <var>x</var>, then
+new space is allocated for the significand, and it is filled with zeros.
 Otherwise, the significand is rounded to precision <var>prec</var> with the given
-direction. In both cases, the precision of <var>x</var> is changed to <var>prec</var>.
+direction; no memory reallocation to free the unused limbs is done.
+In both cases, the precision of <var>x</var> is changed to <var>prec</var>.
 </p>
 <p>Here is an example of how to use <code>mpfr_prec_round</code> to implement
 Newton&rsquo;s algorithm to compute the inverse of <var>a</var>, assuming <var>x</var> is
@@ -1924,9 +1947,9 @@ file <samp>can_round.c</samp>.
 </p></dd></dl>
 <dl>
 <dt id="index-mpfr_005fprint_005frnd_005fmode">Function: <em>const char *</em> <strong>mpfr_print_rnd_mode</strong> <em>(mpfr_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Return a string (&quot;MPFR_RNDD&quot;, &quot;MPFR_RNDU&quot;, &quot;MPFR_RNDN&quot;, &quot;MPFR_RNDZ&quot;,
-&quot;MPFR_RNDA&quot;) corresponding to the rounding mode <var>rnd</var>, or a null pointer
-if <var>rnd</var> is an invalid rounding mode.
+<dd><p>Return a string (&quot;MPFR_RNDN&quot;, &quot;MPFR_RNDZ&quot;, &quot;MPFR_RNDU&quot;, &quot;MPFR_RNDD&quot;,
+&quot;MPFR_RNDA&quot;, &quot;MPFR_RNDF&quot;) corresponding to the rounding mode <var>rnd</var>,
+or a null pointer if <var>rnd</var> is an invalid rounding mode.
 </p></dd></dl>
 <dl>
 <dt id="index-mpfr_005fround_005fnearest_005faway">Macro: <em>int</em> <strong>mpfr_round_nearest_away</strong> <em>(int (<var>foo</var>)(mpfr_t, type1_t, ..., mpfr_rnd_t), mpfr_t <var>rop</var>, type1_t <var>op</var>, ...)</em></dt>
@@ -2145,13 +2168,13 @@ patches applied to the old (compile-time) MPFR version are not available
 <dl>
 <dt id="index-mpfr_005fbuildopt_005ftls_005fp">Function: <em>int</em> <strong>mpfr_buildopt_tls_p</strong> <em>(void)</em></dt>
 <dd><p>Return a non-zero value if MPFR was compiled as thread safe using
-compiler-level Thread Local Storage (that is, MPFR was built with the
+compiler-level Thread-Local Storage (that is, MPFR was built with the
 &lsquo;<samp>--enable-thread-safe</samp>&rsquo; configure option, see <code>INSTALL</code> file),
 return zero otherwise.
 </p></dd></dl>
 <dl>
 <dt id="index-mpfr_005fbuildopt_005ffloat128_005fp">Function: <em>int</em> <strong>mpfr_buildopt_float128_p</strong> <em>(void)</em></dt>
-<dd><p>Return a non-zero value if MPFR was compiled with &lsquo;<samp>__float128</samp>&rsquo; support
+<dd><p>Return a non-zero value if MPFR was compiled with &lsquo;<samp>_Float128</samp>&rsquo; support
 (that is, MPFR was built with the &lsquo;<samp>--enable-float128</samp>&rsquo; configure option),
 return zero otherwise.
 </p></dd></dl>
@@ -2184,7 +2207,7 @@ This file is normally selected from the processor type.
 <hr>
 <span id="Exception-Related-Functions"></span><div class="header">
 <p>
-Next: <a href="#Compatibility-with-MPF" accesskey="n" rel="next">Compatibility with MPF</a>, Previous: <a href="#Miscellaneous-Functions" accesskey="p" rel="prev">Miscellaneous Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Memory-Handling-Functions" accesskey="n" rel="next">Memory Handling Functions</a>, Previous: <a href="#Miscellaneous-Functions" accesskey="p" rel="prev">Miscellaneous Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="index-Exception-related-functions"></span>
 <span id="Exception-Related-Functions-1"></span><h3 class="section">5.13 Exception Related Functions</h3>
@@ -2292,8 +2315,8 @@ calling <code>mpfr_subnormalize</code>, you need to make sure that the value is
 in the current exponent range of MPFR. But it is better to change
 <code>emin</code> before any computation, if possible.
 </p></dd></dl>
-<p>This is an example of how to emulate binary double IEEE 754 arithmetic
-(binary64 in IEEE 754-2008) using MPFR:
+<p>This is an example of how to emulate binary double IEEE&nbsp;754 arithmetic
+(binary64 in IEEE&nbsp;754-2008) using MPFR:
 </p>
 <div class="example">
 <pre class="example">{
@@ -2312,7 +2335,7 @@ in the current exponent range of MPFR. But it is better to change
 <p>Note that <code>mpfr_set_emin</code> and <code>mpfr_set_emax</code> are called early
 enough in order to make sure that all computed values are in the current
 exponent range.
-Warning! This emulates a double IEEE 754 arithmetic with correct rounding
+Warning! This emulates a double IEEE&nbsp;754 arithmetic with correct rounding
 in the subnormal range, which may not be the case for your hardware.
 </p>
 <p>Below is another example showing how to emulate fixed-point arithmetic
@@ -2414,12 +2437,60 @@ if (t)  /* underflow and/or overflow (unlikely) */
 in <var>flags</var>.
 </p></dd></dl>
 <hr>
+<span id="Memory-Handling-Functions"></span><div class="header">
+<p>
+Next: <a href="#Compatibility-with-MPF" accesskey="n" rel="next">Compatibility with MPF</a>, Previous: <a href="#Exception-Related-Functions" accesskey="p" rel="prev">Exception Related Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
+</div>
+<span id="index-Memory-handling-functions"></span>
+<span id="Memory-Handling-Functions-1"></span><h3 class="section">5.14 Memory Handling Functions</h3>
+<p>These are general functions concerning memory handling
+(see <a href="constant.MPFR_Basics.html#Memory-Handling">Memory Handling</a>, for more information).
+</p>
+<dl>
+<dt id="index-mpfr_005ffree_005fcache">Function: <em>void</em> <strong>mpfr_free_cache</strong> <em>(void)</em></dt>
+<dd><p>Free all caches and pools used by MPFR internally (those local to the
+current thread and those shared by all threads).
+You should call this function before terminating a thread, even if you did
+not call <code>mpfr_const_*</code> functions directly (they could have been called
+internally).
+</p></dd></dl>
+<dl>
+<dt id="index-mpfr_005ffree_005fcache2">Function: <em>void</em> <strong>mpfr_free_cache2</strong> <em>(mpfr_free_cache_t <var>way</var>)</em></dt>
+<dd><p>Free various caches and pools used by MPFR internally,
+as specified by <var>way</var>, which is a set of flags:
+</p><ul>
+<li> those local to the current thread if flag <code>MPFR_FREE_LOCAL_CACHE</code>
+is set;
+</li><li> those shared by all threads if flag <code>MPFR_FREE_GLOBAL_CACHE</code>
+is set.
+</li></ul>
+<p>The other bits of <var>way</var> are currently ignored and are reserved for
+future use; they should be zero.
+</p>
+<p>Note: <code>mpfr_free_cache2(MPFR_FREE_LOCAL_CACHE|MPFR_FREE_GLOBAL_CACHE)</code>
+is currently equivalent to <code>mpfr_free_cache()</code>.
+</p></dd></dl>
+<dl>
+<dt id="index-mpfr_005ffree_005fpool">Function: <em>void</em> <strong>mpfr_free_pool</strong> <em>(void)</em></dt>
+<dd><p>Free the pools used by MPFR internally.
+Note: This function is automatically called after the thread-local caches
+are freed (with <code>mpfr_free_cache</code> or <code>mpfr_free_cache2</code>).
+</p></dd></dl>
+<dl>
+<dt id="index-mpfr_005fmp_005fmemory_005fcleanup">Function: <em>int</em> <strong>mpfr_mp_memory_cleanup</strong> <em>(void)</em></dt>
+<dd><p>This function should be called before calling <code>mp_set_memory_functions</code>.
+See <a href="constant.MPFR_Basics.html#Memory-Handling">Memory Handling</a>, for more information.
+Zero is returned in case of success, non-zero in case of error.
+Errors are currently not possible, but checking the return value
+is recommended for future compatibility.
+</p></dd></dl>
+<hr>
 <span id="Compatibility-with-MPF"></span><div class="header">
 <p>
-Next: <a href="#Custom-Interface" accesskey="n" rel="next">Custom Interface</a>, Previous: <a href="#Exception-Related-Functions" accesskey="p" rel="prev">Exception Related Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Custom-Interface" accesskey="n" rel="next">Custom Interface</a>, Previous: <a href="#Memory-Handling-Functions" accesskey="p" rel="prev">Memory Handling Functions</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="index-Compatibility-with-MPF"></span>
-<span id="Compatibility-With-MPF"></span><h3 class="section">5.14 Compatibility With MPF</h3>
+<span id="Compatibility-With-MPF"></span><h3 class="section">5.15 Compatibility With MPF</h3>
 <p>A header file <samp>mpf2mpfr.h</samp> is included in the distribution of MPFR for
 compatibility with the GNU MP class MPF.
 By inserting the following two lines after the <code>#include &lt;gmp.h&gt;</code> line,
@@ -2438,9 +2509,12 @@ which can be reset with <code>mpfr_set_default_rounding_mode</code>.
 (zeroing trailing bits in the internal representation). Users may need to
 increase the precision of their variables.
 </li><li> The exponent range is also different.
-</li><li> The formatted output functions (<code>gmp_printf</code>, etc.)  will not work
+</li><li> The formatted output functions (<code>gmp_printf</code>, etc.) will not work
 for arguments of arbitrary-precision floating-point type (<code>mpf_t</code>, which
 <samp>mpf2mpfr.h</samp> redefines as <code>mpfr_t</code>).
+</li><li> The output of <code>mpf_out_str</code> has a format slightly different from
+the one of <code>mpfr_out_str</code> (concerning the position of the decimal-point
+character, trailing zeros and the output of the value 0).
 </li></ul>
 <dl>
 <dt id="index-mpfr_005fset_005fprec_005fraw">Function: <em>void</em> <strong>mpfr_set_prec_raw</strong> <em>(mpfr_t <var>x</var>, mpfr_prec_t <var>prec</var>)</em></dt>
@@ -2483,7 +2557,7 @@ prefer <code>mpfr_mul_2ui</code> and <code>mpfr_div_2ui</code> otherwise.
 Next: <a href="#Internals" accesskey="n" rel="next">Internals</a>, Previous: <a href="#Compatibility-with-MPF" accesskey="p" rel="prev">Compatibility with MPF</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="index-Custom-interface"></span>
-<span id="Custom-Interface-1"></span><h3 class="section">5.15 Custom Interface</h3>
+<span id="Custom-Interface-1"></span><h3 class="section">5.16 Custom Interface</h3>
 <p>Some applications use a stack to handle the memory and their objects.
 However, the MPFR memory design is not well suited for such a thing. So that
 such applications are able to use MPFR, an auxiliary memory interface has
@@ -2586,7 +2660,7 @@ with <code>mpfr_custom_init_set</code> is undefined.
 Previous: <a href="#Custom-Interface" accesskey="p" rel="prev">Custom Interface</a>, Up: <a href="#MPFR-Interface" accesskey="u" rel="up">MPFR Interface</a> &nbsp; [<a href="constant.Concept_Index.html#start" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="index-Internals"></span>
-<span id="Internals-1"></span><h3 class="section">5.16 Internals</h3>
+<span id="Internals-1"></span><h3 class="section">5.17 Internals</h3>
 <span id="index-Limb"></span>
 <p>A <em>limb</em> means the part of a multi-precision number that fits in a single
 word. Usually a limb contains
