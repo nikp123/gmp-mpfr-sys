@@ -21,8 +21,8 @@ GMPVERP="$GMPVER"
 GMPTAR="$TARDIR/gmp-$GMPVER.tar.lz"
 GMPPATCH="$TARDIR/gmp-$GMPVERP-allpatches"
 
-MPFRVER=4.0.2
-MPFRVERP="$MPFRVER-p9"
+MPFRVER=4.1.0
+MPFRVERP="$MPFRVER"
 MPFRTAR="$TARDIR/mpfr-$MPFRVER.tar.xz"
 MPFRPATCH="$TARDIR/mpfr-$MPFRVERP-allpatches"
 
@@ -134,7 +134,7 @@ sed -i.rm~ -e '
 # Remove get_patches.c rule in src/Makefile.in
 sed -i.rm~ '/get_patches.c:/,/^$/s/^\(.\)/#gmp-mpfr-sys \1/' src/Makefile.in
 # Generate src/get_patches.c
-tools/get_patches.sh > src/get_patches.c
+tools/get_patches.sh PATCHES > src/get_patches.c
 cd ..
 
 ## MPC

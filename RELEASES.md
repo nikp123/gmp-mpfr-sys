@@ -8,6 +8,7 @@ as-is, without any warranty. -->
 Version 1.3.0 (unreleased)
 ==========================
 
+  * [MPFR] was updated from version 4.0.2-p9 to 4.1.0-rc2.
   * The internal details of
     <code>[gmp][gmp-1-3]::[mpz\_t][gmp-mpz-1-3]</code>,
     <code>[gmp][gmp-1-3]::[mpf\_t][gmp-mpf-1-3]</code>,
