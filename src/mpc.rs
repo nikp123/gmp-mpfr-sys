@@ -130,7 +130,7 @@ pub const RNDDD: c_int = RNDD + (RNDD << 4);
 /// internals may change in new minor releases of this crate, though
 /// they will be kept unchanged for patch releases. Any code that
 /// makes use of these internals should list the dependency as
-/// `version = "~1.2"` inside [*Cargo.toml*], *not* `version = "1.2"`.
+/// `version = "~1.3"` inside [*Cargo.toml*], *not* `version = "1.3"`.
 ///
 /// [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 #[repr(C)]
