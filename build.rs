@@ -887,7 +887,6 @@ fn write_link_info(env: &Environment, feature_mpfr: bool, feature_mpc: bool) {
         if env.workaround_47048 == Workaround47048::Yes {
             println!("cargo:rustc-link-lib=static=workaround_47048");
         }
-        add_mingw_libs(feature_mpfr, feature_mpc);
     }
 }
 
@@ -1036,17 +1035,6 @@ fn check_for_bug_47048(env: &Environment) -> Workaround47048 {
     };
     remove_dir_or_panic(&try_dir);
     need_workaround
-}
-
-fn add_mingw_libs(feature_mpfr: bool, _feature_mpc: bool) {
-    // extra libraries needed only for mpfr because of thread-local storage
-    if !feature_mpfr {
-        return;
-    }
-
-    // link to gcc_eh and pthread
-    println!("cargo:rustc-link-lib=static=gcc_eh");
-    println!("cargo:rustc-link-lib=static=pthread");
 }
 
 fn mingw_pkg_config_libdir_or_panic() {
