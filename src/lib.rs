@@ -209,7 +209,7 @@ To install MSYS2:
 
 Then, to build a crate with a dependency on this crate:
 
- 1. Launch the MSYS MinGW 64-bit terminal from the start menu.
+ 1. Launch the MSYS2 MinGW 64-bit terminal from the start menu.
     (32-bit: Launch the MSYS2 MinGW 32-bit terminal instead.)
 
  2. Change to the crate directory.

@@ -24,6 +24,10 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.3.1 news (2020-07-17)
+
+  * Fixed MSYS2 build for rustc 1.46.0.
+
 ### Version 1.3.0 news (2020-07-13)
 
   * [MPFR] was updated from version 4.0.2-p9 to 4.1.0.
@@ -233,7 +237,7 @@ To install MSYS2:
 
 Then, to build a crate with a dependency on this crate:
 
- 1. Launch the MSYS MinGW 64-bit terminal from the start menu.
+ 1. Launch the MSYS2 MinGW 64-bit terminal from the start menu.
     (32-bit: Launch the MSYS2 MinGW 32-bit terminal instead.)
 
  2. Change to the crate directory.

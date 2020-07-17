@@ -5,6 +5,11 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.3.1 (2020-07-17)
+==========================
+
+  * Fixed MSYS2 build for rustc 1.46.0.
+
 Version 1.3.0 (2020-07-13)
 ==========================
 
