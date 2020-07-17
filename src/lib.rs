@@ -270,7 +270,7 @@ To use a different directory, you can set the environment variable
 [`mpfr::rnd_t::RNDN`]: mpfr/enum.rnd_t.html#variant.RNDN
 [`mpfr`]: mpfr/index.html
 [`mpz_init`]: C/GMP/constant.Integer_Functions.html#index-mpz_005finit
-[msys]:     https://msys2.github.io/
+[msys]: https://www.msys2.org/
 [rug crate]: https://crates.io/crates/rug
 [sys crate]: https://crates.io/crates/gmp-mpfr-sys
 */
