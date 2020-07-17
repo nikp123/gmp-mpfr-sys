@@ -286,7 +286,8 @@ extern "C" {
     #[link_name = "mpfr_inits"]
     pub fn inits(x: mpfr_ptr, ...);
 }
-/// See: [`MPFR_DECL_INIT`](../C/MPFR/constant.MPFR_Interface.html#index-MPFR_005fDECL_005fINIT)
+// macro will be exported at top level, so link to C/MPFR... not to ../C/MPFR...
+/// See: [`MPFR_DECL_INIT`](C/MPFR/constant.MPFR_Interface.html#index-MPFR_005fDECL_005fINIT)
 #[macro_export]
 macro_rules! MPFR_DECL_INIT {
     ($name:ident, $prec:expr) => {
@@ -1176,7 +1177,8 @@ extern "C" {
     #[link_name = "mpfr_print_rnd_mode"]
     pub fn print_rnd_mode(rnd: rnd_t) -> *const c_char;
 }
-/// See: [`mpfr_round_nearest_away`](../C/MPFR/constant.MPFR_Interface.html#index-mpfr_005fround_005fnearest_005faway)
+// macro will be exported at top level, so link to C/MPFR... not to ../C/MPFR...
+/// See: [`mpfr_round_nearest_away`](C/MPFR/constant.MPFR_Interface.html#index-mpfr_005fround_005fnearest_005faway)
 #[macro_export]
 macro_rules! mpfr_round_nearest_away {
     ($foo:expr, $rop:expr $(, $op:expr)*) => {{
