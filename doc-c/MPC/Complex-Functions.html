@@ -446,6 +446,11 @@ For <code>mpc_ui_ui_sub</code>, <var>op1</var> is <var>re1</var> + <var>im1</var
 Just changes the sign if <var>rop</var> and <var>op</var> are the same variable.
 </p></dd></dl>
 <dl>
+<dt id="index-mpc_005fsum">Function: <em>int</em> <strong>mpc_sum</strong> <em>(mpc_t <var>rop</var>, mpc_ptr* <var>op</var>, unsigned long <var>n</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Set <var>rop</var> to the sum of the elements in the array <var>op</var> of
+length <var>n</var>, rounded according to <var>rnd</var>.
+</p></dd></dl>
+<dl>
 <dt id="index-mpc_005fmul">Function: <em>int</em> <strong>mpc_mul</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpc_005fmul_005fui">Function: <em>int</em> <strong>mpc_mul_ui</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpc_005fmul_005fsi">Function: <em>int</em> <strong>mpc_mul_si</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
@@ -468,6 +473,11 @@ in both cases rounded according to <var>rnd</var>.
 <dt id="index-mpc_005ffma">Function: <em>int</em> <strong>mpc_fma</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpc_t <var>op2</var>, mpc_t <var>op3</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <var>op1</var>*<var>op2</var>+<var>op3</var>,
 rounded according to <var>rnd</var>, with only one final rounding.
+</p></dd></dl>
+<dl>
+<dt id="index-mpc_005fdot">Function: <em>int</em> <strong>mpc_dot</strong> <em>(mpc_t <var>rop</var>, mpc_ptr* <var>op1</var>, mpc_ptr* <var>op2</var>, unsigned long <var>n</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Set <var>rop</var> to the dot product of the elements in the arrays <var>op1</var> and
+<var>op2</var>, both of length <var>n</var>, rounded according to <var>rnd</var>.
 </p></dd></dl>
 <dl>
 <dt id="index-mpc_005fdiv">Function: <em>int</em> <strong>mpc_div</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
@@ -552,7 +562,10 @@ rounded according to <var>rnd</var> with the precision of <var>rop</var>.
 rounded according to <var>rnd</var> with the precision of <var>rop</var>.
 The principal branch is chosen, with the branch cut on the negative real axis,
 so that the imaginary part of the result lies in
-<em>]-Pi , Pi]</em> and <em>]-Pi/log(10) , Pi/log(10)]</em> respectively.
+]-Pi , Pi]
+and
+]-Pi/log(10) , Pi/log(10)]
+respectively.
 </p></dd></dl>
 <dl>
 <dt id="index-mpc_005frootofunity">Function: <em>int</em> <strong>mpc_rootofunity</strong> <em>(mpc_t <var>rop</var>, unsigned long int <var>n</var>, unsigned long int <var>k</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
@@ -618,7 +631,8 @@ rounded according to <var>rnd</var> with the precision of <var>rop</var>.
 <dd><p>Set <var>rop</var> to the inverse hyperbolic sine, inverse hyperbolic cosine,
 inverse hyperbolic tangent of <var>op</var>,
 rounded according to <var>rnd</var> with the precision of <var>rop</var>.
-The branch cut of <var>mpc_acosh</var> is <em>(-Inf, 1)</em>.
+The branch cut of <var>mpc_acosh</var> is
+(-Inf, 1)
 </p></dd></dl>
 <hr>
 <span id="Miscellaneous-Complex-Functions"></span><div class="header">
