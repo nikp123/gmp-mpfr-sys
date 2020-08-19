@@ -888,7 +888,7 @@ Set @var{rop} to @minus{}@var{op} rounded according to @var{rnd}.
 Just changes the sign if @var{rop} and @var{op} are the same variable.
 @end deftypefun
 
-@deftypefun int mpc_sum (mpc_t @var{rop}, mpc_ptr* @var{op}, unsigned long @var{n}, mpc_rnd_t @var{rnd})
+@deftypefun int mpc_sum (mpc_t @var{rop}, const mpc_ptr @var{op}[], unsigned long @var{n}, mpc_rnd_t @var{rnd})
 Set @var{rop} to the sum of the elements in the array @var{op} of
 length @var{n}, rounded according to @var{rnd}.
 @end deftypefun
@@ -917,7 +917,7 @@ Set @var{rop} to @var{op1}*@var{op2}+@var{op3},
 rounded according to @var{rnd}, with only one final rounding.
 @end deftypefun
 
-@deftypefun int mpc_dot (mpc_t @var{rop}, mpc_ptr* @var{op1}, mpc_ptr* @var{op2}, unsigned long @var{n}, mpc_rnd_t @var{rnd})
+@deftypefun int mpc_dot (mpc_t @var{rop}, const mpc_ptr @var{op1}[], const mpc_ptr @var{op2}[], unsigned long @var{n}, mpc_rnd_t @var{rnd})
 Set @var{rop} to the dot product of the elements in the arrays @var{op1} and
 @var{op2}, both of length @var{n}, rounded according to @var{rnd}.
 @end deftypefun

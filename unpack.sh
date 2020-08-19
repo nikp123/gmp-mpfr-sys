@@ -161,6 +161,10 @@ sed -i.rm~ '
 sed -i.rm~ '
     /^SUBDIRS = /s,^\([^#]*\) \(doc\)\([^#]*\)\($\| #\),\1\3 #gmp-mpfr-sys \2\4,
 ' Makefile.in
+# Fix input operand constness in doc for mpc_sum and mpc_dot
+sed -i.rm~ -e'
+    /mpc_\(sum\|dot\)/s/mpc_ptr\* @var{\(op[12]*\)}/const mpc_ptr @var{\1}[]/g
+' doc/mpc.texi
 cd ..
 
 ## Comment Makefile:...esac sections from all Makefile.in

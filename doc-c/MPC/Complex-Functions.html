@@ -446,7 +446,7 @@ For <code>mpc_ui_ui_sub</code>, <var>op1</var> is <var>re1</var> + <var>im1</var
 Just changes the sign if <var>rop</var> and <var>op</var> are the same variable.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fsum">Function: <em>int</em> <strong>mpc_sum</strong> <em>(mpc_t <var>rop</var>, mpc_ptr* <var>op</var>, unsigned long <var>n</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fsum">Function: <em>int</em> <strong>mpc_sum</strong> <em>(mpc_t <var>rop</var>, const mpc_ptr <var>op</var>[], unsigned long <var>n</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the sum of the elements in the array <var>op</var> of
 length <var>n</var>, rounded according to <var>rnd</var>.
 </p></dd></dl>
@@ -475,7 +475,7 @@ in both cases rounded according to <var>rnd</var>.
 rounded according to <var>rnd</var>, with only one final rounding.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fdot">Function: <em>int</em> <strong>mpc_dot</strong> <em>(mpc_t <var>rop</var>, mpc_ptr* <var>op1</var>, mpc_ptr* <var>op2</var>, unsigned long <var>n</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fdot">Function: <em>int</em> <strong>mpc_dot</strong> <em>(mpc_t <var>rop</var>, const mpc_ptr <var>op1</var>[], const mpc_ptr <var>op2</var>[], unsigned long <var>n</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the dot product of the elements in the arrays <var>op1</var> and
 <var>op2</var>, both of length <var>n</var>, rounded according to <var>rnd</var>.
 </p></dd></dl>
