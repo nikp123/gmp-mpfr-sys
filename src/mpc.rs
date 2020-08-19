@@ -377,6 +377,9 @@ extern "C" {
     /// See: [`mpc_neg`](../C/MPC/constant.Complex_Functions.html#index-mpc_005fneg)
     #[link_name = "mpc_neg"]
     pub fn neg(rop: mpc_ptr, op: mpc_srcptr, rnd: rnd_t) -> c_int;
+    /// See: [`mpc_sum`](../C/MPC/constant.Complex_Functions.html#index-mpc_005fsum)
+    #[link_name = "mpc_sum"]
+    pub fn sum(rop: mpc_ptr, op: *const mpc_ptr, n: c_ulong, rnd: rnd_t) -> c_int;
     /// See: [`mpc_mul`](../C/MPC/constant.Complex_Functions.html#index-mpc_005fmul)
     #[link_name = "mpc_mul"]
     pub fn mul(rop: mpc_ptr, op1: mpc_srcptr, op2: mpc_srcptr, rnd: rnd_t) -> c_int;
@@ -402,6 +405,15 @@ extern "C" {
         op1: mpc_srcptr,
         op2: mpc_srcptr,
         op3: mpc_srcptr,
+        rnd: rnd_t,
+    ) -> c_int;
+    /// See: [`mpc_dot`](../C/MPC/constant.Complex_Functions.html#index-mpc_005fdot)
+    #[link_name = "mpc_dot"]
+    pub fn dot(
+        rop: mpc_ptr,
+        op1: *const mpc_ptr,
+        op2: *const mpc_ptr,
+        n: c_ulong,
         rnd: rnd_t,
     ) -> c_int;
     /// See: [`mpc_div`](../C/MPC/constant.Complex_Functions.html#index-mpc_005fdiv)
