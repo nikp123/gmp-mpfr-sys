@@ -24,6 +24,10 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.4.1 news (unreleased)
+
+  * The `c-no-tests` experimental feature was added.
+
 ### Version 1.4.0 news (2020-09-02)
 
   * [MPC] was updated from version 1.1.0 to 1.2.0.
@@ -165,7 +169,7 @@ minor version bump.
 
 Experimental features may also not work on all platforms.
 
-There are two experimental feature:
+There are three experimental feature:
 
  1. `use-system-libs`, disabled by default. Using this feature, the
     system libraries for [GMP], and [MPFR] and [MPC] if enabled, will
@@ -177,6 +181,11 @@ There are two experimental feature:
     failures that are hard to debug, especially if this crate is an
     indirect dependency. As an exception, cross compiling from x86_64
     to i686 does not need this feature.
+ 3. `c-no-tests`, disabled by default. Using this feature will skip
+    testing the C libraries. This is not advised; the risk that the
+    GMP sources are miscompiled is unfortunately quite high. And if
+    they indeed are miscompiled, the tests are very likely to trigger
+    the compiler-introduced bug.
 
 ## Metadata
 

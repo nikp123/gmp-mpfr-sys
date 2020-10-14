@@ -5,6 +5,11 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.4.1 (unreleased)
+==========================
+
+  * The `c-no-tests` experimental feature was added.
+
 Version 1.4.0 (2020-09-02)
 ==========================
 

@@ -48,6 +48,7 @@ struct Environment {
     rustc: OsString,
     target: Target,
     cross_target: Option<String>,
+    c_no_tests: bool,
     src_dir: PathBuf,
     out_dir: PathBuf,
     lib_dir: PathBuf,
@@ -98,6 +99,8 @@ fn main() {
         Some(raw_target)
     };
 
+    let c_no_tests = there_is_env("CARGO_FEATURE_C_NO_TESTS");
+
     let src_dir = PathBuf::from(cargo_env("CARGO_MANIFEST_DIR"));
     let out_dir = PathBuf::from(cargo_env("OUT_DIR"));
 
@@ -124,6 +127,7 @@ fn main() {
         rustc,
         target,
         cross_target,
+        c_no_tests,
         src_dir,
         out_dir: out_dir.clone(),
         lib_dir: out_dir.join("lib"),
@@ -1099,7 +1103,7 @@ fn make_and_check(env: &Environment, build_dir: &Path) {
     let mut make = Command::new("make");
     make.current_dir(build_dir).arg("-j").arg(&env.jobs);
     execute(make);
-    if env.cross_target.is_none() {
+    if !env.c_no_tests && env.cross_target.is_none() {
         let mut make_check = Command::new("make");
         make_check
             .current_dir(build_dir)
