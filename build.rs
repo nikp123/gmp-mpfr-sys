@@ -389,16 +389,23 @@ fn save_cache(
         Some(patch) => cache_dir.join(format!("{}.{}", env.version_prefix, patch)),
     };
     let mut ok = create_dir(&version_dir).is_ok();
+    let dir = if env.c_no_tests {
+        let no_tests_dir = version_dir.join("c-no-tests");
+        ok = ok && create_dir(&no_tests_dir).is_ok();
+        no_tests_dir
+    } else {
+        version_dir
+    };
     let (ref a, ref h) = *gmp_ah;
-    ok = ok && copy_file(a, &version_dir.join("libgmp.a")).is_ok();
-    ok = ok && copy_file(h, &version_dir.join("gmp.h")).is_ok();
+    ok = ok && copy_file(a, &dir.join("libgmp.a")).is_ok();
+    ok = ok && copy_file(h, &dir.join("gmp.h")).is_ok();
     if let Some((ref a, ref h)) = *mpfr_ah {
-        ok = ok && copy_file(a, &version_dir.join("libmpfr.a")).is_ok();
-        ok = ok && copy_file(h, &version_dir.join("mpfr.h")).is_ok();
+        ok = ok && copy_file(a, &dir.join("libmpfr.a")).is_ok();
+        ok = ok && copy_file(h, &dir.join("mpfr.h")).is_ok();
     }
     if let Some((ref a, ref h)) = *mpc_ah {
-        ok = ok && copy_file(a, &version_dir.join("libmpc.a")).is_ok();
-        ok = ok && copy_file(h, &version_dir.join("mpc.h")).is_ok();
+        ok = ok && copy_file(a, &dir.join("libmpc.a")).is_ok();
+        ok = ok && copy_file(h, &dir.join("mpc.h")).is_ok();
     }
     ok
 }
@@ -416,19 +423,43 @@ fn clear_cache_redundancies(env: &Environment, mpfr: bool, mpc: bool) {
             Some(patch) => x.1.map(|p| p <= patch).unwrap_or(false),
         });
     for (version_dir, version_patch) in cache_dirs {
+        let no_tests_dir = version_dir.join("c-no-tests");
+
         // do not clear newly saved cache
         if version_patch == env.version_patch {
+            // but if we tested and c-no-tests directory doesn't have more libs, remove it
+            if !env.c_no_tests
+                && (mpc || !no_tests_dir.join("libmpc.a").is_file())
+                && (mpfr || !no_tests_dir.join("libmpfr.a").is_file())
+            {
+                let _ = remove_dir(&no_tests_dir);
+            }
+
             continue;
         }
 
-        // do not clear cache with more libraries than newly saved cache
-        if (!mpc && version_dir.join("libmpc.a").is_file())
-            || (!mpfr && version_dir.join("libmpfr.a").is_file())
+        // Do not clear cache with more libraries than newly saved cache.
+
+        // First check c-no-tests subdirectory for more libs.
+        if (!mpc && no_tests_dir.join("libmpc.a").is_file())
+            || (!mpfr && no_tests_dir.join("libmpfr.a").is_file())
         {
             continue;
         }
+        // Remove c-no-tests subdirectory as it does not have more libs.
+        let _ = remove_dir(&no_tests_dir);
 
-        let _ = remove_dir(&version_dir);
+        let delete_version_dir_condition = if env.c_no_tests {
+            // We did not test, so version_dir must not contain any libs at all.
+            !version_dir.join("libgmp.a").is_file()
+        } else {
+            // We did test, so delete if it does not contain more libs.
+            (mpc || !version_dir.join("libmpc.a").is_file())
+                && (mpfr || !version_dir.join("libmpfr.a").is_file())
+        };
+        if delete_version_dir_condition {
+            let _ = remove_dir(&version_dir);
+        }
     }
 }
 
@@ -491,29 +522,45 @@ fn load_cache(
         .filter(|x| match env_version_patch {
             None => x.1.is_none(),
             Some(patch) => x.1.map(|p| p >= patch).unwrap_or(false),
-        });
-    for (version_dir, _) in cache_dirs {
-        let mut ok = true;
-        if let Some((ref a, ref h)) = *mpc_ah {
-            ok = ok && copy_file(&version_dir.join("libmpc.a"), a).is_ok();
-            let header = version_dir.join("mpc.h");
-            ok = ok && process_mpc_header(&header, None).is_ok();
+        })
+        .collect::<Vec<_>>();
+    let suffixes: &[Option<&str>] = if env.c_no_tests {
+        &[None, Some("c-no-tests")]
+    } else {
+        // we need tests, so do not try to load from c-no-tests
+        &[None]
+    };
+    for suffix in suffixes {
+        for (version_dir, _) in &cache_dirs {
+            let joined;
+            let dir = if let Some(suffix) = suffix {
+                joined = version_dir.join(suffix);
+                &joined
+            } else {
+                version_dir
+            };
+            let mut ok = true;
+            if let Some((ref a, ref h)) = *mpc_ah {
+                ok = ok && copy_file(&dir.join("libmpc.a"), a).is_ok();
+                let header = dir.join("mpc.h");
+                ok = ok && process_mpc_header(&header, None).is_ok();
+                ok = ok && copy_file(&header, h).is_ok();
+            }
+            if let Some((ref a, ref h)) = *mpfr_ah {
+                ok = ok && copy_file(&dir.join("libmpfr.a"), a).is_ok();
+                let header = dir.join("mpfr.h");
+                ok = ok && process_mpfr_header(&header, None).is_ok();
+                ok = ok && copy_file(&header, h).is_ok();
+            }
+            let (ref a, ref h) = *gmp_ah;
+            ok = ok && copy_file(&dir.join("libgmp.a"), a).is_ok();
+            let header = dir.join("gmp.h");
+            ok = ok && process_gmp_header(&header, None).is_ok();
             ok = ok && copy_file(&header, h).is_ok();
-        }
-        if let Some((ref a, ref h)) = *mpfr_ah {
-            ok = ok && copy_file(&version_dir.join("libmpfr.a"), a).is_ok();
-            let header = version_dir.join("mpfr.h");
-            ok = ok && process_mpfr_header(&header, None).is_ok();
-            ok = ok && copy_file(&header, h).is_ok();
-        }
-        let (ref a, ref h) = *gmp_ah;
-        ok = ok && copy_file(&version_dir.join("libgmp.a"), a).is_ok();
-        let header = version_dir.join("gmp.h");
-        ok = ok && process_gmp_header(&header, None).is_ok();
-        ok = ok && copy_file(&header, h).is_ok();
 
-        if ok {
-            return true;
+            if ok {
+                return true;
+            }
         }
     }
     false
@@ -530,21 +577,37 @@ fn should_save_cache(env: &Environment, mpfr: bool, mpc: bool) -> bool {
         .filter(|x| match env.version_patch {
             None => x.1.is_none(),
             Some(patch) => x.1.map(|p| p >= patch).unwrap_or(false),
-        });
-    for (version_dir, _) in cache_dirs {
-        let mut ok = true;
-        if mpc {
-            ok = ok && version_dir.join("libmpc.a").is_file();
-            ok = ok && version_dir.join("mpc.h").is_file();
-        }
-        if mpfr {
-            ok = ok && version_dir.join("libmpfr.a").is_file();
-            ok = ok && version_dir.join("mpfr.h").is_file();
-        }
-        ok = ok && version_dir.join("libgmp.a").is_file();
-        ok = ok && version_dir.join("gmp.h").is_file();
-        if ok {
-            return false;
+        })
+        .collect::<Vec<_>>();
+    let suffixes: &[Option<&str>] = if env.c_no_tests {
+        &[None, Some("c-no-tests")]
+    } else {
+        // we need tests, so do not try to load from c-no-tests
+        &[None]
+    };
+    for suffix in suffixes {
+        for (version_dir, _) in &cache_dirs {
+            let joined;
+            let dir = if let Some(suffix) = suffix {
+                joined = version_dir.join(suffix);
+                &joined
+            } else {
+                version_dir
+            };
+            let mut ok = true;
+            if mpc {
+                ok = ok && dir.join("libmpc.a").is_file();
+                ok = ok && dir.join("mpc.h").is_file();
+            }
+            if mpfr {
+                ok = ok && dir.join("libmpfr.a").is_file();
+                ok = ok && dir.join("mpfr.h").is_file();
+            }
+            ok = ok && dir.join("libgmp.a").is_file();
+            ok = ok && dir.join("gmp.h").is_file();
+            if ok {
+                return false;
+            }
         }
     }
     true
