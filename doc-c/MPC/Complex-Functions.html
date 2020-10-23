@@ -101,12 +101,12 @@ a call to <code>mpc_clear(x)</code> followed by a call to
 case the current allocated space for the mantissa of <var>x</var> is sufficient.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fget_005fprec">Function: <em>mpfr_prec_t</em> <strong>mpc_get_prec</strong> <em>(mpc_t <var>x</var>)</em></dt>
+<dt id="index-mpc_005fget_005fprec">Function: <em>mpfr_prec_t</em> <strong>mpc_get_prec</strong> <em>(const mpc_t <var>x</var>)</em></dt>
 <dd><p>If the real and imaginary part of <var>x</var> have the same precision, it is returned,
 otherwise, 0 is returned.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fget_005fprec2">Function: <em>void</em> <strong>mpc_get_prec2</strong> <em>(mpfr_prec_t* <var>pr</var>, mpfr_prec_t* <var>pi</var>, mpc_t <var>x</var>)</em></dt>
+<dt id="index-mpc_005fget_005fprec2">Function: <em>void</em> <strong>mpc_get_prec2</strong> <em>(mpfr_prec_t* <var>pr</var>, mpfr_prec_t* <var>pi</var>, const mpc_t <var>x</var>)</em></dt>
 <dd><p>Returns the precision of the real part of <var>x</var> via <var>pr</var> and of its imaginary part
 via <var>pi</var>.
 </p></dd></dl>
@@ -130,7 +130,7 @@ If you need assignment functions that are not in the current API, you can
 define them using the <code>MPC_SET_X_Y</code> macro (see <a href="#Advanced-Functions">Advanced Functions</a>).
 </p>
 <dl>
-<dt id="index-mpc_005fset">Function: <em>int</em> <strong>mpc_set</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fset">Function: <em>int</em> <strong>mpc_set</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set the value of <var>rop</var> from <var>op</var>, rounded to the precision of <var>rop</var>
 with the given rounding mode <var>rnd</var>.
 </p></dd></dl>
@@ -143,10 +143,10 @@ with the given rounding mode <var>rnd</var>.
 <dt id="index-mpc_005fset_005fld">Function: <em>int</em> <strong>mpc_set_ld</strong> <em>(mpc_t <var>rop</var>, long double <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpc_005fset_005fdc">Function: <em>int</em> <strong>mpc_set_dc</strong> <em>(mpc_t <var>rop</var>, double _Complex <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpc_005fset_005fldc">Function: <em>int</em> <strong>mpc_set_ldc</strong> <em>(mpc_t <var>rop</var>, long double _Complex <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fset_005fz">Function: <em>int</em> <strong>mpc_set_z</strong> <em>(mpc_t <var>rop</var>, mpz_t <var>op</var> mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fset_005fq">Function: <em>int</em> <strong>mpc_set_q</strong> <em>(mpc_t <var>rop</var>, mpq_t <var>op</var> mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fset_005ff">Function: <em>int</em> <strong>mpc_set_f</strong> <em>(mpc_t <var>rop</var>, mpf_t <var>op</var> mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fset_005ffr">Function: <em>int</em> <strong>mpc_set_fr</strong> <em>(mpc_t <var>rop</var>, mpfr_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fset_005fz">Function: <em>int</em> <strong>mpc_set_z</strong> <em>(mpc_t <var>rop</var>, const mpz_t <var>op</var> mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fset_005fq">Function: <em>int</em> <strong>mpc_set_q</strong> <em>(mpc_t <var>rop</var>, const mpq_t <var>op</var> mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fset_005ff">Function: <em>int</em> <strong>mpc_set_f</strong> <em>(mpc_t <var>rop</var>, const mpf_t <var>op</var> mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fset_005ffr">Function: <em>int</em> <strong>mpc_set_fr</strong> <em>(mpc_t <var>rop</var>, const mpfr_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set the value of <var>rop</var> from <var>op</var>, rounded to the precision of
 <var>rop</var> with the given rounding mode <var>rnd</var>.
 The argument <var>op</var> is interpreted as real, so the imaginary part of
@@ -165,10 +165,10 @@ double-precision number, and then only to a complex number.
 <dt id="index-mpc_005fset_005fsj_005fsj">Function: <em>int</em> <strong>mpc_set_sj_sj</strong> <em>(mpc_t <var>rop</var>, intmax_t <var>op1</var>, intmax_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpc_005fset_005fd_005fd">Function: <em>int</em> <strong>mpc_set_d_d</strong> <em>(mpc_t <var>rop</var>, double <var>op1</var>, double <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpc_005fset_005fld_005fld">Function: <em>int</em> <strong>mpc_set_ld_ld</strong> <em>(mpc_t <var>rop</var>, long double <var>op1</var>, long double <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fset_005fz_005fz">Function: <em>int</em> <strong>mpc_set_z_z</strong> <em>(mpc_t <var>rop</var>, mpz_t <var>op1</var>, mpz_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fset_005fq_005fq">Function: <em>int</em> <strong>mpc_set_q_q</strong> <em>(mpc_t <var>rop</var>, mpq_t <var>op1</var>, mpq_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fset_005ff_005ff">Function: <em>int</em> <strong>mpc_set_f_f</strong> <em>(mpc_t <var>rop</var>, mpf_t <var>op1</var>, mpf_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fset_005ffr_005ffr">Function: <em>int</em> <strong>mpc_set_fr_fr</strong> <em>(mpc_t <var>rop</var>, mpfr_t <var>op1</var>, mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fset_005fz_005fz">Function: <em>int</em> <strong>mpc_set_z_z</strong> <em>(mpc_t <var>rop</var>, const mpz_t <var>op1</var>, const mpz_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fset_005fq_005fq">Function: <em>int</em> <strong>mpc_set_q_q</strong> <em>(mpc_t <var>rop</var>, const mpq_t <var>op1</var>, const mpq_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fset_005ff_005ff">Function: <em>int</em> <strong>mpc_set_f_f</strong> <em>(mpc_t <var>rop</var>, const mpf_t <var>op1</var>, const mpf_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fset_005ffr_005ffr">Function: <em>int</em> <strong>mpc_set_fr_fr</strong> <em>(mpc_t <var>rop</var>, const mpfr_t <var>op1</var>, const mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set the real part of <var>rop</var> from <var>op1</var>, and its imaginary part from
 <var>op2</var>, according to the rounding mode <var>rnd</var>.
 </p>
@@ -203,7 +203,7 @@ Next: <a href="#String-and-Stream-Input-and-Output" accesskey="n" rel="next">Str
 is included <em>before</em> <samp>mpc.h</samp>.
 </p>
 <dl>
-<dt id="index-_005fComplex">Function: <em>double</em> <strong>_Complex</strong> <em>mpc_get_dc (mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-_005fComplex">Function: <em>double</em> <strong>_Complex</strong> <em>mpc_get_dc (const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpc_005fget_005fldc">Function: <em>long double _Complex</em> <strong>mpc_get_ldc</strong> <em>(mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Convert <var>op</var> to a C complex number, using the rounding mode <var>rnd</var>.
 </p></dd></dl>
@@ -263,7 +263,7 @@ in base <var>base</var>; otherwise it returns -1, and <var>rop</var> is set to
 NaN+i*NaN.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fget_005fstr">Function: <em>char *</em> <strong>mpc_get_str</strong> <em>(int <var>b</var>, size_t <var>n</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fget_005fstr">Function: <em>char *</em> <strong>mpc_get_str</strong> <em>(int <var>b</var>, size_t <var>n</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Convert <var>op</var> to a string containing its real and imaginary parts,
 separated by a space and enclosed in a pair of parentheses.
 The numbers are written in base <var>b</var> (which may vary from 2 to 36) and
@@ -328,7 +328,7 @@ It is thus recommended to have a whitespace follow each floating point number
 to avoid this problem.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fout_005fstr">Function: <em>size_t</em> <strong>mpc_out_str</strong> <em>(FILE *<var>stream</var>, int <var>base</var>, size_t <var>n_digits</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fout_005fstr">Function: <em>size_t</em> <strong>mpc_out_str</strong> <em>(FILE *<var>stream</var>, int <var>base</var>, size_t <var>n_digits</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Output <var>op</var> on stdio stream <var>stream</var> in
 base <var>base</var>, rounded according to <var>rnd</var>, in the same format
 as for <code>mpc_strtoc</code>
@@ -345,8 +345,8 @@ Next: <a href="#Projection-_0026-Decomposing" accesskey="n" rel="next">Projectio
 <span id="index-Complex-comparisons-functions"></span>
 <span id="index-Comparison-functions"></span>
 <dl>
-<dt id="index-mpc_005fcmp">Function: <em>int</em> <strong>mpc_cmp</strong> <em>(mpc_t <var>op1</var>, mpc_t <var>op2</var>)</em></dt>
-<dt id="index-mpc_005fcmp_005fsi_005fsi">Function: <em>int</em> <strong>mpc_cmp_si_si</strong> <em>(mpc_t <var>op1</var>, long int <var>op2r</var>, long int <var>op2i</var>)</em></dt>
+<dt id="index-mpc_005fcmp">Function: <em>int</em> <strong>mpc_cmp</strong> <em>(const mpc_t <var>op1</var>, const mpc_t <var>op2</var>)</em></dt>
+<dt id="index-mpc_005fcmp_005fsi_005fsi">Function: <em>int</em> <strong>mpc_cmp_si_si</strong> <em>(const mpc_t <var>op1</var>, long int <var>op2r</var>, long int <var>op2i</var>)</em></dt>
 <dt id="index-mpc_005fcmp_005fsi">Macro: <em>int</em> <strong>mpc_cmp_si</strong> <em>(mpc_t <var>op1</var>, long int <var>op2</var>)</em></dt>
 <dd>
 <p>Compare <var>op1</var> and <var>op2</var>, where in the case of <code>mpc_cmp_si_si</code>,
@@ -364,7 +364,7 @@ It is not allowed that one of the operands has a NaN (Not-a-Number) part.
 with <code>mpc_cmp (op1, op2) == 0</code>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fcmp_005fabs">Function: <em>int</em> <strong>mpc_cmp_abs</strong> <em>(mpc_t <var>op1</var>, mpc_t <var>op2</var>)</em></dt>
+<dt id="index-mpc_005fcmp_005fabs">Function: <em>int</em> <strong>mpc_cmp_abs</strong> <em>(const mpc_t <var>op1</var>, const mpc_t <var>op2</var>)</em></dt>
 <dd>
 <p>Compare the absolute values of <var>op1</var> and <var>op2</var>.
 The return value is 0 if both are the same (including infinity),
@@ -382,12 +382,12 @@ Next: <a href="#Basic-Arithmetic" accesskey="n" rel="next">Basic Arithmetic</a>,
 <span id="Projection-and-Decomposing-Functions"></span><h3 class="section">5.6 Projection and Decomposing Functions</h3>
 <span id="index-Projection-and-Decomposing-Functions"></span>
 <dl>
-<dt id="index-mpc_005freal">Function: <em>int</em> <strong>mpc_real</strong> <em>(mpfr_t <var>rop</var>, mpc_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005freal">Function: <em>int</em> <strong>mpc_real</strong> <em>(mpfr_t <var>rop</var>, const mpc_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the value of the real part of <var>op</var> rounded
 in the direction <var>rnd</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fimag">Function: <em>int</em> <strong>mpc_imag</strong> <em>(mpfr_t <var>rop</var>, mpc_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fimag">Function: <em>int</em> <strong>mpc_imag</strong> <em>(mpfr_t <var>rop</var>, const mpc_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the value of the imaginary part of <var>op</var> rounded in the
 direction <var>rnd</var>.
 </p></dd></dl>
@@ -399,12 +399,12 @@ respectively. The <code>mpfr</code> functions can be used on the result of these
 macros (note that the <code>mpfr_t</code> type is itself a pointer).
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005farg">Function: <em>int</em> <strong>mpc_arg</strong> <em>(mpfr_t <var>rop</var>, mpc_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005farg">Function: <em>int</em> <strong>mpc_arg</strong> <em>(mpfr_t <var>rop</var>, const mpc_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the argument of <var>op</var>, with a branch cut along the
 negative real axis.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fproj">Function: <em>int</em> <strong>mpc_proj</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fproj">Function: <em>int</em> <strong>mpc_proj</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Compute a projection of <var>op</var> onto the Riemann sphere. Set <var>rop</var> to
 <var>op</var> rounded in the direction <var>rnd</var>, except when at least one part of
 <var>op</var> is infinite (even if the other part is a NaN) in which case the real
@@ -425,96 +425,96 @@ essentially be the same as with the GNU MPFR library, with only a marginal
 overhead due to the GNU MPC layer.
 </p>
 <dl>
-<dt id="index-mpc_005fadd">Function: <em>int</em> <strong>mpc_add</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fadd_005fui">Function: <em>int</em> <strong>mpc_add_ui</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fadd_005ffr">Function: <em>int</em> <strong>mpc_add_fr</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fadd">Function: <em>int</em> <strong>mpc_add</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fadd_005fui">Function: <em>int</em> <strong>mpc_add_ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fadd_005ffr">Function: <em>int</em> <strong>mpc_add_fr</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <var>op1</var> <em>+</em> <var>op2</var> rounded according to <var>rnd</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fsub">Function: <em>int</em> <strong>mpc_sub</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fsub_005ffr">Function: <em>int</em> <strong>mpc_sub_fr</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005ffr_005fsub">Function: <em>int</em> <strong>mpc_fr_sub</strong> <em>(mpc_t <var>rop</var>, mpfr_t <var>op1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fsub_005fui">Function: <em>int</em> <strong>mpc_sub_ui</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fui_005fsub">Macro: <em>int</em> <strong>mpc_ui_sub</strong> <em>(mpc_t <var>rop</var>, unsigned long int <var>op1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fsub">Function: <em>int</em> <strong>mpc_sub</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fsub_005ffr">Function: <em>int</em> <strong>mpc_sub_fr</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005ffr_005fsub">Function: <em>int</em> <strong>mpc_fr_sub</strong> <em>(mpc_t <var>rop</var>, const mpfr_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fsub_005fui">Function: <em>int</em> <strong>mpc_sub_ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fui_005fsub">Macro: <em>int</em> <strong>mpc_ui_sub</strong> <em>(mpc_t <var>rop</var>, unsigned long int <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dt id="index-mpc_005fui_005fui_005fsub">Function: <em>int</em> <strong>mpc_ui_ui_sub</strong> <em>(mpc_t <var>rop</var>, unsigned long int <var>re1</var>, unsigned long int <var>im1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <var>op1</var> - <var>op2</var> rounded according to <var>rnd</var>.
 For <code>mpc_ui_ui_sub</code>, <var>op1</var> is <var>re1</var> + <var>im1</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fneg">Function: <em>int</em> <strong>mpc_neg</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fneg">Function: <em>int</em> <strong>mpc_neg</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to -<var>op</var> rounded according to <var>rnd</var>.
 Just changes the sign if <var>rop</var> and <var>op</var> are the same variable.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fsum">Function: <em>int</em> <strong>mpc_sum</strong> <em>(mpc_t <var>rop</var>, const mpc_ptr <var>op</var>[], unsigned long <var>n</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fsum">Function: <em>int</em> <strong>mpc_sum</strong> <em>(mpc_t <var>rop</var>, const mpc_ptr* <var>op</var>, unsigned long <var>n</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the sum of the elements in the array <var>op</var> of
 length <var>n</var>, rounded according to <var>rnd</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fmul">Function: <em>int</em> <strong>mpc_mul</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fmul_005fui">Function: <em>int</em> <strong>mpc_mul_ui</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fmul_005fsi">Function: <em>int</em> <strong>mpc_mul_si</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fmul_005ffr">Function: <em>int</em> <strong>mpc_mul_fr</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fmul">Function: <em>int</em> <strong>mpc_mul</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fmul_005fui">Function: <em>int</em> <strong>mpc_mul_ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fmul_005fsi">Function: <em>int</em> <strong>mpc_mul_si</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fmul_005ffr">Function: <em>int</em> <strong>mpc_mul_fr</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <var>op1</var> times <var>op2</var> rounded according to <var>rnd</var>.
 Note: for <code>mpc_mul</code>, in case <var>op1</var> and <var>op2</var> have the same value,
 use <code>mpc_sqr</code> for better efficiency.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fmul_005fi">Function: <em>int</em> <strong>mpc_mul_i</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, int <var>sgn</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fmul_005fi">Function: <em>int</em> <strong>mpc_mul_i</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, int <var>sgn</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <var>op</var> times the imaginary unit i if <var>sgn</var> is
 non-negative, set <var>rop</var> to <var>op</var> times -i otherwise,
 in both cases rounded according to <var>rnd</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fsqr">Function: <em>int</em> <strong>mpc_sqr</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fsqr">Function: <em>int</em> <strong>mpc_sqr</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the square of <var>op</var> rounded according to <var>rnd</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005ffma">Function: <em>int</em> <strong>mpc_fma</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpc_t <var>op2</var>, mpc_t <var>op3</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005ffma">Function: <em>int</em> <strong>mpc_fma</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpc_t <var>op2</var>, const mpc_t <var>op3</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <var>op1</var>*<var>op2</var>+<var>op3</var>,
 rounded according to <var>rnd</var>, with only one final rounding.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fdot">Function: <em>int</em> <strong>mpc_dot</strong> <em>(mpc_t <var>rop</var>, const mpc_ptr <var>op1</var>[], const mpc_ptr <var>op2</var>[], unsigned long <var>n</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fdot">Function: <em>int</em> <strong>mpc_dot</strong> <em>(mpc_t <var>rop</var>, const mpc_ptr* <var>op1</var>, mpc_ptr* <var>op2</var>, unsigned long <var>n</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the dot product of the elements in the arrays <var>op1</var> and
 <var>op2</var>, both of length <var>n</var>, rounded according to <var>rnd</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fdiv">Function: <em>int</em> <strong>mpc_div</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fdiv_005fui">Function: <em>int</em> <strong>mpc_div_ui</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fdiv_005ffr">Function: <em>int</em> <strong>mpc_div_fr</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fui_005fdiv">Function: <em>int</em> <strong>mpc_ui_div</strong> <em>(mpc_t <var>rop</var>, unsigned long int <var>op1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005ffr_005fdiv">Function: <em>int</em> <strong>mpc_fr_div</strong> <em>(mpc_t <var>rop</var>, mpfr_t <var>op1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fdiv">Function: <em>int</em> <strong>mpc_div</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fdiv_005fui">Function: <em>int</em> <strong>mpc_div_ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fdiv_005ffr">Function: <em>int</em> <strong>mpc_div_fr</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fui_005fdiv">Function: <em>int</em> <strong>mpc_ui_div</strong> <em>(mpc_t <var>rop</var>, unsigned long int <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005ffr_005fdiv">Function: <em>int</em> <strong>mpc_fr_div</strong> <em>(mpc_t <var>rop</var>, const mpfr_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <var>op1</var>/<var>op2</var> rounded according to <var>rnd</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fconj">Function: <em>int</em> <strong>mpc_conj</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fconj">Function: <em>int</em> <strong>mpc_conj</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the conjugate of <var>op</var> rounded according to <var>rnd</var>.
 Just changes the sign of the imaginary part
 if <var>rop</var> and <var>op</var> are the same variable.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fabs">Function: <em>int</em> <strong>mpc_abs</strong> <em>(mpfr_t <var>rop</var>, mpc_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fabs">Function: <em>int</em> <strong>mpc_abs</strong> <em>(mpfr_t <var>rop</var>, const mpc_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set the floating-point number <var>rop</var> to the absolute value of <var>op</var>,
 rounded in the direction <var>rnd</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fnorm">Function: <em>int</em> <strong>mpc_norm</strong> <em>(mpfr_t <var>rop</var>, mpc_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fnorm">Function: <em>int</em> <strong>mpc_norm</strong> <em>(mpfr_t <var>rop</var>, const mpc_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set the floating-point number <var>rop</var> to the norm of <var>op</var>
 (i.e., the square of its absolute value),
 rounded in the direction <var>rnd</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fmul_005f2ui">Function: <em>int</em> <strong>mpc_mul_2ui</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fmul_005f2si">Function: <em>int</em> <strong>mpc_mul_2si</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fmul_005f2ui">Function: <em>int</em> <strong>mpc_mul_2ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fmul_005f2si">Function: <em>int</em> <strong>mpc_mul_2si</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <var>op1</var> times 2 raised to <var>op2</var>
 rounded according to <var>rnd</var>. Just modifies the exponents
 of the real and imaginary parts by <var>op2</var>
 when <var>rop</var> and <var>op1</var> are identical.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fdiv_005f2ui">Function: <em>int</em> <strong>mpc_div_2ui</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fdiv_005f2si">Function: <em>int</em> <strong>mpc_div_2si</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fdiv_005f2ui">Function: <em>int</em> <strong>mpc_div_2ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fdiv_005f2si">Function: <em>int</em> <strong>mpc_div_2si</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <var>op1</var> divided by 2 raised to <var>op2</var>
 rounded according to <var>rnd</var>. Just modifies the exponents
 of the real and imaginary parts by <var>op2</var>
@@ -529,19 +529,19 @@ Next: <a href="#Trigonometric-Functions" accesskey="n" rel="next">Trigonometric 
 <span id="index-Power-functions"></span>
 <span id="index-Logarithm"></span>
 <dl>
-<dt id="index-mpc_005fsqrt">Function: <em>int</em> <strong>mpc_sqrt</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fsqrt">Function: <em>int</em> <strong>mpc_sqrt</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the square root of <var>op</var> rounded according to <var>rnd</var>.
 The returned value <var>rop</var> has a non-negative real part, and if its real
 part is zero, a non-negative imaginary part.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fpow">Function: <em>int</em> <strong>mpc_pow</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fpow_005fd">Function: <em>int</em> <strong>mpc_pow_d</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, double <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fpow_005fld">Function: <em>int</em> <strong>mpc_pow_ld</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, long double <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fpow_005fsi">Function: <em>int</em> <strong>mpc_pow_si</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, long <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fpow_005fui">Function: <em>int</em> <strong>mpc_pow_ui</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, unsigned long <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fpow_005fz">Function: <em>int</em> <strong>mpc_pow_z</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpz_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fpow_005ffr">Function: <em>int</em> <strong>mpc_pow_fr</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op1</var>, mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fpow">Function: <em>int</em> <strong>mpc_pow</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fpow_005fd">Function: <em>int</em> <strong>mpc_pow_d</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, double <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fpow_005fld">Function: <em>int</em> <strong>mpc_pow_ld</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, long double <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fpow_005fsi">Function: <em>int</em> <strong>mpc_pow_si</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, long <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fpow_005fui">Function: <em>int</em> <strong>mpc_pow_ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fpow_005fz">Function: <em>int</em> <strong>mpc_pow_z</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpz_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fpow_005ffr">Function: <em>int</em> <strong>mpc_pow_fr</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to <var>op1</var> raised to the power <var>op2</var>, rounded according
 to <var>rnd</var>.
 For <code>mpc_pow_d</code>, <code>mpc_pow_ld</code>, <code>mpc_pow_si</code>, <code>mpc_pow_ui</code>,
@@ -551,13 +551,13 @@ When both <var>op1</var> and <var>op2</var> are zero, the result has real part 1
 and imaginary part 0, with sign being the opposite of that of <var>op2</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fexp">Function: <em>int</em> <strong>mpc_exp</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fexp">Function: <em>int</em> <strong>mpc_exp</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the exponential of <var>op</var>,
 rounded according to <var>rnd</var> with the precision of <var>rop</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005flog">Function: <em>int</em> <strong>mpc_log</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005flog10">Function: <em>int</em> <strong>mpc_log10</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005flog">Function: <em>int</em> <strong>mpc_log</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005flog10">Function: <em>int</em> <strong>mpc_log10</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the natural and base-10 logarithm of <var>op</var> respectively,
 rounded according to <var>rnd</var> with the precision of <var>rop</var>.
 The principal branch is chosen, with the branch cut on the negative real axis,
@@ -581,57 +581,41 @@ Next: <a href="#Miscellaneous-Complex-Functions" accesskey="n" rel="next">Miscel
 <span id="Trigonometric-Functions-1"></span><h3 class="section">5.9 Trigonometric Functions</h3>
 <span id="index-Trigonometric-functions"></span>
 <dl>
-<dt id="index-mpc_005fsin">Function: <em>int</em> <strong>mpc_sin</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to the sine of <var>op</var>,
+<dt id="index-mpc_005fsin">Function: <em>int</em> <strong>mpc_sin</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fcos">Function: <em>int</em> <strong>mpc_cos</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005ftan">Function: <em>int</em> <strong>mpc_tan</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Set <var>rop</var> to the sine, cosine, tangent of <var>op</var>,
 rounded according to <var>rnd</var> with the precision of <var>rop</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fcos">Function: <em>int</em> <strong>mpc_cos</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to the cosine of <var>op</var>,
-rounded according to <var>rnd</var> with the precision of <var>rop</var>.
-</p></dd></dl>
-<dl>
-<dt id="index-mpc_005fsin_005fcos">Function: <em>int</em> <strong>mpc_sin_cos</strong> <em>(mpc_t <var>rop_sin</var>, mpc_t <var>rop_cos</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd_sin</var>, mpc_rnd_t <var>rnd_cos</var>)</em></dt>
+<dt id="index-mpc_005fsin_005fcos">Function: <em>int</em> <strong>mpc_sin_cos</strong> <em>(mpc_t <var>rop_sin</var>, mpc_t <var>rop_cos</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd_sin</var>, mpc_rnd_t <var>rnd_cos</var>)</em></dt>
 <dd><p>Set <var>rop_sin</var> to the sine of <var>op</var>,
 rounded according to <var>rnd_sin</var> with the precision of <var>rop_sin</var>,
 and <var>rop_cos</var> to the cosine of <var>op</var>,
 rounded according to <var>rnd_cos</var> with the precision of <var>rop_cos</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005ftan">Function: <em>int</em> <strong>mpc_tan</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to the tangent of <var>op</var>,
+<dt id="index-mpc_005fsinh">Function: <em>int</em> <strong>mpc_sinh</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fcosh">Function: <em>int</em> <strong>mpc_cosh</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005ftanh">Function: <em>int</em> <strong>mpc_tanh</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dd><p>Set <var>rop</var> to the hyperbolic sine, hyperbolic cosine, hyperbolic tangent of <var>op</var>,
 rounded according to <var>rnd</var> with the precision of <var>rop</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fsinh">Function: <em>int</em> <strong>mpc_sinh</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to the hyperbolic sine of <var>op</var>,
-rounded according to <var>rnd</var> with the precision of <var>rop</var>.
-</p></dd></dl>
-<dl>
-<dt id="index-mpc_005fcosh">Function: <em>int</em> <strong>mpc_cosh</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to the hyperbolic cosine of <var>op</var>,
-rounded according to <var>rnd</var> with the precision of <var>rop</var>.
-</p></dd></dl>
-<dl>
-<dt id="index-mpc_005ftanh">Function: <em>int</em> <strong>mpc_tanh</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dd><p>Set <var>rop</var> to the hyperbolic tangent of <var>op</var>,
-rounded according to <var>rnd</var> with the precision of <var>rop</var>.
-</p></dd></dl>
-<dl>
-<dt id="index-mpc_005fasin">Function: <em>int</em> <strong>mpc_asin</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005facos">Function: <em>int</em> <strong>mpc_acos</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fatan">Function: <em>int</em> <strong>mpc_atan</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fasin">Function: <em>int</em> <strong>mpc_asin</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005facos">Function: <em>int</em> <strong>mpc_acos</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fatan">Function: <em>int</em> <strong>mpc_atan</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the inverse sine, inverse cosine, inverse tangent of <var>op</var>,
 rounded according to <var>rnd</var> with the precision of <var>rop</var>.
 </p></dd></dl>
 <dl>
-<dt id="index-mpc_005fasinh">Function: <em>int</em> <strong>mpc_asinh</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005facosh">Function: <em>int</em> <strong>mpc_acosh</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
-<dt id="index-mpc_005fatanh">Function: <em>int</em> <strong>mpc_atanh</strong> <em>(mpc_t <var>rop</var>, mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fasinh">Function: <em>int</em> <strong>mpc_asinh</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005facosh">Function: <em>int</em> <strong>mpc_acosh</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
+<dt id="index-mpc_005fatanh">Function: <em>int</em> <strong>mpc_atanh</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em></dt>
 <dd><p>Set <var>rop</var> to the inverse hyperbolic sine, inverse hyperbolic cosine,
 inverse hyperbolic tangent of <var>op</var>,
 rounded according to <var>rnd</var> with the precision of <var>rop</var>.
-The branch cut of <var>mpc_acosh</var> is
+The branch cut of <code>mpc_acosh</code> is
 (-Inf, 1)
 </p></dd></dl>
 <hr>
@@ -710,7 +694,7 @@ Value</a>).
 </p>
 <p>For instance, you can define mpc_set_ui_fr as follows:
 </p><div class="example">
-<pre class="example">int mpc_set_ui_fr (mpc_t rop, long int re, double im, mpc_rnd_t rnd)
+<pre class="example">int mpc_set_ui_fr (mpc_t rop, unsigned long int re, mpfr_t im, mpc_rnd_t rnd)
     MPC_SET_X_Y (ui, fr, rop, re, im, rnd);
 </pre></div>
 </dd></dl>
