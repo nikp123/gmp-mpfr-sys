@@ -26,6 +26,7 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ### Version 1.4.1 news (unreleased)
 
+  * [MPC] was updated from version 1.2.0 to 1.2.1.
   * The `c-no-tests` experimental feature was added.
 
 ### Version 1.4.0 news (2020-09-02)
@@ -77,7 +78,7 @@ This crate contains three modules:
   * [`mpc`] provides external FFI bindings to [MPC].
 
 The versions provided by this crate release are [GMP] version 6.2.0,
-[MPFR] version 4.1.0, and [MPC] version 1.2.0.
+[MPFR] version 4.1.0, and [MPC] version 1.2.1.
 
 If you want a high-level API, consider using [Rug][rug crate], a crate
 which provides integers and floating-point numbers with arbitrary

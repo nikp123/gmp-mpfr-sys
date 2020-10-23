@@ -8,6 +8,7 @@ as-is, without any warranty. -->
 Version 1.4.1 (unreleased)
 ==========================
 
+  * [MPC] was updated from version 1.2.0 to 1.2.1.
   * The `c-no-tests` experimental feature was added.
 
 Version 1.4.0 (2020-09-02)
