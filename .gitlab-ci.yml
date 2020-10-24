@@ -1,4 +1,4 @@
-# Copyright © 2017–2019 University of Malta
+# Copyright © 2017–2020 University of Malta
 
 # Copying and distribution of this file, with or without modification,
 # are permitted in any medium without royalty provided the copyright
@@ -80,7 +80,7 @@ x86_64-i686-gnulinux:
   except:
   - www
 
-#Disable use-system-libs tests until GMP and MPFR versions catch up
+#Disable use-system-libs tests until GMP, MPFR and MPC versions catch up
 #
 #x86_64-gnulinux-sys-libs:
 #  image: amd64/rust:1

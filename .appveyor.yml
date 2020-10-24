@@ -1,4 +1,4 @@
-# Copyright © 2017–2019 University of Malta
+# Copyright © 2017–2020 University of Malta
 
 # Copying and distribution of this file, with or without modification,
 # are permitted in any medium without royalty provided the copyright
@@ -66,11 +66,12 @@ test_script:
   - pacman -U --noconfirm %MINGW_PACKAGE_PREFIX%-gmp-6.2.0-1-any.pkg.tar.xz
   - curl -O https://repo.msys2.org/mingw/%MSYSTEM_CARCH%/%MINGW_PACKAGE_PREFIX%-mpfr-4.1.0-2-any.pkg.tar.zst
   - pacman -U --noconfirm %MINGW_PACKAGE_PREFIX%-mpfr-4.1.0-2-any.pkg.tar.zst
-  - curl -O https://repo.msys2.org/mingw/%MSYSTEM_CARCH%/%MINGW_PACKAGE_PREFIX%-mpc-1.2.0-1-any.pkg.tar.zst
-  - pacman -U --noconfirm %MINGW_PACKAGE_PREFIX%-mpc-1.2.0-1-any.pkg.tar.zst
+  # disable MPC from use-system-libs tests until MPC version catches up
+  # - curl -O https://repo.msys2.org/mingw/%MSYSTEM_CARCH%/%MINGW_PACKAGE_PREFIX%-mpc-1.2.0-1-any.pkg.tar.zst
+  # - pacman -U --noconfirm %MINGW_PACKAGE_PREFIX%-mpc-1.2.0-1-any.pkg.tar.zst
   - cargo clean
-  - cargo +beta-%HOST% test --features "fail-on-warnings use-system-libs"
-  - cargo +beta-%HOST% test --release --features "fail-on-warnings use-system-libs"
+  - cargo +beta-%HOST% test --no-default-features --features "fail-on-warnings use-system-libs mpfr"
+  - cargo +beta-%HOST% test --no-default-features --release --features "fail-on-warnings use-system-libs mpfr"
 
 after_test:
   - bash -c "if [ -d $USERPROFILE/.cargo/registry/cache ]; then cd $USERPROFILE/.cargo/registry; for c in cache/*/*.crate; do s=src/${c#cache/}; if [ ! -e ${s/.crate/} ]; then rm -v $c; fi; done; find cache -name \*.crate; fi"
