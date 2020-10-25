@@ -144,7 +144,9 @@ There are three experimental feature:
     compilation is not tested or supported and can lead to silent
     failures that are hard to debug, especially if this crate is an
     indirect dependency. As an exception, cross compiling from x86_64
-    to i686 does not need this feature.
+    to i686 does not need this feature. (Compiling on MinGW does not
+    have this exception because MinGW does not support cross
+    compilation from 64-bit to 32-bit.)
  3. `c-no-tests`, disabled by default. Using this feature will skip
     testing the C libraries. This is not advised; the risk that the
     GMP sources are miscompiled is unfortunately quite high. And if

@@ -5,16 +5,18 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.4.1 (unreleased)
+Version 1.4.1 (2020-10-25)
 ==========================
 
   * [MPC] was updated from version 1.2.0 to 1.2.1.
-  * The `c-no-tests` experimental feature was added.
+  * The [`c-no-tests`][feat-exp-1-4] experimental feature was added.
 
 Version 1.4.0 (2020-09-02)
 ==========================
 
   * [MPC] was updated from version 1.1.0 to 1.2.0.
+
+[feat-exp-1-4]: https://docs.rs/gmp-mpfr-sys/~1.4/gmp_mpfr_sys/#experimental-optional-features
 
 Version 1.3.1 (2020-07-17)
 ==========================
@@ -24,7 +26,7 @@ Version 1.3.1 (2020-07-17)
 Version 1.3.0 (2020-07-13)
 ==========================
 
-  * [MPFR] was updated from version 4.0.2-p9 to 4.1.0-rc2.
+  * [MPFR] was updated from version 4.0.2-p9 to 4.1.0.
   * The internal details of
     <code>[gmp][gmp-1-3]::[mpz\_t][gmp-mpz-1-3]</code>,
     <code>[gmp][gmp-1-3]::[mpf\_t][gmp-mpf-1-3]</code>,
@@ -181,10 +183,10 @@ Version 1.1.1 (2018-02-09)
 
   * Update [MPFR] 4.0.0 -> 4.0.1.
   * Fix the type of the `tab` parameter of
-    <code>[mpfr][mpfr-1-1]::[sum][mpfr-sum-1-1]</code> to 
-	<code>[\*const][pointer] [\*mut][pointer] [mpfr\_t][mpfr-mpfr-1-1]</code>
+    <code>[mpfr][mpfr-1-1]::[sum][mpfr-sum-1-1]</code> to
+    <code>[\*const][pointer] [\*mut][pointer] [mpfr\_t][mpfr-mpfr-1-1]</code>
     instead of
-	<code>[\*mut][pointer] [\*mut][pointer] [mpfr\_t][mpfr-mpfr-1-1]</code>.
+    <code>[\*mut][pointer] [\*mut][pointer] [mpfr\_t][mpfr-mpfr-1-1]</code>.
   * Document the `DEP_GMP_LIMB_BITS` build script metadata.
   * Add `DEP_GMP_OUT_DIR`, `DEP_GMP_LIB_DIR`, and
     `DEP_GMP_INCLUDE_DIR` build script metadata.
@@ -200,8 +202,8 @@ Version 1.1.0 (2018-01-12)
     should not be used.
   * Use [`c_int`] instead of
     <code>[#\[repr(C)\]][repr-C] [enum]</code> for the private
-    enumerated type inside 
-	<code>[#\[repr(C)\]][repr-C] [struct] [randstate_t][gmp-rs-1-1]</code>.
+    enumerated type inside
+    <code>[#\[repr(C)\]][repr-C] [struct] [randstate_t][gmp-rs-1-1]</code>.
 
 [gmp-1-1]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/gmp/index.html
 [gmp-mpq-1-1]: https://docs.rs/gmp-mpfr-sys/~1.1/gmp_mpfr_sys/gmp/struct.mpq_t.html

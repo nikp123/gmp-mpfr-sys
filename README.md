@@ -24,46 +24,16 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
-### Version 1.4.1 news (unreleased)
+### Version 1.4.1 news (2020-10-25)
 
   * [MPC] was updated from version 1.2.0 to 1.2.1.
-  * The `c-no-tests` experimental feature was added.
+  * The [`c-no-tests`][feat-exp-1-4] experimental feature was added.
 
 ### Version 1.4.0 news (2020-09-02)
 
   * [MPC] was updated from version 1.1.0 to 1.2.0.
 
-### Version 1.3.1 news (2020-07-17)
-
-  * Fixed MSYS2 build for rustc 1.46.0.
-
-### Version 1.3.0 news (2020-07-13)
-
-  * [MPFR] was updated from version 4.0.2-p9 to 4.1.0.
-  * The internal details of
-    <code>[gmp][gmp-1-3]::[mpz\_t][gmp-mpz-1-3]</code>,
-    <code>[gmp][gmp-1-3]::[mpf\_t][gmp-mpf-1-3]</code>,
-    <code>[gmp][gmp-1-3]::[randseed\_t][gmp-randseed-1-3]</code> and
-    <code>[mpfr][mpfr-1-3]::[mpfr\_t][mpfr-mpfr-1-3]</code> have been
-    changed to use [`NonNull`] instead of [mutable pointers][pointer].
-  * The internal details of
-    <code>[gmp][gmp-1-3]::[randfnptr\_t][gmp-randfnptr-1-3]</code>
-    have been changed to reflect that its functions are not nullable.
-  * Cross compilation will now fail if the experimental feature
-    `force-cross` is not enabled, because cross compilation is not
-    tested or supported and can lead to silent failures that are hard
-    to debug, especially if this crate is an indirect dependency.
-
-[gmp-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/index.html
-[gmp-mpf-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.mpf_t.html
-[gmp-mpz-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.mpz_t.html
-[gmp-randfnptr-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.randfnptr_t.html
-[gmp-randseed-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/gmp/struct.randseed_t.html
-[mpfr-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/mpfr/index.html
-[mpfr-mpfr-1-3]: https://docs.rs/gmp-mpfr-sys/~1.3/gmp_mpfr_sys/mpfr/struct.mpfr_t.html
-
-[`NonNull`]: https://doc.rust-lang.org/nightly/std/ptr/struct.NonNull.html
-[pointer]: https://doc.rust-lang.org/nightly/std/primitive.pointer.html
+[feat-exp-1-4]: https://docs.rs/gmp-mpfr-sys/~1.4/gmp_mpfr_sys/#experimental-optional-features
 
 ### Other releases
 
@@ -181,7 +151,9 @@ There are three experimental feature:
     compilation is not tested or supported and can lead to silent
     failures that are hard to debug, especially if this crate is an
     indirect dependency. As an exception, cross compiling from x86_64
-    to i686 does not need this feature.
+    to i686 does not need this feature. (Compiling on MinGW does not
+    have this exception because MinGW does not support cross
+    compilation from 64-bit to 32-bit.)
  3. `c-no-tests`, disabled by default. Using this feature will skip
     testing the C libraries. This is not advised; the risk that the
     GMP sources are miscompiled is unfortunately quite high. And if
