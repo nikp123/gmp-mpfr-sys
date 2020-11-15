@@ -30,7 +30,7 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::str;
 
-const GMP_DIR: &str = "gmp-6.2.0-c";
+const GMP_DIR: &str = "gmp-6.2.1-c";
 const MPFR_DIR: &str = "mpfr-4.1.0-c";
 const MPC_DIR: &str = "mpc-1.2.1-c";
 const GMP_VER: (i32, i32, i32) = (6, 2, 0);

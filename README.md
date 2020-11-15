@@ -24,6 +24,10 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.4.2 news (unreleased)
+
+  * [GMP] was updated from version 6.2.0 to 6.2.1.
+
 ### Version 1.4.1 news (2020-10-25)
 
   * [MPC] was updated from version 1.2.0 to 1.2.1.
@@ -47,7 +51,7 @@ This crate contains three modules:
   * [`mpfr`] provides external FFI bindings to [MPFR].
   * [`mpc`] provides external FFI bindings to [MPC].
 
-The versions provided by this crate release are [GMP] version 6.2.0,
+The versions provided by this crate release are [GMP] version 6.2.1,
 [MPFR] version 4.1.0, and [MPC] version 1.2.1.
 
 If you want a high-level API, consider using [Rug][rug crate], a crate
