@@ -397,7 +397,7 @@ For GMP i.j.k, these numbers will be i, j, and k, respectively.
 <dt id="index-gmp_005fversion-1">Global Constant: <em>const char * const</em> <strong>gmp_version</strong></dt>
 <dd><span id="index-gmp_005fversion"></span>
 <p>The GMP version number, as a null-terminated string, in the form &ldquo;i.j.k&rdquo;.
-This release is <code>&quot;6.2.0&quot;</code>.  Note that the format &ldquo;i.j&rdquo; was
+This release is <code>&quot;6.2.1&quot;</code>.  Note that the format &ldquo;i.j&rdquo; was
 used, before version 4.3.0, when k was zero.
 </p></dd></dl>
 <dl>
@@ -644,7 +644,7 @@ mpz_submul (mpq_numref(q), mpq_denref(q), z);
 <dd><span id="index-Number-sequences"></span>
 <p>Functions like <code>mpz_fac_ui</code>, <code>mpz_fib_ui</code> and <code>mpz_bin_uiui</code>
 are designed for calculating isolated values.  If a range of values is wanted
-it&rsquo;s probably best to call to get a starting point and iterate from there.
+it&rsquo;s probably best to get a starting point and iterate from there.
 </p>
 </dd>
 <dt>Text Input/Output</dt>
@@ -738,7 +738,7 @@ use a separate object directory with an absolute path to the source directory.
 </p>
 <div class="example">
 <pre class="example">cd /my/build/dir
-/my/source/dir/gmp-6.2.0/configure
+/my/source/dir/gmp-6.2.1/configure
 </pre></div>
 <p>This works via <code>VPATH</code>, and might require GNU <code>make</code>.
 Alternately it might be possible to change the <code>.c.lo</code> rules
