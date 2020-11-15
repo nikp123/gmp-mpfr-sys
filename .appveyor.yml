@@ -59,19 +59,10 @@ test_script:
   - rm Cargo.lock
   - cargo +1.37.0-%HOST% test --features fail-on-warnings
   - cargo +1.37.0-%HOST% test --release --features fail-on-warnings
-  # Update libs now to make sure the update does not interfere with gcc
-  - curl -O https://repo.msys2.org/msys/x86_64/pacman-5.2.2-1-x86_64.pkg.tar.xz
-  - pacman -U --noconfirm pacman-5.2.2-1-x86_64.pkg.tar.xz
-  - curl -O https://repo.msys2.org/mingw/%MSYSTEM_CARCH%/%MINGW_PACKAGE_PREFIX%-gmp-6.2.0-1-any.pkg.tar.xz
-  - pacman -U --noconfirm %MINGW_PACKAGE_PREFIX%-gmp-6.2.0-1-any.pkg.tar.xz
-  - curl -O https://repo.msys2.org/mingw/%MSYSTEM_CARCH%/%MINGW_PACKAGE_PREFIX%-mpfr-4.1.0-2-any.pkg.tar.zst
-  - pacman -U --noconfirm %MINGW_PACKAGE_PREFIX%-mpfr-4.1.0-2-any.pkg.tar.zst
-  # disable MPC from use-system-libs tests until MPC version catches up
-  # - curl -O https://repo.msys2.org/mingw/%MSYSTEM_CARCH%/%MINGW_PACKAGE_PREFIX%-mpc-1.2.0-1-any.pkg.tar.zst
-  # - pacman -U --noconfirm %MINGW_PACKAGE_PREFIX%-mpc-1.2.0-1-any.pkg.tar.zst
-  - cargo clean
-  - cargo +beta-%HOST% test --no-default-features --features "fail-on-warnings use-system-libs mpfr"
-  - cargo +beta-%HOST% test --no-default-features --release --features "fail-on-warnings use-system-libs mpfr"
+  # Disable use-system-libs tests until GMP, MPFR and MPC versions catch up
+  # - cargo clean
+  # - cargo +beta-%HOST% test --no-default-features --features "fail-on-warnings use-system-libs mpfr"
+  # - cargo +beta-%HOST% test --no-default-features --release --features "fail-on-warnings use-system-libs mpfr"
 
 after_test:
   - bash -c "if [ -d $USERPROFILE/.cargo/registry/cache ]; then cd $USERPROFILE/.cargo/registry; for c in cache/*/*.crate; do s=src/${c#cache/}; if [ ! -e ${s/.crate/} ]; then rm -v $c; fi; done; find cache -name \*.crate; fi"
