@@ -5,10 +5,6 @@
 # notice and this notice are preserved. This file is offered as-is,
 # without any warranty.
 
-image:
-  - macos
-  - Visual Studio 2019
-
 skip_tags: true
 
 branches:
@@ -17,8 +13,8 @@ branches:
 
 environment:
   matrix:
-    - OS: mac
-    - OS: win
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       HOST: x86_64-pc-windows-gnu
       CONFIG_SITE: C:/msys64/mingw64/etc/config.site
       MINGW_CHOST: x86_64-w64-mingw32
@@ -29,7 +25,7 @@ environment:
       MSYSTEM_CHOST: x86_64-w64-mingw32
       MSYSTEM_PREFIX: C:/msys64/mingw64
       PKG_CONFIG_PATH: C:\msys64\mingw64\lib\pkgconfig;C:\msys64\mingw64\share\pkgconfig
-    - OS: win
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       HOST: i686-pc-windows-gnu
       CONFIG_SITE: C:/msys64/mingw32/etc/config.site
       MINGW_CHOST: i686-w64-mingw32
@@ -47,25 +43,12 @@ for:
   -
     matrix:
       only:
-        - image: macos
-          OS: win
-    skip_non_tags: true
-  -
-    matrix:
-      only:
-        - image: Visual Studio 2019
-          OS: mac
-    skip_non_tags: true
-  -
-    matrix:
-      only:
-        - image: macos
-          OS: mac
+        - APPVEYOR_BUILD_WORKER_IMAGE: macos
     cache:
       - $HOME/.cargo/registry/cache
     install:
       - PATH="$PATH:$HOME/.cargo/bin"
-      - curl --proto '=https' --tlsv1.2 -sSf -o rustup-init.sh https://sh.rustup.rs
+      - curl --proto =https --tlsv1.2 -sSf -o rustup-init.sh https://sh.rustup.rs
       - sh rustup-init.sh -y --default-toolchain none --no-modify-path
       - rustup --version
       - rustup toolchain install --profile minimal beta 1.37.0
@@ -87,14 +70,13 @@ for:
   -
     matrix:
       only:
-        - image: Visual Studio 2019
-          OS: win
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     cache:
       - '%USERPROFILE%\.cargo\registry\cache'
     install:
       - set PATH=C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%USERPROFILE%\.cargo\bin;%PATH%
-      - curl -sSf -o rustup-init.exe https://win.rustup.rs
-      - rustup-init.exe -y --default-host %HOST% --default-toolchain none --no-modify-path
+      - curl --proto =https --tlsv1.2 -sSf -o rustup-init.exe https://win.rustup.rs
+      - rustup-init.exe -y --default-toolchain none --no-modify-path
       - rustup --version
       - rustup toolchain install --profile minimal beta-%HOST% 1.37.0-%HOST%
       - rustup component add --toolchain beta-%HOST% rustfmt clippy
@@ -109,7 +91,7 @@ for:
       - rm Cargo.lock
       - cargo +1.37.0-%HOST% test --features fail-on-warnings
       - cargo +1.37.0-%HOST% test --release --features fail-on-warnings
-      # Install fresh GMP, MPFR, MPC now to make sure it does not interfere with gcc package
+      # Install fresh GMP, MPFR, MPC now to make avoid interfere with gcc package
       - pacman -Sy --noconfirm %MINGW_PACKAGE_PREFIX%-gmp %MINGW_PACKAGE_PREFIX%-mpfr %MINGW_PACKAGE_PREFIX%-mpc
       - cargo clean
       - cargo +beta-%HOST% test --features "fail-on-warnings use-system-libs"
