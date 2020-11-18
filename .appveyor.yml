@@ -5,6 +5,8 @@
 # notice and this notice are preserved. This file is offered as-is,
 # without any warranty.
 
+image: Visual Studio 2019
+
 skip_tags: true
 
 branches:
@@ -59,10 +61,11 @@ test_script:
   - rm Cargo.lock
   - cargo +1.37.0-%HOST% test --features fail-on-warnings
   - cargo +1.37.0-%HOST% test --release --features fail-on-warnings
-  # Disable use-system-libs tests until GMP, MPFR and MPC versions catch up
-  # - cargo clean
-  # - cargo +beta-%HOST% test --no-default-features --features "fail-on-warnings use-system-libs mpfr"
-  # - cargo +beta-%HOST% test --no-default-features --release --features "fail-on-warnings use-system-libs mpfr"
+  # Install fresh GMP, MPFR, MPC now to make sure it does not interfere with gcc package
+  - pacman -Sy --noconfirm %MINGW_PACKAGE_PREFIX%-gmp %MINGW_PACKAGE_PREFIX%-mpfr %MINGW_PACKAGE_PREFIX%-mpc
+  - cargo clean
+  - cargo +beta-%HOST% test --no-default-features --features "fail-on-warnings use-system-libs mpfr"
+  - cargo +beta-%HOST% test --no-default-features --release --features "fail-on-warnings use-system-libs mpfr"
 
 after_test:
   - bash -c "if [ -d $USERPROFILE/.cargo/registry/cache ]; then cd $USERPROFILE/.cargo/registry; for c in cache/*/*.crate; do s=src/${c#cache/}; if [ ! -e ${s/.crate/} ]; then rm -v $c; fi; done; find cache -name \*.crate; fi"
