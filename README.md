@@ -24,7 +24,7 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
-### Version 1.4.2 news (unreleased)
+### Version 1.4.2 news (2020-11-18)
 
   * [GMP] was updated from version 6.2.0 to 6.2.1.
 
@@ -32,10 +32,6 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
   * [MPC] was updated from version 1.2.0 to 1.2.1.
   * The [`c-no-tests`][feat-exp-1-4] experimental feature was added.
-
-### Version 1.4.0 news (2020-09-02)
-
-  * [MPC] was updated from version 1.1.0 to 1.2.0.
 
 [feat-exp-1-4]: https://docs.rs/gmp-mpfr-sys/~1.4/gmp_mpfr_sys/#experimental-optional-features
 
@@ -189,10 +185,10 @@ script.
 ## Building on GNU/Linux
 
 To build on GNU/Linux, simply make sure you have `diffutils`, `gcc`,
-`make` and `m4` installed on your system. For example on Fedora:
+`m4` and `make` installed on your system. For example on Fedora:
 
 ```sh
-sudo dnf install diffutils gcc make m4
+sudo dnf install diffutils gcc m4 make
 ```
 
 ## Building on macOS
@@ -222,7 +218,7 @@ To install MSYS2:
 
     ```sh
     pacman -S pacman-mirrors
-    pacman -S diffutils make mingw-w64-x86_64-gcc
+    pacman -S diffutils m4 make mingw-w64-x86_64-gcc
     ```
 
     (32-bit: Install `mingw-w64-i686-gcc` instead of

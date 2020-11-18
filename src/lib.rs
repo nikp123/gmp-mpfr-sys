@@ -178,10 +178,10 @@ script.
 ## Building on GNU/Linux
 
 To build on GNU/Linux, simply make sure you have `diffutils`, `gcc`,
-`make` and `m4` installed on your system. For example on Fedora:
+`m4` and `make` installed on your system. For example on Fedora:
 
 ```sh
-sudo dnf install diffutils gcc make m4
+sudo dnf install diffutils gcc m4 make
 ```
 
 ## Building on macOS
@@ -211,7 +211,7 @@ To install MSYS2:
 
     ```sh
     pacman -S pacman-mirrors
-    pacman -S diffutils make mingw-w64-x86_64-gcc
+    pacman -S diffutils m4 make mingw-w64-x86_64-gcc
     ```
 
     (32-bit: Install `mingw-w64-i686-gcc` instead of

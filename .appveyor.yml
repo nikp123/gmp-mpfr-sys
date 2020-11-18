@@ -37,7 +37,7 @@ environment:
       PKG_CONFIG_PATH: C:\msys64\mingw32\lib\pkgconfig;C:\msys64\mingw32\share\pkgconfig
 
 cache:
-  - '%USERPROFILE%\.cargo\registry\cache -> Cargo.toml'
+  - '%USERPROFILE%\.cargo\registry\cache'
 
 install:
   - set PATH=C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%USERPROFILE%\.cargo\bin;%PATH%
