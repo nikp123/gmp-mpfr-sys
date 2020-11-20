@@ -290,7 +290,11 @@ To use a different directory, you can set the environment variable
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
 #![cfg_attr(nightly_external_doc, feature(external_doc))]
-#![allow(clippy::missing_safety_doc, clippy::unnecessary_cast, clippy::useless_conversion)]
+#![allow(
+    clippy::missing_safety_doc,
+    clippy::unnecessary_cast,
+    clippy::useless_conversion
+)]
 
 pub mod gmp;
 #[cfg(feature = "mpc")]

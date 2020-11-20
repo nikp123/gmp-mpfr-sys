@@ -61,7 +61,7 @@ for:
       - gcc --version
     before_test:
       - if [ -d $HOME/.cargo/registry/src ]; then rm -r $HOME/.cargo/src; fi
-      - if [ -d $HOME/.cargo/registry/cache ]; then cd $HOME/.cargo/registry; find cache -name \*.crate; fi
+      - if [ -d $HOME/.cargo/registry/cache ]; then (cd $HOME/.cargo/registry; find cache -name \*.crate) fi
     test_script:
       - cargo +beta test --features fail-on-warnings
       - cargo +beta test --release --features fail-on-warnings
@@ -71,7 +71,7 @@ for:
       - cargo +1.37.0 test --features fail-on-warnings
       - cargo +1.37.0 test --release --features fail-on-warnings
     after_test:
-      - if [ -d $HOME/.cargo/registry/cache ]; then cd $HOME/.cargo/registry; for c in cache/*/*.crate; do s=src/${c#cache/}; if [ ! -e ${s/.crate/} ]; then rm -v $c; fi; done; find cache -name \*.crate; fi
+      - if [ -d $HOME/.cargo/registry/cache ]; then (cd $HOME/.cargo/registry; for c in cache/*/*.crate; do s=src/${c#cache/}; if [ ! -e ${s/.crate/} ]; then rm -v $c; fi; done; find cache -name \*.crate) fi
 
   -
     matrix:
