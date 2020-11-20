@@ -13,8 +13,12 @@ branches:
 
 environment:
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    - CI_OS: mac
+      APPVEYOR_BUILD_WORKER_IMAGE: macos
+    - CI_OS: mac
+      APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+    - CI_OS: win
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       HOST: x86_64-pc-windows-gnu
       CONFIG_SITE: C:/msys64/mingw64/etc/config.site
       MINGW_CHOST: x86_64-w64-mingw32
@@ -25,7 +29,8 @@ environment:
       MSYSTEM_CHOST: x86_64-w64-mingw32
       MSYSTEM_PREFIX: C:/msys64/mingw64
       PKG_CONFIG_PATH: C:\msys64\mingw64\lib\pkgconfig;C:\msys64\mingw64\share\pkgconfig
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    - CI_OS: win
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       HOST: i686-pc-windows-gnu
       CONFIG_SITE: C:/msys64/mingw32/etc/config.site
       MINGW_CHOST: i686-w64-mingw32
@@ -43,16 +48,18 @@ for:
   -
     matrix:
       only:
-        - APPVEYOR_BUILD_WORKER_IMAGE: macos
+        - CI_OS: mac
     cache:
       - $HOME/.cargo/registry/cache
     install:
+      - echo $PLATFORM
       - PATH="$PATH:$HOME/.cargo/bin"
       - curl --proto =https --tlsv1.2 -sSf -o rustup-init.sh https://sh.rustup.rs
       - sh rustup-init.sh -y --default-toolchain none --no-modify-path
       - rustup --version
       - rustup toolchain install --profile minimal beta 1.37.0
       - rustup component add --toolchain beta rustfmt clippy
+      - gcc --version
     before_test:
       - if [ -d $HOME/.cargo/registry/src ]; then rm -r $HOME/.cargo/src; fi
       - if [ -d $HOME/.cargo/registry/cache ]; then cd $HOME/.cargo/registry; find cache -name \*.crate; fi
@@ -70,16 +77,18 @@ for:
   -
     matrix:
       only:
-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+        - CI_OS: win
     cache:
       - '%USERPROFILE%\.cargo\registry\cache'
     install:
+      - echo %PLATFORM%
       - set PATH=C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%USERPROFILE%\.cargo\bin;%PATH%
       - curl --proto =https --tlsv1.2 -sSf -o rustup-init.exe https://win.rustup.rs
       - rustup-init.exe -y --default-toolchain none --no-modify-path
       - rustup --version
       - rustup toolchain install --profile minimal beta-%HOST% 1.37.0-%HOST%
       - rustup component add --toolchain beta-%HOST% rustfmt clippy
+      - gcc --version
     before_test:
       - bash -c "if [ -d $USERPROFILE/.cargo/registry/src ]; then rm -r $USERPROFILE/.cargo/src; fi"
       - bash -c "if [ -d $USERPROFILE/.cargo/registry/cache ]; then cd $USERPROFILE/.cargo/registry; find cache -name \*.crate; fi"
@@ -91,7 +100,7 @@ for:
       - rm Cargo.lock
       - cargo +1.37.0-%HOST% test --features fail-on-warnings
       - cargo +1.37.0-%HOST% test --release --features fail-on-warnings
-      # Install fresh GMP, MPFR, MPC now to make avoid interfere with gcc package
+      # Install fresh GMP, MPFR, MPC now to avoid interference with gcc package
       - pacman -Sy --noconfirm %MINGW_PACKAGE_PREFIX%-gmp %MINGW_PACKAGE_PREFIX%-mpfr %MINGW_PACKAGE_PREFIX%-mpc
       - cargo clean
       - cargo +beta-%HOST% test --features "fail-on-warnings use-system-libs"
