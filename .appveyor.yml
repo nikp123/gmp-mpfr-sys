@@ -52,7 +52,6 @@ for:
     cache:
       - $HOME/.cargo/registry/cache
     install:
-      - echo $PLATFORM
       - PATH="$PATH:$HOME/.cargo/bin"
       - curl --proto =https --tlsv1.2 -sSf -o rustup-init.sh https://sh.rustup.rs
       - sh rustup-init.sh -y --default-toolchain none --no-modify-path
@@ -81,7 +80,6 @@ for:
     cache:
       - '%USERPROFILE%\.cargo\registry\cache'
     install:
-      - echo %PLATFORM%
       - set PATH=C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%USERPROFILE%\.cargo\bin;%PATH%
       - curl --proto =https --tlsv1.2 -sSf -o rustup-init.exe https://win.rustup.rs
       - rustup-init.exe -y --default-toolchain none --no-modify-path

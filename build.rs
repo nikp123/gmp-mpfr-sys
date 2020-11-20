@@ -972,10 +972,8 @@ fn write_link_info(env: &Environment, feature_mpfr: bool, feature_mpc: bool) {
         println!("cargo:rustc-link-lib={}mpfr", maybe_static);
     }
     println!("cargo:rustc-link-lib={}gmp", maybe_static);
-    if env.target == Target::Mingw {
-        if env.workaround_47048 == Workaround47048::Yes {
-            println!("cargo:rustc-link-lib=static=workaround_47048");
-        }
+    if env.target == Target::Mingw && env.workaround_47048 == Workaround47048::Yes {
+        println!("cargo:rustc-link-lib=static=workaround_47048");
     }
 }
 
