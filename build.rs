@@ -108,7 +108,7 @@ fn main() {
 
     println!("cargo:rerun-if-env-changed=GMP_MPFR_SYS_CACHE");
     let cache_dir = match env::var_os("GMP_MPFR_SYS_CACHE") {
-        Some(ref c) if c.is_empty() => None,
+        Some(ref c) if c.is_empty() || c == "_" => None,
         Some(c) => Some(PathBuf::from(c)),
         None => system_cache_dir().map(|c| c.join("gmp-mpfr-sys")),
     };

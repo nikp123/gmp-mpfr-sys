@@ -5,6 +5,13 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.4.3 (unreleased)
+==========================
+
+  * The [`GMP_MPFR_SYS_CACHE`][cache-1-4] environment variable can now
+    also be set to a single underscore (`_`) to disable caching, in
+    case setting it to an empty string is not possible in some system.
+
 Version 1.4.2 (2020-11-18)
 ==========================
 
@@ -21,6 +28,7 @@ Version 1.4.0 (2020-09-02)
 
   * [MPC] was updated from version 1.1.0 to 1.2.0.
 
+[cache-1-4]: https://docs.rs/gmp-mpfr-sys/~1.4/gmp_mpfr_sys/#caching-the-built-c-libraries
 [feat-exp-1-4]: https://docs.rs/gmp-mpfr-sys/~1.4/gmp_mpfr_sys/#experimental-optional-features
 
 Version 1.3.1 (2020-07-17)
