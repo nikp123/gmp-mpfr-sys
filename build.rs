@@ -1039,8 +1039,36 @@ fn check_for_msvc(env: &Environment) {
     }
 }
 
+fn rustc_later_eq(major: i32, minor: i32) -> bool {
+    let rustc = cargo_env("RUSTC");
+    let output = Command::new(rustc)
+        .arg("--version")
+        .output()
+        .expect("unable to run rustc --version");
+    let version = String::from_utf8(output.stdout).expect("unrecognized rustc version");
+    if !version.starts_with("rustc ") {
+        panic!("unrecognized rustc version: {}", version);
+    }
+    let remain = &version[6..];
+    let dot = remain.find('.').expect("unrecognized rustc version");
+    let ver_major = remain[0..dot]
+        .parse::<i32>()
+        .expect("unrecognized rustc version");
+    if ver_major < major {
+        return false;
+    } else if ver_major > major {
+        return true;
+    }
+    let remain = &remain[dot + 1..];
+    let dot = remain.find('.').expect("unrecognized rustc version");
+    let ver_minor = remain[0..dot]
+        .parse::<i32>()
+        .expect("unrecognized rustc version");
+    ver_minor >= minor
+}
+
 fn check_for_bug_47048(env: &Environment) -> Workaround47048 {
-    if env.target != Target::Mingw {
+    if env.target != Target::Mingw || rustc_later_eq(1, 43) {
         return Workaround47048::No;
     }
     let try_dir = env.build_dir.join("try_47048");
