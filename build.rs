@@ -18,17 +18,20 @@
 //  4. Use relative paths for configure otherwise msys/mingw might be
 //     confused with drives and such.
 
-use std::env;
-use std::ffi::{OsStr, OsString};
-use std::fs::{self, File};
-use std::io::{BufRead, BufReader, BufWriter, Result as IoResult, Write};
 #[cfg(unix)]
 use std::os::unix::fs as unix_fs;
 #[cfg(windows)]
 use std::os::windows::fs as windows_fs;
-use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
-use std::str;
+use std::{
+    cmp::Ordering,
+    env,
+    ffi::{OsStr, OsString},
+    fs::{self, File},
+    io::{BufRead, BufReader, BufWriter, Result as IoResult, Write},
+    path::{Path, PathBuf},
+    process::{Command, Stdio},
+    str,
+};
 
 const GMP_DIR: &str = "gmp-6.2.1-c";
 const MPFR_DIR: &str = "mpfr-4.1.0-c";
@@ -1054,17 +1057,18 @@ fn rustc_later_eq(major: i32, minor: i32) -> bool {
     let ver_major = remain[0..dot]
         .parse::<i32>()
         .expect("unrecognized rustc version");
-    if ver_major < major {
-        return false;
-    } else if ver_major > major {
-        return true;
+    match ver_major.cmp(&major) {
+        Ordering::Less => false,
+        Ordering::Greater => true,
+        Ordering::Equal => {
+            let remain = &remain[dot + 1..];
+            let dot = remain.find('.').expect("unrecognized rustc version");
+            let ver_minor = remain[0..dot]
+                .parse::<i32>()
+                .expect("unrecognized rustc version");
+            ver_minor >= minor
+        }
     }
-    let remain = &remain[dot + 1..];
-    let dot = remain.find('.').expect("unrecognized rustc version");
-    let ver_minor = remain[0..dot]
-        .parse::<i32>()
-        .expect("unrecognized rustc version");
-    ver_minor >= minor
 }
 
 fn check_for_bug_47048(env: &Environment) -> Workaround47048 {
