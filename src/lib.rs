@@ -294,7 +294,7 @@ underscore (`_`)  will disable caching.
 #![allow(
     clippy::missing_safety_doc,
     clippy::unnecessary_cast,
-    clippy::useless_conversion
+    clippy::upper_case_acronyms
 )]
 
 pub mod gmp;
