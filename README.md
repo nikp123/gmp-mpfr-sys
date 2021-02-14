@@ -24,24 +24,14 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
-### Version 1.4.3 news (unreleased)
+### Version 1.4.3 news (2021-02-14)
 
   * [MPFR] was updated from version 4.1.0 to 4.1.0-p7. 
   * The [`GMP_MPFR_SYS_CACHE`][cache-1-4] environment variable can now
     also be set to a single underscore (`_`) to disable caching, in
     case setting it to an empty string is not possible in some system.
 
-### Version 1.4.2 news (2020-11-18)
-
-  * [GMP] was updated from version 6.2.0 to 6.2.1.
-
-### Version 1.4.1 news (2020-10-25)
-
-  * [MPC] was updated from version 1.2.0 to 1.2.1.
-  * The [`c-no-tests`][feat-exp-1-4] experimental feature was added.
-
 [cache-1-4]: https://docs.rs/gmp-mpfr-sys/~1.4/gmp_mpfr_sys/#caching-the-built-c-libraries
-[feat-exp-1-4]: https://docs.rs/gmp-mpfr-sys/~1.4/gmp_mpfr_sys/#experimental-optional-features
 
 ### Other releases
 
