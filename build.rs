@@ -143,7 +143,11 @@ fn main() {
         use_system_libs,
         workaround_47048: Workaround47048::No,
     };
-    env.check_feature("external_doc", TRY_EXTERNAL_DOC, Some("external_doc"));
+    env.check_feature(
+        "extended_key_value_attributes",
+        TRY_EXTENDED_KEY_VALUE_ATTRIBUTES,
+        Some("extended_key_value_attributes"),
+    );
 
     // make sure we have target directories
     create_dir_or_panic(&env.lib_dir);
@@ -1487,8 +1491,8 @@ int main(void) {
 }
 "##;
 
-const TRY_EXTERNAL_DOC: &str = r#"// try_external_doc.rs
-#[doc(include = "try_external_doc.rs")]
+const TRY_EXTENDED_KEY_VALUE_ATTRIBUTES: &str = r#"// try_extended_key_value_attributes.rs
+#[doc = include_str!("try_extended_key_value_attributes.rs")]
 pub struct S;
 fn main() {}
 "#;

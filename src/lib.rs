@@ -290,7 +290,10 @@ underscore (`_`)  will disable caching.
 #![doc(html_logo_url = "https://tspiteri.gitlab.io/gmp-mpfr-sys/rug.svg")]
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
-#![cfg_attr(nightly_external_doc, feature(external_doc))]
+#![cfg_attr(
+    nightly_extended_key_value_attributes,
+    feature(extended_key_value_attributes)
+)]
 #![allow(
     clippy::missing_safety_doc,
     clippy::unnecessary_cast,
