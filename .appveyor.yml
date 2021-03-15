@@ -60,8 +60,8 @@ for:
       - rustup component add --toolchain beta rustfmt clippy
       - gcc --version
     before_test:
-      - if [ -d $HOME/.cargo/registry/src ]; then rm -r $HOME/.cargo/src; fi
-      - if [ -d $HOME/.cargo/registry/cache ]; then (cd $HOME/.cargo/registry; find cache -name \*.crate) fi
+      - (if cd $HOME/.cargo/registry && [ -d src ]; then rm -r src; fi)
+      - (if cd $HOME/.cargo/registry && [ -d cache ]; then find cache -name \*.crate | sort; fi)
     test_script:
       - cargo +beta test --features fail-on-warnings
       - cargo +beta test --release --features fail-on-warnings
@@ -71,7 +71,7 @@ for:
       - cargo +1.37.0 test --features fail-on-warnings
       - cargo +1.37.0 test --release --features fail-on-warnings
     after_test:
-      - if [ -d $HOME/.cargo/registry/cache ]; then (cd $HOME/.cargo/registry; for c in cache/*/*.crate; do s=src/${c#cache/}; if [ ! -e ${s/.crate/} ]; then rm -v $c; fi; done; find cache -name \*.crate) fi
+      - (if cd $HOME/.cargo/registry && [ -d cache ]; then for c in cache/*/*.crate; do s=src/${c#cache/}; if [ ! -e ${s%.crate} ]; then rm -v $c; fi; done; find cache -name \*.crate | sort; fi)
 
   -
     matrix:
@@ -88,8 +88,8 @@ for:
       - rustup component add --toolchain beta-%HOST% rustfmt clippy
       - gcc --version
     before_test:
-      - bash -c "if [ -d $USERPROFILE/.cargo/registry/src ]; then rm -r $USERPROFILE/.cargo/src; fi"
-      - bash -c "if [ -d $USERPROFILE/.cargo/registry/cache ]; then cd $USERPROFILE/.cargo/registry; find cache -name \*.crate; fi"
+      - bash -c "if cd ""$USERPROFILE/.cargo/registry"" && [ -d src ]; then rm -r src; fi"
+      - bash -c "if cd ""$USERPROFILE/.cargo/registry"" && [ -d cache ]; then find cache -name \*.crate | sort; fi"
     test_script:
       - cargo +beta-%HOST% test --features fail-on-warnings
       - cargo +beta-%HOST% test --release --features fail-on-warnings
@@ -104,4 +104,4 @@ for:
       - cargo +beta-%HOST% test --features "fail-on-warnings use-system-libs"
       - cargo +beta-%HOST% test --release --features "fail-on-warnings use-system-libs"
     after_test:
-      - bash -c "if [ -d $USERPROFILE/.cargo/registry/cache ]; then cd $USERPROFILE/.cargo/registry; for c in cache/*/*.crate; do s=src/${c#cache/}; if [ ! -e ${s/.crate/} ]; then rm -v $c; fi; done; find cache -name \*.crate; fi"
+      - bash -c "if cd ""$USERPROFILE/.cargo/registry"" && [ -d cache ]; then for c in cache/*/*.crate; do s=src/${c#cache/}; if [ ! -e ${s/.crate/} ]; then rm -v $c; fi; done; find cache -name \*.crate | sort; fi"
