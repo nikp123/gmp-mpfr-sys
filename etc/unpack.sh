@@ -33,6 +33,11 @@ MPCPATCH="$TARDIR/mpc-$MPCVERP-allpatches"
 
 CHANGELOG_CHARS=100000
 
+# if in etc directory, change to upper directory
+if [ -e unpack.sh ]; then
+	cd ..
+fi
+
 function truncate {
 	mv "$1" "$1.rm~"
 	(

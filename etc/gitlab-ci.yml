@@ -131,7 +131,8 @@ pages:
   script:
   - rustup toolchain install --profile minimal $TOOLCHAIN
   - rm -rf public
-  - cp -R doc public
+  - mkdir public
+  - cp etc/{index.html,rug.svg} public
   - cargo +$TOOLCHAIN doc --no-deps
   - mv target/doc public/dev
   artifacts:
