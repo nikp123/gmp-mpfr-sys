@@ -47,10 +47,10 @@ If you want a high-level API, consider using [Rug][rug crate], a crate
 which provides integers and floating-point numbers with arbitrary
 precision and correct rounding:
 
-  * [`Integer`] is a bignum integer with arbitrary precision,
-  * [`Rational`] is a bignum rational number with arbitrary precision,
+  * [`Integer`] is a bignum integer with arbitrary precision.
+  * [`Rational`] is a bignum rational number with arbitrary precision.
   * [`Float`] is a multi-precision floating-point number with correct
-    rounding, and
+    rounding.
   * [`Complex`] is a multi-precision complex number with correct
     rounding.
 
