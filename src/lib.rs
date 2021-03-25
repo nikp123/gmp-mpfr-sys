@@ -251,7 +251,7 @@ directory as follows:
 To use a different directory, you can set the environment variable
 `GMP_MPFR_SYS_CACHE` to the desired cache directory. Setting the
 `GMP_MPFR_SYS_CACHE` variable to an empty string or to a single
-underscore (`_`)  will disable caching.
+underscore (`"_"`)  will disable caching.
 
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 [GMP]: https://gmplib.org/

@@ -24,7 +24,7 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
-### Version 1.4.4 news (unreleased)
+### Version 1.4.4 news (2021-03-25)
 
   * [MPFR] was updated from version 4.1.0-p7 to 4.1.0-p11.
 
@@ -32,7 +32,7 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
   * [MPFR] was updated from version 4.1.0 to 4.1.0-p7.
   * The [`GMP_MPFR_SYS_CACHE`][cache-1-4] environment variable can now
-    also be set to a single underscore (`_`) to disable caching, in
+    also be set to a single underscore (`"_"`) to disable caching, in
     case setting it to an empty string is not possible in some system.
 
 [cache-1-4]: https://docs.rs/gmp-mpfr-sys/~1.4/gmp_mpfr_sys/#caching-the-built-c-libraries
@@ -260,7 +260,7 @@ directory as follows:
 To use a different directory, you can set the environment variable
 `GMP_MPFR_SYS_CACHE` to the desired cache directory. Setting the
 `GMP_MPFR_SYS_CACHE` variable to an empty string or to a single
-underscore (`_`) will disable caching.
+underscore (`"_"`) will disable caching.
 
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 [*RELEASES.md*]: https://gitlab.com/tspiteri/gmp-mpfr-sys/blob/master/RELEASES.md
