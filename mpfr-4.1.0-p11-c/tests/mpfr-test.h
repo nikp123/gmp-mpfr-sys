@@ -92,6 +92,32 @@ https://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc.,
 #define STRINGIZE(S) #S
 #define MAKE_STR(S) STRINGIZE(S)
 
+/* In C (but not C++), mpfr_ptr and mpfr_srcptr arguments can be provided
+   in a different pointer type, such as void *. For functions implemented
+   as macros, the type conversion for the function parameters will not be
+   done by the compiler, which means potential bugs in these implementations
+   if we forget to take these unusual cases into account. So we need to test
+   such arguments, in order to make sure that the arguments are converted to
+   the expected type when needed.
+
+   However, at least when the function is not implemented as a macro (which
+   is the case when MPFR_USE_NO_MACRO is defined), such tests with void *
+   arguments are not valid in C++; therefore, we will not do the cast to
+   void * if the __cplusplus macro is defined. And with GCC compilers (and
+   compatible), we will ignore the -Wc++-compat option around these tests.
+
+   Note: in the future, inline functions could be used instead of macros,
+   and such tests would become useless (except to detect compiler bugs).
+*/
+#if defined (__cplusplus)
+#define VOIDP_CAST(X) (X)
+#else
+#define VOIDP_CAST(X) ((void *) (X))
+#if defined (__GNUC__)
+#define IGNORE_CPP_COMPAT
+#endif
+#endif
+
 #if defined (__cplusplus)
 extern "C" {
 #endif
@@ -191,6 +217,8 @@ int mpfr_cmp_str (mpfr_srcptr x, const char *, int, mpfr_rnd_t);
 
 #define mpfr_cmp0(x,y) (MPFR_ASSERTN (!MPFR_IS_NAN (x) && !MPFR_IS_NAN (y)), mpfr_cmp (x,y))
 #define mpfr_cmp_ui0(x,i) (MPFR_ASSERTN (!MPFR_IS_NAN (x)), mpfr_cmp_ui (x,i))
+#define mpfr_cmp_si_2exp0(x,i,e) (MPFR_ASSERTN (!MPFR_IS_NAN (x)), \
+                                  mpfr_cmp_si_2exp (x,i,e))
 
 /* define CHECK_EXTERNAL if you want to check mpfr against another library
    with correct rounding. You'll probably have to modify mpfr_print_raw()

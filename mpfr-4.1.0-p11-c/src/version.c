@@ -1,6 +1,6 @@
-/* mpfr_get_patches -- Patches that have been applied
+/* mpfr_get_version -- MPFR version
 
-Copyright 2007-2020 Free Software Foundation, Inc.
+Copyright 2004-2020 Free Software Foundation, Inc.
 Contributed by the AriC and Caramba projects, INRIA.
 
 This file is part of the GNU MPFR Library.
@@ -23,7 +23,7 @@ https://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc.,
 #include "mpfr-impl.h"
 
 const char *
-mpfr_get_patches (void)
+mpfr_get_version (void)
 {
-  return "jn-interm-zero digamma-interm-zero digamma-hugemem prototypes set_z_2exp-overflow random_deviate decimal128-conv";
+  return "4.1.0-p11";
 }

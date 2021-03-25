@@ -2579,6 +2579,10 @@ to the application.
 <p>Each function in this interface is also implemented as a macro for
 efficiency reasons: for example <code>mpfr_custom_init (s, p)</code>
 uses the macro, while <code>(mpfr_custom_init) (s, p)</code> uses the function.
+Note that the macro may evaluate arguments multiple times (or none).
+Moreover, macros implementing functions with the <code>void</code> return type
+may not be used in contexts where an expression is expected, e.g., inside
+<code>for(...)</code> or before a comma operator.
 </p>
 <p>Note 1: MPFR functions may still initialize temporary floating-point numbers
 using <code>mpfr_init</code> and similar functions. See Custom Allocation (GNU MP).
