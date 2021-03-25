@@ -24,9 +24,13 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.4.4 news (unreleased)
+
+  * [MPFR] was updated from version 4.1.0-p7 to 4.1.0-p11.
+
 ### Version 1.4.3 news (2021-02-14)
 
-  * [MPFR] was updated from version 4.1.0 to 4.1.0-p7. 
+  * [MPFR] was updated from version 4.1.0 to 4.1.0-p7.
   * The [`GMP_MPFR_SYS_CACHE`][cache-1-4] environment variable can now
     also be set to a single underscore (`_`) to disable caching, in
     case setting it to an empty string is not possible in some system.
@@ -46,7 +50,7 @@ This crate contains three modules:
   * [`mpc`] provides external FFI bindings to [MPC].
 
 The versions provided by this crate release are [GMP] version 6.2.1,
-[MPFR] version 4.1.0-p7, and [MPC] version 1.2.1.
+[MPFR] version 4.1.0-p11, and [MPC] version 1.2.1.
 
 If you want a high-level API, consider using [Rug][rug crate], a crate
 which provides integers and floating-point numbers with arbitrary

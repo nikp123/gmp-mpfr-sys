@@ -5,10 +5,15 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.4.4 (unreleased)
+==========================
+
+  * [MPFR] was updated from version 4.1.0-p7 to 4.1.0-p11.
+
 Version 1.4.3 (2021-02-14)
 ==========================
 
-  * [MPFR] was updated from version 4.1.0 to 4.1.0-p7. 
+  * [MPFR] was updated from version 4.1.0 to 4.1.0-p7.
   * The [`GMP_MPFR_SYS_CACHE`][cache-1-4] environment variable can now
     also be set to a single underscore (`_`) to disable caching, in
     case setting it to an empty string is not possible in some system.
