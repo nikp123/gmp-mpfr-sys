@@ -204,8 +204,7 @@ impl Debug for randstate_t {
 /// inside [*Cargo.toml*], *not* `version = "1.4"`.
 ///
 /// [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
-/// [`randstate_t`]: struct.randstate_t.html
-/// [`seed`]: struct.randstate_t.html#structfield.seed
+/// [`seed`]: `randstate_t::seed`
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct randseed_t {
@@ -238,8 +237,7 @@ impl Debug for randseed_t {
 /// inside [*Cargo.toml*], *not* `version = "1.4"`.
 ///
 /// [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
-/// [`algdata`]: struct.randstate_t.html#structfield.algdata
-/// [`randstate_t`]: struct.randstate_t.html
+/// [`algdata`]: `randstate_t::algdata`
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub struct randfnptr_t {
@@ -1773,8 +1771,6 @@ extern "C" {
 /// `unsafe extern "C" fn(alloc_size: usize) -> *mut c_void`, that is
 /// it will no longer be an [`Option`], and the function can also be
 /// unsafe.
-///
-/// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
 pub type allocate_function = Option<extern "C" fn(alloc_size: usize) -> *mut c_void>;
 /// See: [`reallocate_function`](../C/GMP/constant.Custom_Allocation.html#index-reallocate_005ffunction)
 ///
@@ -1784,8 +1780,6 @@ pub type allocate_function = Option<extern "C" fn(alloc_size: usize) -> *mut c_v
 /// changed to
 /// `unsafe extern "C" fn(ptr: *mut c_void, old_size: usize, new_size: usize) -> *mut c_void`,
 /// that is it will no longer be an [`Option`].
-///
-/// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
 pub type reallocate_function =
     Option<unsafe extern "C" fn(ptr: *mut c_void, old_size: usize, new_size: usize) -> *mut c_void>;
 /// See: [`free_function`](../C/GMP/constant.Custom_Allocation.html#index-free_005ffunction)
@@ -1795,8 +1789,6 @@ pub type reallocate_function =
 /// In the next major version of the crate (version 2), this will be
 /// changed to `unsafe extern "C" fn(ptr: *mut c_void, size: usize)`,
 /// that is it will no longer be an [`Option`].
-///
-/// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
 pub type free_function = Option<unsafe extern "C" fn(ptr: *mut c_void, size: usize)>;
 extern "C" {
     /// See: [`mp_set_memory_functions`](../C/GMP/constant.Custom_Allocation.html#index-mp_005fset_005fmemory_005ffunctions)
@@ -1809,11 +1801,6 @@ extern "C" {
     /// and
     /// <code>[Option][`Option`]&lt;[free\_function][`free_function`]&gt;</code>,
     /// since the function types themselves will no longer be [`Option`].
-    ///
-    /// [`Option`]: https://doc.rust-lang.org/nightly/std/option/enum.Option.html
-    /// [`allocate_function`]: type.allocate_function.html
-    /// [`free_function`]: type.free_function.html
-    /// [`reallocate_function`]: type.reallocate_function.html
     #[link_name = "__gmp_set_memory_functions"]
     pub fn set_memory_functions(
         alloc_func_ptr: allocate_function,

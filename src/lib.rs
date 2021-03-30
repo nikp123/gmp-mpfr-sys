@@ -266,19 +266,7 @@ underscore (`"_"`)  will disable caching.
 [`MPFR_RNDN`]: C/MPFR/constant.MPFR_Basics.html#Rounding-Modes
 [`Rational`]: https://docs.rs/rug/&#42;/rug/struct.Rational.html
 [`enum MPFR_RND_T`]: C/MPFR/constant.MPFR_Basics.html#index-mpfr_005frnd_005ft
-[`gmp::mpf_t`]: gmp/struct.mpf_t.html
-[`gmp::mpq_t`]: gmp/struct.mpq_t.html
-[`gmp::mpz_init`]: gmp/fn.mpz_init.html
-[`gmp::mpz_t`]: gmp/struct.mpz_t.html
-[`gmp::randstate_t`]: gmp/struct.randstate_t.html
-[`gmp::set_memory_functions`]: gmp/fn.set_memory_functions.html
-[`gmp`]: gmp/index.html
 [`mp_set_memory_functions`]: C/GMP/constant.Custom_Allocation.html#index-mp_005fset_005fmemory_005ffunctions
-[`mpc::mpc_t`]: mpc/struct.mpc_t.html
-[`mpc`]: mpc/index.html
-[`mpfr::mpfr_t`]: mpfr/struct.mpfr_t.html
-[`mpfr::rnd_t::RNDN`]: mpfr/enum.rnd_t.html#variant.RNDN
-[`mpfr`]: mpfr/index.html
 [`mpz_init`]: C/GMP/constant.Integer_Functions.html#index-mpz_005finit
 [msys]: https://www.msys2.org/
 [rug crate]: https://crates.io/crates/rug
