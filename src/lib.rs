@@ -306,7 +306,7 @@ mod tests {
     use libc::c_char;
 
     pub unsafe fn str_from_cstr<'a>(cstr: *const c_char) -> &'a str {
-        let s = slice::from_raw_parts(cstr as *const u8, libc::strlen(cstr));
+        let s = unsafe { slice::from_raw_parts(cstr as *const u8, libc::strlen(cstr)) };
         str::from_utf8(s).expect("version not utf8")
     }
 }
