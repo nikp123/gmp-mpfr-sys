@@ -306,7 +306,7 @@ extern "C" {
 /// See: [`mpz_set_q`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fset_005fq)
 #[inline]
 pub unsafe extern "C" fn mpz_set_q(rop: mpz_ptr, op: mpq_srcptr) {
-    mpz_tdiv_q(rop, mpq_numref_const(op), mpq_denref_const(op))
+    unsafe { mpz_tdiv_q(rop, mpq_numref_const(op), mpq_denref_const(op)) }
 }
 extern "C" {
     /// See: [`mpz_set_f`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fset_005ff)
@@ -344,9 +344,11 @@ extern "C" {
 #[inline]
 #[cfg(any(not(nails), long_long_limb))]
 pub unsafe extern "C" fn mpz_get_ui(op: mpz_srcptr) -> c_ulong {
-    if (*op).size != 0 {
-        let p = (*op).d.as_ptr();
-        (*p) as c_ulong
+    if unsafe { (*op).size } != 0 {
+        unsafe {
+            let p = (*op).d.as_ptr();
+            (*p) as c_ulong
+        }
     } else {
         0
     }
@@ -355,14 +357,14 @@ pub unsafe extern "C" fn mpz_get_ui(op: mpz_srcptr) -> c_ulong {
 #[inline]
 #[cfg(all(nails, not(long_long_limb)))]
 pub unsafe extern "C" fn mpz_get_ui(op: mpz_srcptr) -> c_ulong {
-    let p = (*op).d;
-    let n = (*op).size.abs();
+    let p = unsafe { (*op).d };
+    let n = unsafe { (*op).size }.abs();
     if n == 0 {
         0
     } else if n == 1 {
-        *p
+        unsafe { *p }
     } else {
-        *p + ((*(p.offset(1))) << NUMB_BITS)
+        unsafe { *p + ((*(p.offset(1))) << NUMB_BITS) }
     }
 }
 extern "C" {
@@ -425,17 +427,23 @@ extern "C" {
 #[inline]
 pub unsafe extern "C" fn mpz_neg(rop: mpz_ptr, op: mpz_srcptr) {
     if rop as mpz_srcptr != op {
-        mpz_set(rop, op);
+        unsafe {
+            mpz_set(rop, op);
+        }
     }
-    (*rop).size = -(*rop).size;
+    unsafe {
+        (*rop).size = -(*rop).size;
+    }
 }
 /// See: [`mpz_abs`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fabs)
 #[inline]
 pub unsafe extern "C" fn mpz_abs(rop: mpz_ptr, op: mpz_srcptr) {
-    if rop as mpz_srcptr != op {
-        mpz_set(rop, op);
+    unsafe {
+        if rop as mpz_srcptr != op {
+            mpz_set(rop, op);
+        }
+        (*rop).size = (*rop).size.abs();
     }
-    (*rop).size = (*rop).size.abs();
 }
 
 // Division Functions
@@ -529,7 +537,7 @@ extern "C" {
 /// See: [`mpz_mod_ui`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fmod_005fui)
 #[inline]
 pub unsafe extern "C" fn mpz_mod_ui(r: mpz_ptr, n: mpz_srcptr, d: c_ulong) -> c_ulong {
-    mpz_fdiv_r_ui(r, n, d)
+    unsafe { mpz_fdiv_r_ui(r, n, d) }
 }
 extern "C" {
     /// See: [`mpz_divexact`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fdivexact)
@@ -596,9 +604,9 @@ extern "C" {
 /// See: [`mpz_perfect_square_p`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fperfect_005fsquare_005fp)
 #[inline]
 pub unsafe extern "C" fn mpz_perfect_square_p(op: mpz_srcptr) -> c_int {
-    let op_size = (*op).size;
+    let op_size = unsafe { (*op).size };
     if op_size > 0 {
-        mpn_perfect_square_p((*op).d.as_ptr(), op_size.into())
+        unsafe { mpn_perfect_square_p((*op).d.as_ptr(), op_size.into()) }
     } else if op_size >= 0 {
         1
     } else {
@@ -640,12 +648,12 @@ extern "C" {
 /// See: [`mpz_legendre`](../C/GMP/constant.Integer_Functions.html#index-mpz_005flegendre)
 #[inline]
 pub unsafe extern "C" fn mpz_legendre(a: mpz_srcptr, p: mpz_srcptr) -> c_int {
-    mpz_jacobi(a, p)
+    unsafe { mpz_jacobi(a, p) }
 }
 /// See: [`mpz_kronecker`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fkronecker)
 #[inline]
 pub unsafe extern "C" fn mpz_kronecker(a: mpz_srcptr, b: mpz_srcptr) -> c_int {
-    mpz_jacobi(a, b)
+    unsafe { mpz_jacobi(a, b) }
 }
 extern "C" {
     /// See: [`mpz_kronecker_si`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fkronecker_005fsi)
@@ -721,7 +729,7 @@ extern "C" {
 /// See: [`mpz_sgn`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fsgn)
 #[inline]
 pub unsafe extern "C" fn mpz_sgn(op: mpz_srcptr) -> c_int {
-    match (*op).size.cmp(&0) {
+    match unsafe { (*op).size }.cmp(&0) {
         Ordering::Less => -1,
         Ordering::Equal => 0,
         Ordering::Greater => 1,
@@ -744,11 +752,11 @@ extern "C" {
 /// See: [`mpz_popcount`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fpopcount)
 #[inline]
 pub unsafe extern "C" fn mpz_popcount(op: mpz_srcptr) -> bitcnt_t {
-    let size = (*op).size;
+    let size = unsafe { (*op).size };
     match size.cmp(&0) {
         Ordering::Less => !0,
         Ordering::Equal => 0,
-        Ordering::Greater => mpn_popcount((*op).d.as_ptr(), size.into()),
+        Ordering::Greater => unsafe { mpn_popcount((*op).d.as_ptr(), size.into()) },
     }
 }
 extern "C" {
@@ -838,9 +846,9 @@ macro_rules! mpz_fits {
         $(#[$attr])*
         #[inline]
         pub unsafe extern "C" fn $name(op: mpz_srcptr) -> c_int {
-            let n = (*op).size;
-            let p = (*op).d.as_ptr();
-            let fits = n == 0 || (n == 1 && (*p) <= limb_t::from($max));
+            let n = unsafe { (*op).size };
+            let p = unsafe { (*op).d }.as_ptr();
+            let fits = n == 0 || (n == 1 && unsafe { *p } <= limb_t::from($max));
             if fits {
                 1
             } else {
@@ -894,16 +902,16 @@ extern "C" {
 /// See: [`mpz_odd_p`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fodd_005fp)
 #[inline]
 pub unsafe extern "C" fn mpz_odd_p(op: mpz_srcptr) -> c_int {
-    if (*op).size == 0 {
+    if unsafe { (*op).size } == 0 {
         0
     } else {
-        1 & (*(*op).d.as_ptr()) as c_int
+        1 & unsafe { *(*op).d.as_ptr() } as c_int
     }
 }
 /// See: [`mpz_even_p`](../C/GMP/constant.Integer_Functions.html#index-mpz_005feven_005fp)
 #[inline]
 pub unsafe extern "C" fn mpz_even_p(op: mpz_srcptr) -> c_int {
-    if mpz_odd_p(op) == 0 {
+    if unsafe { mpz_odd_p(op) } == 0 {
         1
     } else {
         0
@@ -923,8 +931,8 @@ extern "C" {
 /// See: [`mpz_getlimbn`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fgetlimbn)
 #[inline]
 pub unsafe extern "C" fn mpz_getlimbn(op: mpz_srcptr, n: size_t) -> limb_t {
-    if n >= 0 && n < size_t::from((*op).size.abs()) {
-        *((*op).d.as_ptr().offset(n as isize))
+    if n >= 0 && n < size_t::from(unsafe { (*op).size }.abs()) {
+        unsafe { *((*op).d.as_ptr().offset(n as isize)) }
     } else {
         0
     }
@@ -932,7 +940,7 @@ pub unsafe extern "C" fn mpz_getlimbn(op: mpz_srcptr, n: size_t) -> limb_t {
 /// See: [`mpz_size`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fsize)
 #[inline]
 pub unsafe extern "C" fn mpz_size(op: mpz_srcptr) -> usize {
-    (*op).size.abs() as usize
+    unsafe { (*op).size }.abs() as usize
 }
 extern "C" {
     /// See: [`mpz_limbs_read`](../C/GMP/constant.Integer_Functions.html#index-mpz_005flimbs_005fread)
@@ -962,7 +970,7 @@ pub const unsafe fn MPZ_ROINIT_N(xp: mp_ptr, xs: size_t) -> mpz_t {
     mpz_t {
         alloc: 0,
         size: xs as c_int,
-        d: NonNull::new_unchecked(xp),
+        d: unsafe { NonNull::new_unchecked(xp) },
     }
 }
 
@@ -1046,17 +1054,23 @@ extern "C" {
 #[inline]
 pub unsafe extern "C" fn mpq_neg(negated_operand: mpq_ptr, operand: mpq_srcptr) {
     if negated_operand as mpq_srcptr != operand {
-        mpq_set(negated_operand, operand);
+        unsafe { mpq_set(negated_operand, operand) };
     }
-    (*negated_operand).num.size = -(*negated_operand).num.size;
+    unsafe {
+        (*negated_operand).num.size = -(*negated_operand).num.size;
+    }
 }
 /// See: [`mpq_abs`](../C/GMP/constant.Rational_Number_Functions.html#index-mpq_005fabs)
 #[inline]
 pub unsafe extern "C" fn mpq_abs(rop: mpq_ptr, op: mpq_srcptr) {
     if rop as mpq_srcptr != op {
-        mpq_set(rop, op);
+        unsafe {
+            mpq_set(rop, op);
+        }
     }
-    (*rop).num.size = (*rop).num.size.abs();
+    unsafe {
+        (*rop).num.size = (*rop).num.size.abs();
+    }
 }
 extern "C" {
     /// See: [`mpq_inv`](../C/GMP/constant.Rational_Number_Functions.html#index-mpq_005finv)
@@ -1081,7 +1095,7 @@ extern "C" {
 /// See: [`mpq_sgn`](../C/GMP/constant.Rational_Number_Functions.html#index-mpq_005fsgn)
 #[inline]
 pub unsafe extern "C" fn mpq_sgn(op: mpq_srcptr) -> c_int {
-    match (*op).num.size.cmp(&0) {
+    match unsafe { (*op).num.size }.cmp(&0) {
         Ordering::Less => -1,
         Ordering::Equal => 0,
         Ordering::Greater => 1,
@@ -1108,12 +1122,12 @@ pub unsafe extern "C" fn mpq_numref_const(op: mpq_srcptr) -> mpz_srcptr {
 /// See: [`mpq_denref`](../C/GMP/constant.Rational_Number_Functions.html#index-mpq_005fdenref)
 #[inline]
 pub unsafe extern "C" fn mpq_denref(op: mpq_ptr) -> mpz_ptr {
-    (op as mpz_ptr).offset(1)
+    unsafe { (op as mpz_ptr).offset(1) }
 }
 /// Constant version of [`mpq_denref`](fn.mpq_denref.html).
 #[inline]
 pub unsafe extern "C" fn mpq_denref_const(op: mpq_srcptr) -> mpz_srcptr {
-    (op as mpz_srcptr).offset(1)
+    unsafe { (op as mpz_srcptr).offset(1) }
 }
 extern "C" {
     /// See: [`mpq_get_num`](../C/GMP/constant.Rational_Number_Functions.html#index-mpq_005fget_005fnum)
@@ -1325,7 +1339,7 @@ extern "C" {
 /// See: [`mpf_sgn`](../C/GMP/constant.Floating_point_Functions.html#index-mpf_005fsgn)
 #[inline]
 pub unsafe extern "C" fn mpf_sgn(op: mpf_srcptr) -> c_int {
-    match (*op).size.cmp(&0) {
+    match unsafe { (*op).size }.cmp(&0) {
         Ordering::Less => -1,
         Ordering::Equal => 0,
         Ordering::Greater => 1,
@@ -1453,7 +1467,7 @@ pub unsafe extern "C" fn mpn_divmod_1(
     s2n: size_t,
     s3limb: limb_t,
 ) -> limb_t {
-    mpn_divrem_1(r1p, 0, s2p, s2n, s3limb)
+    unsafe { mpn_divrem_1(r1p, 0, s2p, s2n, s3limb) }
 }
 extern "C" {
     /// See: [`mpn_divexact_1`](../C/GMP/constant.Low_level_Functions.html#index-mpn_005fdivexact_005f1)
@@ -1463,7 +1477,7 @@ extern "C" {
 /// See: [`mpn_divexact_by3`](../C/GMP/constant.Low_level_Functions.html#index-mpn_005fdivexact_005fby3)
 #[inline]
 pub unsafe extern "C" fn mpn_divexact_by3(rp: mp_ptr, sp: mp_srcptr, n: size_t) -> limb_t {
-    mpn_divexact_by3c(rp, sp, n, 0)
+    unsafe { mpn_divexact_by3c(rp, sp, n, 0) }
 }
 extern "C" {
     /// See: [`mpn_divexact_by3c`](../C/GMP/constant.Low_level_Functions.html#index-mpn_005fdivexact_005fby3c)

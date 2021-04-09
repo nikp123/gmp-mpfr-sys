@@ -148,6 +148,7 @@ fn main() {
         TRY_EXTENDED_KEY_VALUE_ATTRIBUTES,
         Some("extended_key_value_attributes"),
     );
+    env.check_feature("unsafe_in_unsafe", TRY_UNSAFE_IN_UNSAFE, None);
 
     // make sure we have target directories
     create_dir_or_panic(&env.lib_dir);
@@ -1494,5 +1495,11 @@ int main(void) {
 const TRY_EXTENDED_KEY_VALUE_ATTRIBUTES: &str = r#"// try_extended_key_value_attributes.rs
 #[doc = include_str!("try_extended_key_value_attributes.rs")]
 pub struct S;
+fn main() {}
+"#;
+
+const TRY_UNSAFE_IN_UNSAFE: &str = r#"// try_unsafe_in_unsafe.rs
+#![deny(unknown_lints)]
+#![warn(unsafe_op_in_unsafe_fn)]
 fn main() {}
 "#;

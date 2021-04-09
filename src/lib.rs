@@ -282,6 +282,8 @@ underscore (`"_"`)  will disable caching.
     nightly_extended_key_value_attributes,
     feature(extended_key_value_attributes)
 )]
+#![cfg_attr(unsafe_in_unsafe, warn(unsafe_op_in_unsafe_fn))]
+#![cfg_attr(not(unsafe_in_unsafe), allow(unused_unsafe))]
 #![allow(
     clippy::missing_safety_doc,
     clippy::unnecessary_cast,

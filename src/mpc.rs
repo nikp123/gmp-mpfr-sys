@@ -292,7 +292,7 @@ extern "C" {
 /// See: [`mpc_cmp_si`](../C/MPC/constant.Complex_Functions.html#index-mpc_005fcmp_005fsi)
 #[inline]
 pub unsafe extern "C" fn cmp_si(op1: mpc_srcptr, op2: c_long) -> c_int {
-    cmp_si_si(op1, op2, 0)
+    unsafe { cmp_si_si(op1, op2, 0) }
 }
 extern "C" {
     /// See: [`mpc_cmp_abs`](../C/MPC/constant.Complex_Functions.html#index-mpc_005fcmp_005fabs)
@@ -320,12 +320,12 @@ pub unsafe extern "C" fn realref_const(op: mpc_srcptr) -> mpfr_srcptr {
 /// See: [`mpc_imagref`](../C/MPC/constant.Complex_Functions.html#index-mpc_005fimagref)
 #[inline]
 pub unsafe extern "C" fn imagref(op: mpc_ptr) -> mpfr_ptr {
-    (op as mpfr_ptr).offset(1)
+    unsafe { (op as mpfr_ptr).offset(1) }
 }
 /// Constant version of [`imagref`](fn.imagref.html).
 #[inline]
 pub unsafe extern "C" fn imagref_const(op: mpc_srcptr) -> mpfr_srcptr {
-    (op as mpfr_srcptr).offset(1)
+    unsafe { (op as mpfr_srcptr).offset(1) }
 }
 extern "C" {
     /// See: [`mpc_arg`](../C/MPC/constant.Complex_Functions.html#index-mpc_005farg)
@@ -362,7 +362,7 @@ extern "C" {
 /// See: [`mpc_ui_sub`](../C/MPC/constant.Complex_Functions.html#index-mpc_005fui_005fsub)
 #[inline]
 pub unsafe extern "C" fn ui_sub(rop: mpc_ptr, op1: c_ulong, op2: mpc_srcptr, rnd: rnd_t) -> c_int {
-    ui_ui_sub(rop, op1, 0, op2, rnd)
+    unsafe { ui_ui_sub(rop, op1, 0, op2, rnd) }
 }
 extern "C" {
     /// See: [`mpc_ui_ui_sub`](../C/MPC/constant.Complex_Functions.html#index-mpc_005fui_005fui_005fsub)
