@@ -7,7 +7,7 @@
 
 [package]
 name = "gmp-mpfr-sys"
-version = "1.4.4"
+version = "1.4.5"
 authors = ["Trevor Spiteri <trevor.spiteri@um.edu.mt>"]
 edition = "2018"
 description = "Rust FFI bindings for GMP, MPFR and MPC"
@@ -15,7 +15,7 @@ documentation = "https://docs.rs/gmp-mpfr-sys"
 repository = "https://gitlab.com/tspiteri/gmp-mpfr-sys"
 readme = "README.md"
 keywords = ["gmp", "bignum", "mathematics", "numerics"]
-categories = ["external-ffi-bindings", "no-std", "science"]
+categories = ["external-ffi-bindings", "mathematics", "no-std"]
 license = "LGPL-3.0+"
 build = "build.rs"
 links = "gmp"
