@@ -24,6 +24,10 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.4.5 news (unreleased)
+
+  * [MPFR] was updated from version 4.1.0-p11 to 4.1.0-p12.
+
 ### Version 1.4.4 news (2021-03-25)
 
   * [MPFR] was updated from version 4.1.0-p7 to 4.1.0-p11.
@@ -50,7 +54,7 @@ This crate contains three modules:
   * [`mpc`] provides external FFI bindings to [MPC].
 
 The versions provided by this crate release are [GMP] version 6.2.1,
-[MPFR] version 4.1.0-p11, and [MPC] version 1.2.1.
+[MPFR] version 4.1.0-p12, and [MPC] version 1.2.1.
 
 If you want a high-level API, consider using [Rug][rug crate], a crate
 which provides integers and floating-point numbers with arbitrary
