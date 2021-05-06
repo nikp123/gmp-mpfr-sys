@@ -287,7 +287,6 @@ underscore (`"_"`)  will disable caching.
 #![allow(
     clippy::missing_safety_doc,
     clippy::unnecessary_cast,
-    clippy::upper_case_acronyms,
     clippy::useless_conversion
 )]
 

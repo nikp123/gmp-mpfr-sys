@@ -844,6 +844,7 @@ macro_rules! mpz_fits {
     { $(#[$attr:meta])* fn $name:ident($max:expr); } => {
         #[cfg(not(nails))]
         $(#[$attr])*
+        #[allow(clippy::cmp_owned)]
         #[inline]
         pub unsafe extern "C" fn $name(op: mpz_srcptr) -> c_int {
             let n = unsafe { (*op).size };
