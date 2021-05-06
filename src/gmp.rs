@@ -36,6 +36,7 @@ unsafe {
 [GMP]: https://gmplib.org/
 */
 #![allow(non_camel_case_types, non_snake_case)]
+#![allow(clippy::cmp_owned)]
 
 use core::{
     cmp::Ordering,
@@ -844,7 +845,6 @@ macro_rules! mpz_fits {
     { $(#[$attr:meta])* fn $name:ident($max:expr); } => {
         #[cfg(not(nails))]
         $(#[$attr])*
-        #[allow(clippy::cmp_owned)]
         #[inline]
         pub unsafe extern "C" fn $name(op: mpz_srcptr) -> c_int {
             let n = unsafe { (*op).size };
