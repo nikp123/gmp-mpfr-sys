@@ -278,10 +278,6 @@ underscore (`"_"`)  will disable caching.
 #![doc(html_logo_url = "https://tspiteri.gitlab.io/gmp-mpfr-sys/rug.svg")]
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
-#![cfg_attr(
-    nightly_extended_key_value_attributes,
-    feature(extended_key_value_attributes)
-)]
 #![cfg_attr(unsafe_in_unsafe, warn(unsafe_op_in_unsafe_fn))]
 #![cfg_attr(not(unsafe_in_unsafe), allow(unused_unsafe))]
 #![allow(

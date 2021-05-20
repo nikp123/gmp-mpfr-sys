@@ -146,7 +146,7 @@ fn main() {
     env.check_feature(
         "extended_key_value_attributes",
         TRY_EXTENDED_KEY_VALUE_ATTRIBUTES,
-        Some("extended_key_value_attributes"),
+        None,
     );
     env.check_feature("unsafe_in_unsafe", TRY_UNSAFE_IN_UNSAFE, None);
 
