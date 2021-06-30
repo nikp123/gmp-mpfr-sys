@@ -252,7 +252,7 @@ fn check_system_libs(env: &Environment) {
         }
     }
 
-    write_link_info(&env, feature_mpfr, feature_mpc);
+    write_link_info(env, feature_mpfr, feature_mpc);
 }
 
 fn compile_libs(env: &Environment) {
@@ -277,29 +277,29 @@ fn compile_libs(env: &Environment) {
         mpc: compile_mpc,
     } = need_compile(env, &gmp_ah, &mpfr_ah, &mpc_ah);
     if compile_gmp {
-        check_for_msvc(&env);
+        check_for_msvc(env);
         remove_dir_or_panic(&env.build_dir);
         create_dir_or_panic(&env.build_dir);
         link_dir(&env.src_dir.join(GMP_DIR), &env.build_dir.join("gmp-src"));
         let (ref a, ref h) = gmp_ah;
-        build_gmp(&env, a, h);
+        build_gmp(env, a, h);
     }
     if compile_mpfr {
         link_dir(&env.src_dir.join(MPFR_DIR), &env.build_dir.join("mpfr-src"));
         let (ref a, ref h) = *mpfr_ah.as_ref().unwrap();
-        build_mpfr(&env, a, h);
+        build_mpfr(env, a, h);
     }
     if compile_mpc {
         link_dir(&env.src_dir.join(MPC_DIR), &env.build_dir.join("mpc-src"));
         let (ref a, ref h) = *mpc_ah.as_ref().unwrap();
-        build_mpc(&env, a, h);
+        build_mpc(env, a, h);
     }
     if compile_gmp {
         if !there_is_env("CARGO_FEATURE_CNODELETE") {
             remove_dir_or_panic(&env.build_dir);
         }
-        if save_cache(&env, &gmp_ah, &mpfr_ah, &mpc_ah) {
-            clear_cache_redundancies(&env, mpfr_ah.is_some(), mpc_ah.is_some());
+        if save_cache(env, &gmp_ah, &mpfr_ah, &mpc_ah) {
+            clear_cache_redundancies(env, mpfr_ah.is_some(), mpc_ah.is_some());
         }
     }
     process_gmp_header(env, &gmp_ah.1, Some(&env.out_dir.join("gmp_h.rs")))
@@ -312,7 +312,7 @@ fn compile_libs(env: &Environment) {
         process_mpc_header(env, &mpc_ah.1, Some(&env.out_dir.join("mpc_h.rs")))
             .unwrap_or_else(|e| panic!("{}", e));
     }
-    write_link_info(&env, mpfr_ah.is_some(), mpc_ah.is_some());
+    write_link_info(env, mpfr_ah.is_some(), mpc_ah.is_some());
 }
 
 fn get_version() -> (String, Option<u64>) {
@@ -360,7 +360,7 @@ fn need_compile(
         if should_save_cache(env, mpfr_ah.is_some(), mpc_ah.is_some())
             && save_cache(env, gmp_ah, mpfr_ah, mpc_ah)
         {
-            clear_cache_redundancies(&env, mpfr_ah.is_some(), mpc_ah.is_some());
+            clear_cache_redundancies(env, mpfr_ah.is_some(), mpc_ah.is_some());
         }
         return NeedCompile {
             gmp: false,
@@ -426,7 +426,7 @@ fn clear_cache_redundancies(env: &Environment, mpfr: bool, mpc: bool) {
         Some(ref s) => s,
         None => return,
     };
-    let cache_dirs = cache_directories(env, &cache_dir)
+    let cache_dirs = cache_directories(env, cache_dir)
         .into_iter()
         .rev()
         .filter(|x| match env.version_patch {
@@ -527,7 +527,7 @@ fn load_cache(
         None => return false,
     };
     let env_version_patch = env.version_patch;
-    let cache_dirs = cache_directories(env, &cache_dir)
+    let cache_dirs = cache_directories(env, cache_dir)
         .into_iter()
         .rev()
         .filter(|x| match env_version_patch {
@@ -582,7 +582,7 @@ fn should_save_cache(env: &Environment, mpfr: bool, mpc: bool) -> bool {
         Some(ref s) => s,
         None => return false,
     };
-    let cache_dirs = cache_directories(env, &cache_dir)
+    let cache_dirs = cache_directories(env, cache_dir)
         .into_iter()
         .rev()
         .filter(|x| match env.version_patch {
@@ -636,9 +636,9 @@ fn build_gmp(env: &Environment, lib: &Path, header: &Path) {
     configure(&build_dir, &OsString::from(conf));
     make_and_check(env, &build_dir);
     let build_lib = build_dir.join(".libs").join("libgmp.a");
-    copy_file_or_panic(&build_lib, &lib);
+    copy_file_or_panic(&build_lib, lib);
     let build_header = build_dir.join("gmp.h");
-    copy_file_or_panic(&build_header, &header);
+    copy_file_or_panic(&build_header, header);
 }
 
 fn compatible_version(
@@ -665,9 +665,9 @@ fn process_gmp_header(
     let mut long_long_limb = None;
     let mut cc = None;
     let mut cflags = None;
-    let mut reader = open(&header);
+    let mut reader = open(header);
     let mut buf = String::new();
-    while read_line(&mut reader, &mut buf, &header) > 0 {
+    while read_line(&mut reader, &mut buf, header) > 0 {
         let s = "#define __GNU_MP_VERSION ";
         if let Some(start) = buf.find(s) {
             major = buf[(start + s.len())..].trim().parse::<i32>().ok();
@@ -773,9 +773,9 @@ fn process_mpfr_header(
     let mut minor = None;
     let mut patchlevel = None;
     let mut version = None;
-    let mut reader = open(&header);
+    let mut reader = open(header);
     let mut buf = String::new();
-    while read_line(&mut reader, &mut buf, &header) > 0 {
+    while read_line(&mut reader, &mut buf, header) > 0 {
         let s = "#define MPFR_VERSION_MAJOR ";
         if let Some(start) = buf.find(s) {
             major = buf[(start + s.len())..].trim().parse::<i32>().ok();
@@ -838,9 +838,9 @@ fn process_mpc_header(
     let mut minor = None;
     let mut patchlevel = None;
     let mut version = None;
-    let mut reader = open(&header);
+    let mut reader = open(header);
     let mut buf = String::new();
-    while read_line(&mut reader, &mut buf, &header) > 0 {
+    while read_line(&mut reader, &mut buf, header) > 0 {
         let s = "#define MPC_VERSION_MAJOR ";
         if let Some(start) = buf.find(s) {
             major = buf[(start + s.len())..].trim().parse::<i32>().ok();
@@ -913,9 +913,9 @@ fn build_mpfr(env: &Environment, lib: &Path, header: &Path) {
     configure(&build_dir, &OsString::from(conf));
     make_and_check(env, &build_dir);
     let build_lib = build_dir.join("src").join(".libs").join("libmpfr.a");
-    copy_file_or_panic(&build_lib, &lib);
+    copy_file_or_panic(&build_lib, lib);
     let src_header = env.build_dir.join("mpfr-src").join("src").join("mpfr.h");
-    copy_file_or_panic(&src_header, &header);
+    copy_file_or_panic(&src_header, header);
 }
 
 fn build_mpc(env: &Environment, lib: &Path, header: &Path) {
@@ -944,9 +944,9 @@ fn build_mpc(env: &Environment, lib: &Path, header: &Path) {
     configure(&build_dir, &OsString::from(conf));
     make_and_check(env, &build_dir);
     let build_lib = build_dir.join("src").join(".libs").join("libmpc.a");
-    copy_file_or_panic(&build_lib, &lib);
+    copy_file_or_panic(&build_lib, lib);
     let src_header = env.build_dir.join("mpc-src").join("src").join("mpc.h");
-    copy_file_or_panic(&src_header, &header);
+    copy_file_or_panic(&src_header, header);
 }
 
 fn write_link_info(env: &Environment, feature_mpfr: bool, feature_mpc: bool) {
