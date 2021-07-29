@@ -124,8 +124,6 @@ pub type prec_t = c_long;
 /// be replaced by a type alias to [`c_int`]. The variants will be
 /// replaced by constants, for example `rnd_t::RNDN` will be replaced
 /// by a constant `RNDN` of type [`c_int`].
-///
-/// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 #[allow(deprecated)]
@@ -137,8 +135,6 @@ pub enum rnd_t {
     /// In the next major version of the crate (version 2), the enum
     /// will be removed. This variant will be replaced by a constant
     /// `RNDN` of type [`c_int`].
-    ///
-    /// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
     RNDN = 0,
     /// See: [Rounding Modes](../C/MPFR/constant.MPFR_Basics.html#Rounding)
     ///
@@ -147,8 +143,6 @@ pub enum rnd_t {
     /// In the next major version of the crate (version 2), the enum
     /// will be removed. This variant will be replaced by a constant
     /// `RNDZ` of type [`c_int`].
-    ///
-    /// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
     RNDZ = 1,
     /// See: [Rounding Modes](../C/MPFR/constant.MPFR_Basics.html#Rounding)
     ///
@@ -157,8 +151,6 @@ pub enum rnd_t {
     /// In the next major version of the crate (version 2), the enum
     /// will be removed. This variant will be replaced by a constant
     /// `RNDU` of type [`c_int`].
-    ///
-    /// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
     RNDU = 2,
     /// See: [Rounding Modes](../C/MPFR/constant.MPFR_Basics.html#Rounding)
     ///
@@ -167,8 +159,6 @@ pub enum rnd_t {
     /// In the next major version of the crate (version 2), the enum
     /// will be removed. This variant will be replaced by a constant
     /// `RNDD` of type [`c_int`].
-    ///
-    /// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
     RNDD = 3,
     /// See: [Rounding Modes](../C/MPFR/constant.MPFR_Basics.html#Rounding)
     ///
@@ -177,8 +167,6 @@ pub enum rnd_t {
     /// In the next major version of the crate (version 2), the enum
     /// will be removed. This variant will be replaced by a constant
     /// `RNDA` of type [`c_int`].
-    ///
-    /// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
     RNDA = 4,
     /// See: [Rounding Modes](../C/MPFR/constant.MPFR_Basics.html#Rounding)
     ///
@@ -187,8 +175,6 @@ pub enum rnd_t {
     /// In the next major version of the crate (version 2), the enum
     /// will be removed. This variant will be replaced by a constant
     /// `RNDF` of type [`c_int`].
-    ///
-    /// [`c_int`]: https://docs.rs/libc/~0.2/libc/type.c_int.html
     RNDF = 5,
     #[doc(hidden)]
     #[deprecated(since = "1.1.0", note = "do not use!")]
