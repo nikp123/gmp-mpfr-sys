@@ -387,7 +387,7 @@ pub mod mpc;
 #[cfg(feature = "mpfr")]
 pub mod mpfr;
 
-#[cfg(all(doc, not(doctest)))]
+#[cfg(extended_key_value_attributes)]
 pub mod C;
 
 #[cfg(test)]
