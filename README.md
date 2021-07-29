@@ -24,17 +24,9 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
-### Version 1.4.6 news (unreleased)
+### Version 1.4.6 news (2021-07-29)
 
   * [MPFR] was updated from version 4.1.0-p12 to 4.1.0-p13.
-
-### Version 1.4.5 news (2021-04-23)
-
-  * [MPFR] was updated from version 4.1.0-p11 to 4.1.0-p12.
-
-### Version 1.4.4 news (2021-03-25)
-
-  * [MPFR] was updated from version 4.1.0-p7 to 4.1.0-p11.
 
 ### Other releases
 
