@@ -49,6 +49,7 @@ enum Target {
 
 struct Environment {
     rustc: OsString,
+    c_compiler: OsString,
     target: Target,
     cross_target: Option<String>,
     c_no_tests: bool,
@@ -73,6 +74,7 @@ enum Workaround47048 {
 
 fn main() {
     let rustc = cargo_env("RUSTC");
+    let c_compiler = env::var_os("CC").unwrap_or_else(|| "gcc".into());
 
     let host = cargo_env("HOST")
         .into_string()
@@ -128,6 +130,7 @@ fn main() {
     }
     let mut env = Environment {
         rustc,
+        c_compiler,
         target,
         cross_target,
         c_no_tests,
@@ -174,7 +177,7 @@ fn check_system_libs(env: &Environment) {
     println!("$ #Check for system GMP");
     create_file_or_panic(&try_dir.join("system_gmp.c"), SYSTEM_GMP_C);
 
-    cmd = Command::new("gcc");
+    cmd = Command::new(&env.c_compiler);
     cmd.current_dir(&try_dir)
         .args(&["-fPIC", "system_gmp.c", "-lgmp", "-o", "system_gmp.exe"]);
     execute(cmd);
@@ -196,7 +199,7 @@ fn check_system_libs(env: &Environment) {
         println!("$ #Check for system MPFR");
         create_file_or_panic(&try_dir.join("system_mpfr.c"), SYSTEM_MPFR_C);
 
-        cmd = Command::new("gcc");
+        cmd = Command::new(&env.c_compiler);
         cmd.current_dir(&try_dir).args(&[
             "-fPIC",
             "system_mpfr.c",
@@ -222,7 +225,7 @@ fn check_system_libs(env: &Environment) {
         println!("$ #Check for system MPC");
         create_file_or_panic(&try_dir.join("system_mpc.c"), SYSTEM_MPC_C);
 
-        cmd = Command::new("gcc");
+        cmd = Command::new(&env.c_compiler);
         cmd.current_dir(&try_dir).args(&[
             "-fPIC",
             "system_mpc.c",
@@ -1081,7 +1084,6 @@ fn check_for_bug_47048(env: &Environment) -> Workaround47048 {
         return Workaround47048::No;
     }
     let try_dir = env.build_dir.join("try_47048");
-    let rustc = cargo_env("RUSTC");
     remove_dir_or_panic(&try_dir);
     create_dir_or_panic(&try_dir);
     println!("$ cd {:?}", try_dir);
@@ -1092,7 +1094,7 @@ fn check_for_bug_47048(env: &Environment) -> Workaround47048 {
     create_file_or_panic(&try_dir.join("workaround.c"), BUG_47048_WORKAROUND_C);
     let mut cmd;
 
-    cmd = Command::new("gcc");
+    cmd = Command::new(&env.c_compiler);
     cmd.current_dir(&try_dir).args(&["-fPIC", "-c", "say_hi.c"]);
     execute(cmd);
 
@@ -1101,18 +1103,18 @@ fn check_for_bug_47048(env: &Environment) -> Workaround47048 {
         .args(&["cr", "libsay_hi.a", "say_hi.o"]);
     execute(cmd);
 
-    cmd = Command::new("gcc");
+    cmd = Command::new(&env.c_compiler);
     cmd.current_dir(&try_dir)
         .args(&["c_main.c", "-L.", "-lsay_hi", "-o", "c_main.exe"]);
     execute(cmd);
 
     // try simple rustc command that should work, so that failure
     // really is the bug being checked for
-    cmd = Command::new(&rustc);
+    cmd = Command::new(&env.rustc);
     cmd.arg("--version");
     execute(cmd);
 
-    cmd = Command::new(&rustc);
+    cmd = Command::new(&env.rustc);
     cmd.current_dir(&try_dir)
         .args(&["r_main.rs", "-L.", "-lsay_hi", "-o", "r_main.exe"])
         .stdout(Stdio::null())
@@ -1130,7 +1132,7 @@ fn check_for_bug_47048(env: &Environment) -> Workaround47048 {
     } else {
         println!("Working around bug 47048");
 
-        cmd = Command::new("gcc");
+        cmd = Command::new(&env.c_compiler);
         cmd.current_dir(&try_dir)
             .args(&["-fPIC", "-O2", "-c", "workaround.c"]);
         execute(cmd);
@@ -1140,7 +1142,7 @@ fn check_for_bug_47048(env: &Environment) -> Workaround47048 {
             .args(&["cr", "libworkaround_47048.a", "workaround.o"]);
         execute(cmd);
 
-        cmd = Command::new(&rustc);
+        cmd = Command::new(&env.rustc);
         cmd.current_dir(&try_dir).args(&[
             "r_main.rs",
             "-L.",

@@ -24,6 +24,13 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.4.7 news (unreleased)
+
+  * Bug fix: prefer `CC` environment variable over `gcc` when probing system
+    libraries for `use-system-libs` feature ([issue 20]).
+
+[issue 20]: https://gitlab.com/tspiteri/gmp-mpfr-sys/-/issues/20
+
 ### Version 1.4.6 news (2021-07-29)
 
   * [MPFR] was updated from version 4.1.0-p12 to 4.1.0-p13.

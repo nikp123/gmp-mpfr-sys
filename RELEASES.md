@@ -5,6 +5,14 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.4.7 (unreleased)
+==========================
+
+  * Bug fix: prefer `CC` environment variable over `gcc` when probing system
+    libraries for `use-system-libs` feature ([issue 20]).
+
+[issue 20]: https://gitlab.com/tspiteri/gmp-mpfr-sys/-/issues/20
+
 Version 1.4.6 (2021-07-29)
 ==========================
 
