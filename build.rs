@@ -15,7 +15,10 @@
 //     In MPFR: ln -s ../gmp-build
 //     In MPC: ln -s ../mpfr-src ../mpfr-build ../gmp-build .
 //
-//  4. Use relative paths for configure otherwise msys/mingw might be
+//  4. Unset CC and CFLAGS before building MPFR, so that both MPFR and MPC are
+//     left to their default behavior and obtain them from gmp.h.
+//
+//  5. Use relative paths for configure otherwise msys/mingw might be
 //     confused with drives and such.
 
 #[cfg(unix)]
@@ -74,7 +77,13 @@ enum Workaround47048 {
 
 fn main() {
     let rustc = cargo_env("RUSTC");
-    let c_compiler = env::var_os("CC").unwrap_or_else(|| "gcc".into());
+    let cc = env::var_os("CC");
+    let cc_cache_dir = cc.as_ref().map(|cc| {
+        let mut dir = OsString::from("CC-");
+        dir.push(cc);
+        dir
+    });
+    let c_compiler = cc.unwrap_or_else(|| "gcc".into());
 
     let host = cargo_env("HOST")
         .into_string()
@@ -118,7 +127,13 @@ fn main() {
         None => system_cache_dir().map(|c| c.join("gmp-mpfr-sys")),
     };
     let cache_target = cross_target.as_ref().unwrap_or(&host);
-    let cache_dir = cache_dir.map(|cache| cache.join(&version_prefix).join(cache_target));
+    let cache_dir = cache_dir
+        .map(|cache| cache.join(&version_prefix))
+        .map(|cache| cache.join(cache_target))
+        .map(|cache| match cc_cache_dir {
+            Some(dir) => cache.join(dir),
+            None => cache,
+        });
 
     let use_system_libs = there_is_env("CARGO_FEATURE_USE_SYSTEM_LIBS");
     if use_system_libs {
@@ -905,6 +920,12 @@ fn build_mpfr(env: &Environment, lib: &Path, header: &Path) {
         &env.build_dir.join("gmp-build"),
         &build_dir.join("gmp-build"),
     );
+
+    // unset CC and CFLAGS since both MPFR and MPC will use CC and CFLAGS from gmp.h by default
+    println!("$ unset CC CFLAGS");
+    std::env::remove_var("CC");
+    std::env::remove_var("CFLAGS");
+
     let mut conf = String::from(
         "../mpfr-src/configure --enable-thread-safe --disable-shared \
          --with-gmp-build=../gmp-build --with-pic",

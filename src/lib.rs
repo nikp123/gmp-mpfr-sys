@@ -184,6 +184,9 @@ To build on GNU/Linux, simply make sure you have `diffutils`, `gcc`,
 sudo dnf install diffutils gcc m4 make
 ```
 
+Note that you can use Clang instead of GCC by installing `clang` instead of
+`gcc` and setting the environment variable `CC=clang` before building the crate.
+
 ## Building on macOS
 
 To build on macOS, you need the command-line developer tools. To
