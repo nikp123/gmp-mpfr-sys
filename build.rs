@@ -187,12 +187,11 @@ fn check_system_libs(env: &Environment) {
     remove_dir_or_panic(&try_dir);
     create_dir_or_panic(&try_dir);
     println!("$ cd {:?}", try_dir);
-    let mut cmd;
 
     println!("$ #Check for system GMP");
     create_file_or_panic(&try_dir.join("system_gmp.c"), SYSTEM_GMP_C);
 
-    cmd = Command::new(&env.c_compiler);
+    let mut cmd = Command::new(&env.c_compiler);
     cmd.current_dir(&try_dir)
         .args(&["-fPIC", "system_gmp.c", "-lgmp", "-o", "system_gmp.exe"]);
     execute(cmd);
@@ -1113,9 +1112,8 @@ fn check_for_bug_47048(env: &Environment) -> Workaround47048 {
     create_file_or_panic(&try_dir.join("c_main.c"), BUG_47048_C_MAIN_C);
     create_file_or_panic(&try_dir.join("r_main.rs"), BUG_47048_R_MAIN_RS);
     create_file_or_panic(&try_dir.join("workaround.c"), BUG_47048_WORKAROUND_C);
-    let mut cmd;
 
-    cmd = Command::new(&env.c_compiler);
+    let mut cmd = Command::new(&env.c_compiler);
     cmd.current_dir(&try_dir).args(&["-fPIC", "-c", "say_hi.c"]);
     execute(cmd);
 
