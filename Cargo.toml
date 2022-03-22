@@ -20,7 +20,7 @@ build = "build.rs"
 links = "gmp"
 
 [features]
-default = ["mpfr", "mpc"]
+default = ["mpfr", "mpc", "force-cross"]
 mpfr = []
 mpc = ["mpfr"]
 use-system-libs = []
