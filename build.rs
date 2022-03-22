@@ -647,7 +647,7 @@ fn build_gmp(env: &Environment, lib: &Path, header: &Path) {
     println!("$ cd {:?}", build_dir);
     let mut conf = String::from("../gmp-src/configure --enable-fat --disable-shared --with-pic");
     if let Some(cross_target) = env.cross_target.as_ref() {
-        conf.push_str(" --host ");
+        conf.push_str(" --build ");
         conf.push_str(cross_target);
     }
     configure(&build_dir, &OsString::from(conf));
@@ -930,8 +930,14 @@ fn build_mpfr(env: &Environment, lib: &Path, header: &Path) {
          --with-gmp-build=../gmp-build --with-pic",
     );
     if let Some(cross_target) = env.cross_target.as_ref() {
-        conf.push_str(" --host ");
-        conf.push_str(cross_target);
+        conf.push_str(" --build ");
+
+        // hax because the buildscript sucks balls
+        if cross_target == "wasm32-unknown-emscripten" {
+            conf.push_str("wasm32-unknown-none");
+        } else {
+            conf.push_str(cross_target);
+        }
     }
     configure(&build_dir, &OsString::from(conf));
     make_and_check(env, &build_dir);
@@ -961,7 +967,7 @@ fn build_mpc(env: &Environment, lib: &Path, header: &Path) {
          --with-gmp-lib=../gmp-build/.libs --with-pic",
     );
     if let Some(cross_target) = env.cross_target.as_ref() {
-        conf.push_str(" --host ");
+        conf.push_str(" --build ");
         conf.push_str(cross_target);
     }
     configure(&build_dir, &OsString::from(conf));
